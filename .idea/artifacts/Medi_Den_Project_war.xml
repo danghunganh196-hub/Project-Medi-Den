@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Medi-Den-Project:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Medi-Den-Project</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Medi-Den-Project-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Medi-Den-Project:war exploded" />
+    </root>
+  </artifact>
+</component>
