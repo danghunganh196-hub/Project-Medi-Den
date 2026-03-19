@@ -1,7 +1,6 @@
 package com.example.Medi_Den_Project.entity;
 import jakarta.persistence.*;
 import lombok.*;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -33,4 +32,8 @@ public class KhachHang {
 
     @Column(name = "mat_khau")
     private String matKhau;
+
+    @ManyToOne
+    @JoinColumn(name = "khach_hang_id",referencedColumnName = "id")
+    private TaiKhoan taiKhoan;
 }
