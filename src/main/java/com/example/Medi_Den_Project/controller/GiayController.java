@@ -18,6 +18,11 @@ public class GiayController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(req.getSession().getAttribute("daDangNhap") == null){
+            resp.sendRedirect("/login");
+            return;
+        }
+
         String uri = req.getRequestURI();
         if(uri.contains("hien-thi")){
             hienThi(req,resp);
@@ -26,6 +31,6 @@ public class GiayController extends HttpServlet {
 
     private void hienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("listGiay",giayRepository.getAll());
-        req.getRequestDispatcher("/view/hien-thi.jsp").forward(req,resp);
+        req.getRequestDispatcher("/Web_ban_giay/index.html").forward(req,resp);
     }
 }
