@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Medi Den - Shop Giày</title>
+</head>
+
+<body>
+
+    <header>
+        <div class="top-bar">Đăng nhập | Đăng ký</div>
+        <nav class="navbar">
+            <div class="logo">
+
+                <img src="/images/logo/Screenshot 2026-03-19 014252.png" style="border-radius: 20px;" width="20%"
+                    alt="Logo">
+                <h1>Medi Den</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Giày Thể Thao</a></li>
+                <li><a href="#">Giày Thời Trang</a></li>
+                <li><a href="#">Giày Thể Thao</a></li>
+                <li><a href="#">Giày Thời Trang</a></li>
+
+            </ul>
+            <div class="search-box">
+                <input type="text" placeholder="Tìm kiếm...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </nav>
+
+    </header>
+    <div class="slidechuyen">
+        <!-- Slider main container -->
+        <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Các ảnh slide của bạn -->
+                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1552346154-21d32810aba3"
+                        alt="Banner 1"></div>
+                <div class="swiper-slide"><img src="/images/logo/Screenshot 2026-03-19 014252.png" alt="Banner 2"></div>
+                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2"
+                        alt="Banner 3"></div>
+            </div>
+            <!-- Nếu muốn có dấu chấm phân trang -->
+            <div class="swiper-pagination"></div>
+
+            <!-- Nếu muốn có nút bấm trái/phải -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <aside class="sidebar">
+        <div class="icon-btn"><i class="fas fa-shopping-cart"></i></div>
+        <div class="icon-btn"><i class="fas fa-cog"></i></div>
+    </aside>
+    <div class="content">
+        <div class="services-container">
+            <!-- Mục 1 -->
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="service-text">
+                    <h3>Vận chuyển toàn quốc</h3>
+                    <p>Vận chuyển nhanh chóng</p>
+                </div>
+            </div>
+
+            <!-- Mục 2 -->
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="service-text">
+                    <h3>Ưu đãi hấp dẫn</h3>
+                    <p>Nhiều ưu đãi khuyến mãi hot</p>
+                </div>
+            </div>
+
+            <!-- Mục 3 -->
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div class="service-text">
+                    <h3>Bảo đảm chất lượng</h3>
+                    <p>Sản phẩm đã được kiểm định</p>
+                </div>
+            </div>
+
+            <!-- Mục 4 -->
+            <div class="service-item">
+                <div class="service-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="service-text">
+                    <h3>Hotline: 0999999999</h3>
+                    <p>Vui lòng gọi hotline để hỗ trợ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="title">GIÀY CHÍNH HÃNG NIKE</h1>
+    <main class="container">
+
+        <!-- Sản phẩm 1 -->
+        <div class="product-card"
+            onclick="openModal('Nike Air Max', '1.200.000 VNĐ', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff', 'Dòng giày chạy bộ êm ái, thoáng khí.')">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Nike">
+            </div>
+            <h3>Nike Air Max</h3>
+            <p class="price">1.200.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+
+        <!-- Sản phẩm 2 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
+            </div>
+            <h3>Adidas Superstar</h3>
+            <p class="price">2.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
+            </div>
+            <h3>Adidas Superstar</h3>
+            <p class="price">2.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
+            </div>
+            <h3>Adidas Superstar</h3>
+            <p class="price">2.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        </section>
+    </main>
+
+    <h1 class="title">GIÀY CHÍNH HÃNG ADIDAS</h1>
+    <main class="container">
+
+        <!-- Sản phẩm 1 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Nike">
+            </div>
+            <h3>Nike Air Max</h3>
+            <p class="price">1.200.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+
+        <!-- Sản phẩm 2 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
+            </div>
+            <h3>Adidas Superstar</h3>
+            <p class="price">2.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
+            </div>
+            <h3>Adidas Superstar</h3>
+            <p class="price">2.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
+            </div>
+            <h3>Adidas Superstar</h3>
+            <p class="price">2.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        </section>
+    </main>
+
+    <h1 class="title">GIÀY CHÍNH HÃNG YORDAN</h1>
+    <main class="container">
+
+        <!-- Sản phẩm 1 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Nike">
+            </div>
+            <h3>Nike Air Max</h3>
+            <p class="price">1.200.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+
+        <!-- Sản phẩm 2 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
+            </div>
+            <h3>Adidas Superstar</h3>
+            <p class="price">2.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
+            </div>
+            <h3>Adidas Superstar</h3>
+            <p class="price">2.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
+            </div>
+            <h3>Adidas Superstar</h3>
+            <p class="price">2.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        </section>
+    </main>
+    <!-- Cửa sổ chi tiết sản phẩm (Modal) -->
+    <footer>
+        <div class="footer-brands">
+            <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg"
+                    alt="Nike"></div>
+            <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg"
+                    alt="Adidas"></div>
+            <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/en/3/37/Jumpman_logo.svg"
+                    alt="Jordan"></div>
+            <div class="brand-item"><img
+                    src="https://upload.wikimedia.org/wikipedia/commons/8/88/Puma_complete_logo.svg" alt="Puma"></div>
+            <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/New_Balance_logo.svg"
+                    alt="NB"></div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-container">
+            <!-- Cột 1: Liên hệ -->
+            <div class="footer-col">
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Địa chỉ: Số 48 ngách 26 ngõ Thái Thịnh 2, Đống Đa, Hà Nội.</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <p>Hotline: 08 2222 1992</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>Email: MediDen8888@gmail.com</p>
+                </div>
+            </div>
+
+            <!-- Cột 2: Chính sách -->
+            <div class="footer-col">
+                <h4>CHÍNH SÁCH</h4>
+                <ul>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#">Sản phẩm</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản dịch vụ</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 3: Hỗ trợ -->
+            <div class="footer-col">
+                <h4>HỖ TRỢ KHÁCH HÀNG</h4>
+                <ul>
+                    <li><a href="#">Tìm kiếm</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách thanh toán</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 4: Đăng ký -->
+            <div class="footer-col">
+                <h4>ĐĂNG KÝ NHẬN TIN</h4>
+                <div class="subscribe-form">
+                    <input type="email" placeholder="Nhập địa chỉ email">
+                    <button>Đăng ký</button>
+                </div>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/dang.hung.anh.887452"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/accounts/login/?next=%2Fnoobbon3793%2F&source=omni_redirect"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@nercatto-w6n"><i class="fa-brands fa-youtube"></i>
+</a>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
