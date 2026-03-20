@@ -145,129 +145,214 @@
             </div>
         </div>
     </div>
+<!-- PHẦN NIKE -->
+<section class="category-block">
     <h1 class="title">GIÀY CHÍNH HÃNG NIKE</h1>
-    <main class="container">
-
-        <!-- Sản phẩm 1 -->
-        <div class="product-card"
-            onclick="openModal('Nike Air Max', '1.200.000 VNĐ', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff', 'Dòng giày chạy bộ êm ái, thoáng khí.')">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Nike">
-            </div>
-            <h3>Nike Air Max</h3>
-            <p class="price">1.200.000 VNĐ</p>
-            <button class="add-cart">Xem chi tiết</button>
-        </div>
-
-        <!-- Sản phẩm 2 -->
+    <div class="product-grid">
         <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
-            </div>
-            <h3>Adidas Superstar</h3>
-            <p class="price">2.100.000 VNĐ</p>
-            <button class="add-cart">Xem chi tiết</button>
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Nike"></div>
+            <h3>Nike Air Max 270</h3>
+            <p class="price">3.200.000 VNĐ</p>
+            <button class="add-cart" 
+    onclick="openProductModal(this)"
+    data-name="Nike Air Max 270" 
+    data-price="3.200.000 VNĐ" 
+    data-img="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+    data-desc="Đế Air Max êm ái, thiết kế thể thao hiện đại giúp bạn thoải mái vận động cả ngày dài."
+    data-brand="Nike">
+    Xem chi tiết
+</button>
         </div>
         <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
-            </div>
-            <h3>Adidas Superstar</h3>
-            <p class="price">2.100.000 VNĐ</p>
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1549298916-b41d501d3772" alt="Nike"></div>
+            <h3>Nike Waffle One</h3>
+            <p class="price">2.850.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
         <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
-            </div>
-            <h3>Adidas Superstar</h3>
-            <p class="price">2.100.000 VNĐ</p>
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa" alt="Nike"></div>
+            <h3>Nike Zoom Fly 4</h3>
+            <p class="price">3.500.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
-        </section>
-    </main>
+        <div class="product-card">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519" alt="Nike"></div>
+            <h3>Nike Air Force 1</h3>
+            <p class="price">2.600.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
 
+        <!-- 4 sản phẩm ẩn - sẽ hiện khi bấm nút (Hàng 2) -->
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1605348532760-6753d2c43329" alt="Nike"></div>
+            <h3>Nike Furyosa</h3>
+            <p class="price">4.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a" alt="Nike"></div>
+            <h3>Nike Jordan Pink</h3>
+            <p class="price">5.200.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1582588678413-dbf45f4823e9" alt="Nike"></div>
+            <h3>Nike React Vision</h3>
+            <p class="price">3.800.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1552346154-21d32810aba3" alt="Nike"></div>
+            <h3>Nike Blazer Mid</h3>
+            <p class="price">3.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+    </div>
+    <div class="load-more-wrapper">
+        <button class="btn-load-more" onclick="showMore(this)">Xem thêm <i class="fas fa-chevron-down"></i></button>
+    </div>
+</section>
+
+<!-- PHẦN ADIDAS -->
+<section class="category-block">
     <h1 class="title">GIÀY CHÍNH HÃNG ADIDAS</h1>
-    <main class="container">
-
-        <!-- Sản phẩm 1 -->
+    <div class="product-grid">
         <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Nike">
-            </div>
-            <h3>Nike Air Max</h3>
-            <p class="price">1.200.000 VNĐ</p>
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Nike"></div>
+            <h3>Nike Air Max 270</h3>
+            <p class="price">3.200.000 VNĐ</p>
+            <button class="add-cart" 
+    onclick="openProductModal(this)"
+    data-name="Nike Air Max 270" 
+    data-price="3.200.000 VNĐ" 
+    data-img="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+    data-desc="Đế Air Max êm ái, thiết kế thể thao hiện đại giúp bạn thoải mái vận động cả ngày dài."
+    data-brand="Nike">
+    Xem chi tiết
+</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1549298916-b41d501d3772" alt="Nike"></div>
+            <h3>Nike Waffle One</h3>
+            <p class="price">2.850.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa" alt="Nike"></div>
+            <h3>Nike Zoom Fly 4</h3>
+            <p class="price">3.500.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519" alt="Nike"></div>
+            <h3>Nike Air Force 1</h3>
+            <p class="price">2.600.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
 
-        <!-- Sản phẩm 2 -->
-        <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
-            </div>
-            <h3>Adidas Superstar</h3>
-            <p class="price">2.100.000 VNĐ</p>
+        <!-- 4 sản phẩm ẩn - sẽ hiện khi bấm nút (Hàng 2) -->
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1605348532760-6753d2c43329" alt="Nike"></div>
+            <h3>Nike Furyosa</h3>
+            <p class="price">4.100.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
-        <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
-            </div>
-            <h3>Adidas Superstar</h3>
-            <p class="price">2.100.000 VNĐ</p>
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a" alt="Nike"></div>
+            <h3>Nike Jordan Pink</h3>
+            <p class="price">5.200.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
-        <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
-            </div>
-            <h3>Adidas Superstar</h3>
-            <p class="price">2.100.000 VNĐ</p>
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1582588678413-dbf45f4823e9" alt="Nike"></div>
+            <h3>Nike React Vision</h3>
+            <p class="price">3.800.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
-        </section>
-    </main>
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1552346154-21d32810aba3" alt="Nike"></div>
+            <h3>Nike Blazer Mid</h3>
+            <p class="price">3.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+    </div>
+     <div class="load-more-wrapper">
+        <button class="btn-load-more" onclick="showMore(this)">Xem thêm <i class="fas fa-chevron-down"></i></button>
+    </div>
+</section>
 
-    <h1 class="title">GIÀY CHÍNH HÃNG YORDAN</h1>
-    <main class="container">
 
-        <!-- Sản phẩm 1 -->
+<!-- PHẦN ADIDAS -->
+<section class="category-block">
+    <h1 class="title">GIÀY CHÍNH HÃNG JORDAN</h1>
+    <div class="product-grid">
         <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Nike">
-            </div>
-            <h3>Nike Air Max</h3>
-            <p class="price">1.200.000 VNĐ</p>
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Nike"></div>
+            <h3>Nike Air Max 270</h3>
+            <p class="price">3.200.000 VNĐ</p>
+            <button class="add-cart" 
+    onclick="openProductModal(this)"
+    data-name="Nike Air Max 270" 
+    data-price="3.200.000 VNĐ" 
+    data-img="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+    data-desc="Đế Air Max êm ái, thiết kế thể thao hiện đại giúp bạn thoải mái vận động cả ngày dài."
+    data-brand="Nike">
+    Xem chi tiết
+</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1549298916-b41d501d3772" alt="Nike"></div>
+            <h3>Nike Waffle One</h3>
+            <p class="price">2.850.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa" alt="Nike"></div>
+            <h3>Nike Zoom Fly 4</h3>
+            <p class="price">3.500.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+        <div class="product-card">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519" alt="Nike"></div>
+            <h3>Nike Air Force 1</h3>
+            <p class="price">2.600.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
 
-        <!-- Sản phẩm 2 -->
-        <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
-            </div>
-            <h3>Adidas Superstar</h3>
-            <p class="price">2.100.000 VNĐ</p>
+        <!-- 4 sản phẩm ẩn - sẽ hiện khi bấm nút (Hàng 2) -->
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1605348532760-6753d2c43329" alt="Nike"></div>
+            <h3>Nike Furyosa</h3>
+            <p class="price">4.100.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
-        <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
-            </div>
-            <h3>Adidas Superstar</h3>
-            <p class="price">2.100.000 VNĐ</p>
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a" alt="Nike"></div>
+            <h3>Nike Jordan Pink</h3>
+            <p class="price">5.200.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
-        <div class="product-card">
-            <div class="product-img">
-                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f" alt="Adidas">
-            </div>
-            <h3>Adidas Superstar</h3>
-            <p class="price">2.100.000 VNĐ</p>
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1582588678413-dbf45f4823e9" alt="Nike"></div>
+            <h3>Nike React Vision</h3>
+            <p class="price">3.800.000 VNĐ</p>
             <button class="add-cart">Xem chi tiết</button>
         </div>
-        </section>
-    </main>
+        <div class="product-card hidden-item">
+            <div class="product-img"><img src="https://images.unsplash.com/photo-1552346154-21d32810aba3" alt="Nike"></div>
+            <h3>Nike Blazer Mid</h3>
+            <p class="price">3.100.000 VNĐ</p>
+            <button class="add-cart">Xem chi tiết</button>
+        </div>
+    </div>
+     <div class="load-more-wrapper">
+        <button class="btn-load-more" onclick="showMore(this)">Xem thêm <i class="fas fa-chevron-down"></i></button>
+    </div>
+</section>
+
+
+
+
  <!-- Cửa sổ chi tiết sản phẩm (Modal) -->
 <div id="productModal" class="modal">
     <div class="modal-content">

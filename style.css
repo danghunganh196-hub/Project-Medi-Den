@@ -176,27 +176,30 @@ header {
 
 /* --- 4. Danh sách sản phẩm (Grid) --- */
 /* Thay đổi quan trọng: Dàn hàng tự động thay vì dùng width 500px */
+/* Container chung cho tất cả các hãng */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 30px;
-    width: 100%;
+    /* Ép 4 cột có độ rộng bằng nhau */
+    grid-template-columns: repeat(4, 1fr); 
+    /* Khoảng cách giữa các sản phẩm (tăng số này để giãn rộng ra) */
+    gap: 3px; 
+    /* Giới hạn chiều rộng tối đa để không bị tràn màn hình */
+    max-width: 1250px; 
+    margin: 0 auto; /* Căn giữa toàn bộ lưới */
+    padding: 20px;
 }
 
+/* Đảm bảo card sản phẩm không bị co quá nhỏ */
 .product-card {
-    background: white;
-    border-radius: 20px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: 1px solid #eee;
+    width: 100%; /* Card tự động chiếm hết độ rộng cột grid */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Thêm đổ bóng nhẹ cho sang */
+    border-radius: 15px;
+    background: #fff;
+    transition: 0.3s;
 }
 
 .product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px); /* Hiệu ứng bay lên khi di chuột vào */
 }
 
 .product-img img {
@@ -599,3 +602,52 @@ footer {
     font-size: 12px;
     margin-left: 5px;
 }
+
+/* Container bao bọc toàn bộ phần sản phẩm */
+.category-block {
+    max-width: 1500px;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+/* Lưới sản phẩm - Tự động xuống dòng khi đủ 4 cái */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cột đều nhau */
+    gap: 40px; /* Khoảng cách giữa các đôi giày */
+}
+
+/* Ẩn các sản phẩm hàng thứ 2 */
+.hidden-item {
+    display: none;
+}
+
+/* Nút xem thêm thiết kế theo mẫu hiện đại */
+.load-more-wrapper {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn-load-more {
+    padding: 12px 35px;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-load-more:hover {
+    border-color: #e91e63;
+    color: #e91e63;
+    background-color: #fff5f8;
+}
+
+/* Responsive cho điện thoại (Hiện 2 cột để không bị bé quá) */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
