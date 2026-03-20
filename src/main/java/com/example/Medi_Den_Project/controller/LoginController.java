@@ -26,7 +26,7 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         HttpSession session = req.getSession();
-        // tai khoan nhan vien: abc - 123
+            // tai khoan nhan vien: abc - 123
         // tai khoan quan ly: bde - 234
         if (
                 username.equals("abc") && password.equals("123")

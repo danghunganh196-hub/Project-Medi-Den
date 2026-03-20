@@ -12,12 +12,7 @@
     <title>Medi Den</title>
     <meta charset="UTF-8">
     <base href="${pageContext.request.contextPath}/">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <body>
 <header>
@@ -475,6 +470,45 @@
             color: #e91e63;
         }
     </style>
+
+    <script>
+        function openModal(name, price, img, desc) {
+            document.getElementById("modalName").innerText = name;
+            document.getElementById("modalPrice").innerText = price;
+            document.getElementById("modalImg").src = img;
+            document.getElementById("modalDesc").innerText = desc;
+            document.getElementById("productModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("productModal").style.display = "none";
+        }
+
+        // Đóng modal khi click ra ngoài vùng trắng
+        window.onclick = function(event) {
+            let modal = document.getElementById("productModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const swiper = new Swiper('.swiper', {
+                loop: true,
+                effect: 'fade',
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+        });    </script>
     <div class="top-bar">Đăng nhập | Đăng ký</div>
     <nav class="navbar">
         <div class="logo">
@@ -498,21 +532,16 @@
 
 </header>
 <div class="slidechuyen">
-    <!-- Slider main container -->
     <div class="swiper">
-        <!-- Additional required wrapper -->
         <div class="swiper-wrapper">
-            <!-- Các ảnh slide của bạn -->
             <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1552346154-21d32810aba3"
                                            alt="Banner 1"></div>
-            <div class="swiper-slide"><img src="/images/logo/Screenshot 2026-03-19 014252.png" alt="Banner 2"></div>
-            <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2"
+            <div class="swiper-slide"><img src="https://www.elleman.vn/app/uploads/2018/08/13/gi%C3%A0y-sneakers-2-elle-man-8.jpg" alt="Banner 2"></div>
+            <div class="swiper-slide"><img src="https://png.pngtree.com/thumb_back/fh260/background/20220929/pngtree-shoes-promotion-banner-background-image_1466238.jpg"
                                            alt="Banner 3"></div>
         </div>
-        <!-- Nếu muốn có dấu chấm phân trang -->
         <div class="swiper-pagination"></div>
 
-        <!-- Nếu muốn có nút bấm trái/phải -->
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
     </div>
