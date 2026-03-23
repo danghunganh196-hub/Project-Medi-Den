@@ -16,24 +16,22 @@ public class Giay {
     @Column(name = "ten_giay")
     private String tenGiay;
 
-    @Column(name = "the_loai")
-    private Boolean theLoai;
-
     @Column(name = "gia")
     private Double gia;
 
     @Column(name = "size")
     private Integer size;
 
-    @Column(name = "thuong_hieu")
-    private String thuongHieu;
-
     @Column(name = "so_luong")
     private Integer soLuong;
 
-    @Column(name = "mo_ta")
-    private String moTa;
+    @Column(name = "thuong_hieu")
+    private String thuongHieu;
 
     @Column(name = "hinh_anh")
     private String hinhAnh;
+
+    @ManyToOne
+    @JoinColumn(name = "the_loai_id",referencedColumnName = "id")
+    private TheLoaiGiay theLoaiGiay;
 }
