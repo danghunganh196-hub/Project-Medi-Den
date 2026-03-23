@@ -13,9 +13,6 @@ public class KhachHang {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "ma")
-    private String ma;
-
     @Column(name = "ten")
     private String ten;
 
@@ -30,7 +27,4 @@ public class KhachHang {
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "mat_khau")
-    private String matKhau;
 }

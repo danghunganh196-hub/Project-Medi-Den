@@ -26,13 +26,13 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         HttpSession session = req.getSession();
-        // tai khoan nhan vien: abc - 123
-        // tai khoan quan ly: bde - 234
+
+        // tai khoan admin: admin - 3636
         if (
-                username.equals("abc") && password.equals("123")
+                username.equals("admin") && password.equals("3636")
         ) {
             // tk, mk dung
-            if (username.equals("abc")) {
+            if (username.equals("admin")) {
                 session.setAttribute("daDangNhap", username);
                 resp.sendRedirect("/giay/hien-thi");
             }

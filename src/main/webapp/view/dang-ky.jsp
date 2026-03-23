@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Medi's Sneakers</title>
+    <title>Medi's Sneakers - Register</title>
     <style>
         * {
             margin: 0;
@@ -44,7 +44,7 @@
         }
 
         .input-group {
-            margin-bottom: 18px;
+            margin-bottom: 15px;
         }
 
         .input-group input {
@@ -55,12 +55,16 @@
             border-radius: 6px;
             color: white;
             outline: none;
-            transition: 0.3s;
         }
 
         .input-group input:focus {
             border-color: #00ffcc;
             box-shadow: 0 0 8px #00ffcc;
+        }
+
+        .radio-group {
+            margin-bottom: 15px;
+            font-size: 14px;
         }
 
         .btn-login {
@@ -72,12 +76,10 @@
             color: black;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
         }
 
         .btn-login:hover {
             background: #00ddb3;
-            transform: scale(1.03);
         }
 
         .extra {
@@ -91,19 +93,16 @@
             color: #00ffcc;
             text-decoration: none;
         }
-
-        .extra a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
 
 <div class="login-box">
     <div class="brand">SNEAKER STORE</div>
-    <h2>LOGIN</h2>
+    <h2>REGISTER</h2>
 
-    <form action="/login" method="post">
+    <form action="/register" method="post">
+
         <div class="input-group">
             <input type="text" name="username" placeholder="Username" required>
         </div>
@@ -112,11 +111,29 @@
             <input type="password" name="password" placeholder="Password" required>
         </div>
 
-        <button class="btn-login">Đăng nhập</button>
+        <div class="radio-group">
+            Giới tính:
+            <input type="radio" name="gioiTinh" value="true"> Nam
+            <input type="radio" name="gioiTinh" value="false"> Nữ
+        </div>
+
+        <div class="input-group">
+            <input type="number" name="tuoi" placeholder="Tuổi">
+        </div>
+
+        <div class="input-group">
+            <input type="text" name="diaChi" placeholder="Địa chỉ">
+        </div>
+
+        <div class="input-group">
+            <input type="email" name="email" placeholder="Email">
+        </div>
+
+        <button class="btn-login">Đăng ký</button>
     </form>
 
     <div class="extra">
-        Chưa có tài khoản? <a href="/register">Đăng ký</a>
+        Đã có tài khoản? <a href="/login">Đăng nhập</a>
     </div>
 
     <p>${message}</p>
