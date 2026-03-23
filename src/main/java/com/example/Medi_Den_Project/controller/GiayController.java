@@ -11,27 +11,20 @@ import java.io.IOException;
 
 @WebServlet(name = "giayController",value = {
         "/giay/hien-thi",
-        "/giay/",
 })
 public class GiayController extends HttpServlet {
     GiayRepository giayRepository = new GiayRepository();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String path = req.getServletPath();
-        if (path.contains("/giay/hien-thi")) {
-            hienThi(req, resp);
-        } else {
-            hienThi(req, resp);
-            if(req.getSession().getAttribute("daDangNhap") == null){
-                resp.sendRedirect("/login");
-                return;
-            }
+        if(req.getSession().getAttribute("daDangNhap") == null){
+            resp.sendRedirect("/login");
+            return;
+        }
 
-            String uri = req.getRequestURI();
-            if(uri.contains("hien-thi")){
-                hienThi(req,resp);
-            }
+        String uri = req.getRequestURI();
+        if(uri.contains("hien-thi")){
+            hienThi(req,resp);
         }
     }
     private void hienThi(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
