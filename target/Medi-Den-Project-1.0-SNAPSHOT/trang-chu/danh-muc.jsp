@@ -1,5 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -18,13 +16,14 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Arial';
             background-color: var(--bg-dark);
             color: var(--text-light);
             margin: 0;
             padding: 0;
         }
 
+        /* HEADER & NAVBAR (Giữ style trang chủ) */
         header {
             background: #000;
             border-bottom: 2px solid var(--primary-color);
@@ -64,8 +63,6 @@
             display: flex;
             list-style: none;
             gap: 20px;
-            margin: 0;
-            padding: 0;
         }
 
         .nav-links a {
@@ -80,6 +77,7 @@
             color: var(--primary-color);
         }
 
+        /* ADMIN MAIN CONTENT */
         .admin-wrapper {
             max-width: 1000px;
             margin: 50px auto;
@@ -101,6 +99,7 @@
             letter-spacing: 1px;
         }
 
+        /* FORM THÊM MỚI (Style Pink-Input) */
         .card {
             background: var(--card-bg);
             padding: 25px;
@@ -123,7 +122,6 @@
             color: white;
             outline: none;
             transition: 0.3s;
-            font-size: 14px;
         }
 
         .pink-input:focus {
@@ -143,7 +141,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
         }
 
         .btn-pink:hover {
@@ -151,6 +148,7 @@
             transform: translateY(-2px);
         }
 
+        /* TABLE STYLE */
         .table-container {
             overflow-x: auto;
         }
@@ -189,6 +187,7 @@
             font-size: 16px;
         }
 
+        /* ACTIONS BUTTONS */
         .action-btn {
             width: 35px;
             height: 35px;
@@ -208,6 +207,7 @@
         .btn-delete { background: rgba(255, 45, 85, 0.1); color: var(--primary-color); }
         .btn-delete:hover { background: var(--primary-color); color: white; }
 
+        /* FOOTER */
         footer {
             margin-top: 100px;
             padding: 40px;
@@ -218,6 +218,7 @@
 
         .footer-logo h2 { color: var(--primary-color); margin-bottom: 10px; }
         .copy { color: var(--text-gray); font-size: 13px; }
+
     </style>
 </head>
 <body>
@@ -231,7 +232,7 @@
         </div>
         <ul class="nav-links">
             <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="#" style="color: var(--primary-color);"><i class="fas fa-list"></i> Danh mục</a></li>
+            <li><a href="#" style="color: var(--primary-color);"><i class="fas fa-list"></i>Danh mục</a></li>
             <li><a href="#"><i class="fas fa-shoe-prints"></i> Sản phẩm</a></li>
             <li><a href="#"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
         </ul>
@@ -246,9 +247,8 @@
 
     <div class="card">
         <form action="/the-loai/add" method="post" class="form-add">
-            <input type="text" name="ten_the_loai" class="pink-input"
-                   placeholder="Tên danh mục mới (vd: Giày Chạy Bộ)..." required>
-            <button type="submit" class="btn-pink">
+            <input type="text" name="ten_the_loai" class="pink-input" placeholder="Tên danh mục mới (vd: Giày Chạy Bộ)..." required>
+            <button class="btn-pink">
                 <i class="fas fa-plus"></i> THÊM DANH MỤC
             </button>
         </form>

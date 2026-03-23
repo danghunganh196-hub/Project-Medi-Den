@@ -6,20 +6,25 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<<<<<<< HEAD
     <title>Medi Den</title>
     <meta charset="UTF-8">
     <base href="${pageContext.request.contextPath}/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-=======
-    <title>Title</title>
->>>>>>> 3c6801a374d629b20d5eea9299cc4c259fab976f
 </head>
 <body>
+<header>
+    <style>
+        /* --- 1. Reset & Cài đặt chung --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<<<<<<< HEAD
         body {
             background-color: #f9f9f9;
             color: #333;
@@ -1142,7 +1147,5 @@
         </div>
     </div>
 </footer>
-=======
->>>>>>> 3c6801a374d629b20d5eea9299cc4c259fab976f
 </body>
 </html>
