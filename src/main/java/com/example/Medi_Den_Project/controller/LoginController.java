@@ -1,5 +1,7 @@
 package com.example.Medi_Den_Project.controller;
 
+import com.example.Medi_Den_Project.entity.TaiKhoan;
+import com.example.Medi_Den_Project.repository.TaiKhoanRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +15,7 @@ import java.io.IOException;
         "/login"
 })
 public class LoginController extends HttpServlet {
+    TaiKhoanRepository repo = new TaiKhoanRepository();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
@@ -25,19 +28,20 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        HttpSession session = req.getSession();
-        if (
-                username.equals("admin") && password.equals("3636")
-        ) {
-            // tk, mk dung
-            if (username.equals("admin")) {
-                session.setAttribute("daDangNhap", username);
-                resp.sendRedirect("/giay/hien-thi");
+        TaiKhoan tk = repo.login(username, password);
+
+        if (tk != null) {
+
+            req.getSession().setAttribute("user", tk);
+
+            if ("ADMIN".equalsIgnoreCase(tk.getVaiTro())) {
+                req.getSession().setAttribute("role", "ADMIN");
+            } else {
+                req.getSession().setAttribute("role", "USER");
             }
-        } else {
-            // tk, mk sai
-            req.setAttribute("message", "Sai thong tin dang nhap");
-            req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
+
+            resp.sendRedirect("/giay/hien-thi");
+            return;
         }
     }
 }

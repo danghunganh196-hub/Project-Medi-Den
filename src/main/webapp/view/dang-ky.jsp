@@ -104,6 +104,10 @@
     <form action="/register" method="post">
 
         <div class="input-group">
+            <input type="text" name="ten" placeholder="Họ và Tên" required>
+        </div>
+
+        <div class="input-group">
             <input type="text" name="username" placeholder="Username" required>
         </div>
 

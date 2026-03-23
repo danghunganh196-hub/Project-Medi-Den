@@ -20,4 +20,15 @@ public class KhachHangRepository {
     public KhachHang getById(Integer id){
         return session.find(KhachHang.class, id);
     }
+
+    public void themKhachHang(KhachHang kh){
+        try {
+            session.getTransaction().begin();
+            session.save(kh);
+            session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
 }

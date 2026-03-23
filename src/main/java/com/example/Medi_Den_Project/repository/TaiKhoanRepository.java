@@ -32,4 +32,11 @@ public class TaiKhoanRepository {
         }
     }
 
+    public TaiKhoan login(String username, String password){
+        return (TaiKhoan) session.createQuery(
+                "FROM TaiKhoan WHERE username = :u AND password = :p")
+                .setParameter("u", username)
+                .setParameter("p", password)
+                .uniqueResult();
+    }
 }
