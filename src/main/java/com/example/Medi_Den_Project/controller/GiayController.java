@@ -18,19 +18,24 @@ public class GiayController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getSession().getAttribute("daDangNhap") == null){
-            resp.sendRedirect("/login");
-            return;
-        }
+        String path = req.getServletPath();
+        if (path.contains("/giay/hien-thi")) {
+            hienThi(req, resp);
+        } else {
+            hienThi(req, resp);
+            if(req.getSession().getAttribute("daDangNhap") == null){
+                resp.sendRedirect("/login");
+                return;
+            }
 
-        String uri = req.getRequestURI();
-        if(uri.contains("hien-thi")){
-            hienThi(req,resp);
+            String uri = req.getRequestURI();
+            if(uri.contains("hien-thi")){
+                hienThi(req,resp);
+            }
         }
     }
-
-    private void hienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("listGiay",giayRepository.getAll());
-        req.getRequestDispatcher("/Web_ban_giay/index.html").forward(req,resp);
+    private void hienThi(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
+        req.setAttribute("listGiay", giayRepository.getNikeOnly());
+        req.getRequestDispatcher("/view/trang-chu.jsp").forward(req, resp);
     }
-}
+    }

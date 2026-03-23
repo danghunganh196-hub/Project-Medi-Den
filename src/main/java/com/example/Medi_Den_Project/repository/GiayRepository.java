@@ -17,6 +17,12 @@ public class GiayRepository {
         return session.createQuery("SELECT gi FROM Giay gi").list();
     }
 
+    public List<Giay> getNikeOnly() {
+        String hql = "SELECT g FROM Giay g WHERE g.thuongHieu = 'Nike'";
+        return session.createQuery(hql, Giay.class)
+                .setMaxResults(4) // Giới hạn lấy đúng 4 bản ghi đầu tiên
+                .list();
+    }
     public Giay getById(Integer id){
         return session.find(Giay.class, id);
     }
