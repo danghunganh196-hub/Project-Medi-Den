@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Sneaker Login</title>
+    <title>Medi's Sneakers</title>
     <style>
         * {
             margin: 0;
@@ -112,7 +112,7 @@
             <input type="password" name="password" placeholder="Password" required>
         </div>
 
-        <button class="btn-login">SIGN IN</button>
+        <button class="btn-login">Đăng nhập</button>
     </form>
 
     <div class="extra">

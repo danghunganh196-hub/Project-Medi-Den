@@ -1,6 +1,7 @@
 package com.example.Medi_Den_Project.entity;
 import jakarta.persistence.*;
 import lombok.*;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -11,9 +12,6 @@ public class KhachHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(name = "ma")
-    private String ma;
 
     @Column(name = "ten")
     private String ten;
@@ -29,11 +27,4 @@ public class KhachHang {
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "mat_khau")
-    private String matKhau;
-
-    @ManyToOne
-    @JoinColumn(name = "khach_hang_id",referencedColumnName = "id")
-    private TaiKhoan taiKhoan;
 }

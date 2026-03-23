@@ -1,6 +1,5 @@
 package com.example.Medi_Den_Project.repository;
 
-import com.example.Medi_Den_Project.entity.KhachHang;
 import com.example.Medi_Den_Project.entity.TaiKhoan;
 import com.example.Medi_Den_Project.utility.HibernateConfig;
 import org.hibernate.Session;
@@ -8,7 +7,7 @@ import org.hibernate.Session;
 import java.util.List;
 
 public class TaiKhoanRepository {
-    private Session session;
+    private Session session = null;
 
     public TaiKhoanRepository() {
         session = HibernateConfig.getFACTORY().openSession();
@@ -21,4 +20,16 @@ public class TaiKhoanRepository {
     public TaiKhoan getById(Integer id){
         return session.find(TaiKhoan.class, id);
     }
+
+    public void themTaiKhoan(TaiKhoan tk){
+        try{
+            session.getTransaction().begin();
+            session.save(tk);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
+
 }
