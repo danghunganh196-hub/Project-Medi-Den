@@ -469,6 +469,412 @@
             background: white;
             color: #e91e63;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        /* Khung trắng chứa nội dung */
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .modal-body {
+            display: flex;
+            gap: 30px;
+        }
+
+        .modal-left { flex: 1; }
+        .modal-left img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .modal-right { flex: 1.2; }
+
+        /* Tên và giá */
+        #modalName { font-size: 22px; color: #333; margin-bottom: 10px; }
+        .price-main { font-size: 28px; color: #d70018; font-weight: bold; }
+        .product-description { margin: 15px 0; font-size: 14px; color: #666; }
+
+        /* Nút chọn size */
+        .size-options button {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background: #fff;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .size-options button:hover { border-color: #e91e63; color: #e91e63; }
+
+        /* Nút mua hàng màu đỏ giống ảnh mẫu */
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+        /* Nút Mua Ngay trong Modal sản phẩm */
+        .btn-buy-now {
+            background-color: #ff2d81; /* Màu hồng đậm hơn để kích thích mua hàng */
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .btn-buy-now span {
+            font-size: 11px;
+            font-weight: normal;
+            display: block;
+            margin-top: 4px;
+            opacity: 0.9;
+        }
+
+        .btn-buy-now:hover {
+            background-color: #e91e63;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+        }
+
+
+        /* Nút đóng (X) */
+        .close-btn {
+            position: absolute; right: 15px; top: 10px;
+            font-size: 25px; cursor: pointer; color: #888;
+        }
+        /* --- CSS cho Menu Dropdown --- */
+
+        /* Đảm bảo menu cha là điểm tựa */
+        .nav-links li {
+            position: relative;
+        }
+
+        /* Kiểu dáng cho menu con (ẩn mặc định) */
+        .dropdown-content {
+            display: none; /* Ẩn đi */
+            position: absolute;
+            top: 100%; /* Hiện ngay bên dưới menu cha */
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1000;
+            list-style: none;
+            padding: 0;
+            border-radius: 0 0 5px 5px;
+        }
+
+        /* Kiểu dáng từng dòng trong menu con */
+        .dropdown-content li {
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-content li a {
+            color: #333 !important; /* Chữ màu đen trên nền trắng */
+            padding: 12px 16px;
+            display: block;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        /* Hiệu ứng khi di chuột vào từng dòng của menu con */
+        .dropdown-content li a:hover {
+            background-color: #f1f1f1;
+            color: #e91e63 !important; /* Đổi màu chữ sang hồng khi hover */
+            padding-left: 20px;
+        }
+
+        /* QUAN TRỌNG: Hiện menu con khi di chuột vào li cha */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Thêm icon mũi tên nhỏ cho đẹp */
+        .nav-links a i {
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        /* Container bao bọc toàn bộ phần sản phẩm */
+        .category-block {
+            max-width: 1500px;
+            margin: 40px auto;
+            padding: 0 15px;
+        }
+
+        /* Lưới sản phẩm - Tự động xuống dòng khi đủ 4 cái */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 cột đều nhau */
+            gap: 40px; /* Khoảng cách giữa các đôi giày */
+        }
+
+        /* Ẩn các sản phẩm hàng thứ 2 */
+        .hidden-item {
+            display: none;
+        }
+
+        /* Nút xem thêm thiết kế theo mẫu hiện đại */
+        .load-more-wrapper {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn-load-more {
+            padding: 12px 35px;
+            background-color: transparent;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-load-more:hover {
+            border-color: #e91e63;
+            color: #e91e63;
+            background-color: #fff5f8;
+        }
+
+        /* Responsive cho điện thoại (Hiện 2 cột để không bị bé quá) */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Số lượng trên icon giỏ hàng */
+        #cart-icon {
+            position: relative;
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        /* Nút Thêm vào giỏ trong Modal */
+        .btn-add-to-cart {
+            background-color: #333; /* Màu đen xám giống ảnh mẫu */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-add-to-cart span {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .btn-add-to-cart:hover {
+            background-color: #555;
+        }
+
+        /* Khung giỏ hàng nhanh */
+        .mini-cart {
+            position: fixed;
+            right: -400px; /* Ẩn đi mặc định */
+            top: 0;
+            width: 350px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: 0.4s;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mini-cart.active {
+            right: 0; /* Hiện ra khi có class active */
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        /* Danh sách sản phẩm */
+        #cart-items-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px 0;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+            position: relative;
+        }
+
+        .cart-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+        }
+
+        .item-info h4 { font-size: 14px; margin-bottom: 5px; padding-right: 20px; }
+        .item-info .item-qty {
+            border: 1px solid #ddd;
+            padding: 2px 8px;
+            margin-right: 10px;
+            font-size: 13px;
+        }
+        .item-info .item-price { color: red; font-weight: bold; }
+
+        .remove-item {
+            position: absolute;
+            right: 0; top: 0;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Footer & Nút bấm */
+        .cart-footer { border-top: 2px solid #eee; padding-top: 15px; }
+        .total-price {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        #cart-total-amount { color: red; font-size: 18px; }
+
+        .btn-checkout {
+            width: 100%;
+            padding: 12px;
+            background: black;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Màu chủ đạo hồng */
+        :root {
+            --main-color: #ff69b4;
+            --hover-color: #ff1493;
+        }
+
+        /* Nút bấm và các thành phần màu xanh cũ */
+        .btn-checkout, .btn-submit, .btn-next, .btn-buy-now,
+        #cart-count, .radio-input:checked + .radio-label::before {
+            background-color: var(--main-color) !important;
+            border-color: var(--main-color) !important;
+            color: white !important;
+        }
+
+        /* Hiệu ứng Hover */
+        .btn-checkout:hover, .btn-buy-now:hover, .btn-next:hover {
+            background-color: var(--hover-color) !important;
+        }
+
+        /* Màu chữ liên kết và các icon */
+        a, .price, .item-price, #cart-total-amount {
+            color: var(--main-color);
+        }
+
+        /* Loại bỏ chữ Giỏ hàng cạnh nút điều hướng */
+        .cart-link-back, .giỏ-hàng-text {
+            display: none !important;
+        }
+
+        .checkout-step { display: none; }
+        .checkout-step.active { display: block; }
+
+        .pink-title { color: #ff69b4; margin-bottom: 20px; text-transform: uppercase; }
+
+        .btn-pink-large {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-pink-large:hover { background-color: #ff1493; }
+
+        .pink-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ffc0cb;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .bank-details-box {
+            background: #fff0f5;
+            padding: 15px;
+            border-left: 4px solid #ff69b4;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #ff69b4;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .error-msg {
+            color: #ff0000; /* Màu đỏ cảnh báo */
+            font-size: 12px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        /* Đổi viền input thành màu đỏ khi có lỗi (Optional - Thêm bằng JS nếu muốn) */
+        .pink-input:focus {
+            border-color: #ff69b4;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 105, 180, 0.3);
+        }
     </style>
 
     <script>
@@ -479,7 +885,16 @@
             document.getElementById("modalDesc").innerText = desc;
             document.getElementById("productModal").style.display = "block";
         }
+        function openModal(img, name, price) {
+            document.getElementById('modalImg').src = img;
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalPrice').textContent = price + ' VNĐ';
+            document.getElementById('productModal').style.display = 'block';
+        }
 
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
         function closeModal() {
             document.getElementById("productModal").style.display = "none";
         }
@@ -608,10 +1023,59 @@
             </div>
             <h3>${sp.tenGiay}</h3>
             <p class="price">${sp.gia} VNĐ</p>
-            <button class="add-cart">Xem chi tiết</button>
-        </div>
+            <button class="add-cart" onclick="openModal('${sp.hinhAnh}', '${sp.tenGiay}', '${sp.gia}')">Xem chi tiết</button>        </div>
     </c:forEach>
 </main>
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-body">
+            <!-- Bên trái: Ảnh lớn -->
+            <div class="modal-left">
+                <img id="modalImg" src="" alt="Sản phẩm">
+            </div>
+
+            <!-- Bên phải: Thông tin chi tiết -->
+            <div class="modal-right">
+                <h2 id="modalName">Tên sản phẩm</h2>
+                <p class="brand-info">Thương hiệu: <span id="modalBrand">Chính hãng</span> | Tình trạng: <span>Còn
+                            hàng</span></p>
+                <div class="modal-price-container">
+                    <span id="modalPrice" class="price-main">0đ</span>
+                </div>
+
+                <p id="modalDesc" class="product-description"></p>
+
+                <div class="size-section">
+                    <h4>Kích thước:</h4>
+                    <div class="size-options">
+                        <button>40.5</button>
+                        <button>42</button>
+                        <button>42.5</button>
+                    </div>
+                </div>
+
+                <div class="quantity-section">
+                    <h4>Số lượng:</h4>
+                    <div class="qty-input">
+                        <button>-</button>
+                        <input type="number" value="1" min="1">
+                        <button>+</button>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn-buy-now" onclick="buyNowFromModal()">
+                        MUA NGAY <br><span>Giao hàng thanh toán (COD)</span>
+                    </button>
+
+                    <button class="btn-add-to-cart" onclick="addToCart()">THÊM VÀO GIỎ <br><span>Thêm để mua
+                                sau</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <footer>
     <div class="footer-brands">
         <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg"
