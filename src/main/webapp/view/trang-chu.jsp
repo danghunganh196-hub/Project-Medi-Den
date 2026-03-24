@@ -46,7 +46,30 @@
             margin-bottom: 8px;
             opacity: 0.9;
         }
+        .top-bar .btn {
+            position: relative;
+            text-decoration: none;
+            color: white;
+            font-size: 13px;
+            padding: 7px;
+            border-radius: 12px;
+        }
 
+        .top-bar .btn::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0%;
+            height: 2px;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+
+        /* hover -> chạy từ trái sang phải */
+        .top-bar .btn:hover::after {
+            width: 100%;
+        }
         .navbar {
             display: flex;
             align-items: center;
@@ -924,7 +947,10 @@
                 },
             });
         });    </script>
-    <div class="top-bar">Đăng nhập | Đăng ký</div>
+    <div class="top-bar">
+        <a class="btn login" href="view/dang-nhap.jsp">Đăng nhập</a>
+        <a class="btn register" href="view/dang-ky.jsp">Đăng ký</a>
+    </div>
     <nav class="navbar">
         <div class="logo">
 
