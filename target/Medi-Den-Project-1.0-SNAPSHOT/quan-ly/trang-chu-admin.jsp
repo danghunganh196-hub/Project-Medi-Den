@@ -14,7 +14,7 @@
     --pink-deeper: #8b0044;
     --pink-soft: #fce4f0;
     --pink-glow: rgba(240, 18, 122, 0.18);
-    --sidebar-bg: #fce4f0;
+    --sidebar-bg: #ffffff;
     --white: #ffffff;
     --text-dark: #1a0010;
     --text-mid: #6b0038;
@@ -27,7 +27,7 @@
 
   body {
     font-family: 'Be Vietnam Pro', sans-serif;
-    background: #f8f0f4;
+    background: #ffffff;
     color: var(--text-dark);
     min-height: 100vh;
   }
@@ -174,7 +174,7 @@
     font-size: 17px;
   }
   .nav-item:hover {
-    background: white;
+    background: #fdf0f7;
     color: var(--pink);
     transform: translateX(3px);
     box-shadow: 0 2px 12px var(--pink-glow);
@@ -217,6 +217,7 @@
     flex: 1;
     padding: 32px 36px;
     overflow-y: auto;
+    background: #ffffff;
   }
 
   .page-header {
@@ -436,22 +437,22 @@
 
     <div class="sidebar-section">
       <div class="sidebar-section-label">Quản lý</div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/danh-muc'">
         <div class="nav-icon">📂</div>
         Quản lý danh mục
         <span class="nav-badge">4</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/san-pham'">
         <div class="nav-icon">👟</div>
         Quản lý sản phẩm
         <span class="nav-badge">24</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/don-hang'">
         <div class="nav-icon">🛒</div>
         Quản lý đơn hàng
         <span class="nav-badge">7</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/khach-hang'">
         <div class="nav-icon">👥</div>
         Quản lý khách hàng
       </div>
@@ -524,44 +525,6 @@
             </tr>
           </thead>
           <tbody>
-
-<%--          fake data (để demo)--%>
-<%--              <tr>--%>
-<%--                <td>#DH00134</td>--%>
-<%--                <td>Nguyễn Văn A</td>--%>
-<%--                <td>Nike Air Force 1</td>--%>
-<%--                <td><strong style="color:var(--pink)">2.500.000đ</strong></td>--%>
-<%--                <td><span class="badge badge-green">Hoàn thành</span></td>--%>
-<%--              </tr>--%>
-<%--              <tr>--%>
-<%--                <td>#DH00133</td>--%>
-<%--                <td>Trần Thị B</td>--%>
-<%--                <td>Nike Air Jordan 1</td>--%>
-<%--                <td><strong style="color:var(--pink)">5.000.000đ</strong></td>--%>
-<%--                <td><span class="badge badge-yellow">Đang giao</span></td>--%>
-<%--              </tr>--%>
-<%--              <tr>--%>
-<%--                <td>#DH00132</td>--%>
-<%--                <td>Lê Minh C</td>--%>
-<%--                <td>Adidas Ultraboost</td>--%>
-<%--                <td><strong style="color:var(--pink)">3.200.000đ</strong></td>--%>
-<%--                <td><span class="badge badge-pink">Chờ xác nhận</span></td>--%>
-<%--              </tr>--%>
-<%--              <tr>--%>
-<%--                <td>#DH00131</td>--%>
-<%--                <td>Phạm Thị D</td>--%>
-<%--                <td>New Balance 574</td>--%>
-<%--                <td><strong style="color:var(--pink)">1.800.000đ</strong></td>--%>
-<%--                <td><span class="badge badge-green">Hoàn thành</span></td>--%>
-<%--              </tr>--%>
-<%--              <tr>--%>
-<%--                <td>#DH00130</td>--%>
-<%--                <td>Hoàng Văn E</td>--%>
-<%--                <td>Converse Chuck 70</td>--%>
-<%--                <td><strong style="color:var(--pink)">1.200.000đ</strong></td>--%>
-<%--                <td><span class="badge badge-red">Đã hủy</span></td>--%>
-<%--              </tr>--%>
-            
           </tbody>
         </table>
       </div>
@@ -569,30 +532,28 @@
 
     <!-- QUICK LINKS -->
     <div class="quick-grid">
-      <div class="quick-card">
+      <div class="quick-card" onclick="window.location.href='${pageContext.request.contextPath}/danh-muc'">
         <div class="quick-icon">📂</div>
         <div class="quick-label">Quản lý danh mục</div>
         <div class="quick-desc">Thêm, sửa, xóa danh mục sản phẩm</div>
       </div>
-      <div class="quick-card">
+      <div class="quick-card" onclick="window.location.href='${pageContext.request.contextPath}/san-pham'">
         <div class="quick-icon">👟</div>
         <div class="quick-label">Quản lý sản phẩm</div>
         <div class="quick-desc">Cập nhật thông tin & kho hàng</div>
       </div>
-      <div class="quick-card">
+      <div class="quick-card" onclick="window.location.href='${pageContext.request.contextPath}/don-hang'">
         <div class="quick-icon">🛒</div>
         <div class="quick-label">Quản lý đơn hàng</div>
         <div class="quick-desc">Theo dõi & xử lý đơn hàng</div>
       </div>
-      <div class="quick-card">
+      <div class="quick-card" onclick="window.location.href='${pageContext.request.contextPath}/khach-hang'">
         <div class="quick-icon">👥</div>
         <div class="quick-label">Quản lý khách hàng</div>
         <div class="quick-desc">Danh sách & lịch sử mua hàng</div>
       </div>
     </div>
-
   </main>
 </div>
-
 </body>
 </html>

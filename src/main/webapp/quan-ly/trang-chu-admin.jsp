@@ -437,22 +437,22 @@
 
     <div class="sidebar-section">
       <div class="sidebar-section-label">Quản lý</div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/danh-muc'">
         <div class="nav-icon">📂</div>
         Quản lý danh mục
         <span class="nav-badge">4</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/san-pham'">
         <div class="nav-icon">👟</div>
         Quản lý sản phẩm
         <span class="nav-badge">24</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/don-hang'">
         <div class="nav-icon">🛒</div>
         Quản lý đơn hàng
         <span class="nav-badge">7</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/khach-hang'">
         <div class="nav-icon">👥</div>
         Quản lý khách hàng
       </div>
@@ -532,30 +532,28 @@
 
     <!-- QUICK LINKS -->
     <div class="quick-grid">
-      <div class="quick-card">
+      <div class="quick-card" onclick="window.location.href='${pageContext.request.contextPath}/danh-muc'">
         <div class="quick-icon">📂</div>
         <div class="quick-label">Quản lý danh mục</div>
         <div class="quick-desc">Thêm, sửa, xóa danh mục sản phẩm</div>
       </div>
-      <div class="quick-card">
+      <div class="quick-card" onclick="window.location.href='${pageContext.request.contextPath}/san-pham'">
         <div class="quick-icon">👟</div>
         <div class="quick-label">Quản lý sản phẩm</div>
         <div class="quick-desc">Cập nhật thông tin & kho hàng</div>
       </div>
-      <div class="quick-card">
+      <div class="quick-card" onclick="window.location.href='${pageContext.request.contextPath}/don-hang'">
         <div class="quick-icon">🛒</div>
         <div class="quick-label">Quản lý đơn hàng</div>
         <div class="quick-desc">Theo dõi & xử lý đơn hàng</div>
       </div>
-      <div class="quick-card">
+      <div class="quick-card" onclick="window.location.href='${pageContext.request.contextPath}/khach-hang'">
         <div class="quick-icon">👥</div>
         <div class="quick-label">Quản lý khách hàng</div>
         <div class="quick-desc">Danh sách & lịch sử mua hàng</div>
       </div>
     </div>
-
   </main>
 </div>
-
 </body>
 </html>
