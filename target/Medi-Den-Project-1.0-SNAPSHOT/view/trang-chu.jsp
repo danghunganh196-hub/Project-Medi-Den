@@ -63,9 +63,12 @@
             width: 0%;
             height: 2px;
             background: currentColor;
-            transition: width 0.3s ease;
         }
 
+        /* Hover là hiện ngay lập tức */
+        .top-bar .btn:hover::after {
+            width: 100%;
+        }
         /* hover -> chạy từ trái sang phải */
         .top-bar .btn:hover::after {
             width: 100%;
