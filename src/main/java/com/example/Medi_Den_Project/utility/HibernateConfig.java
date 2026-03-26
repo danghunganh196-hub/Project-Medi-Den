@@ -1,6 +1,9 @@
 package com.example.Medi_Den_Project.utility;
 
-import com.example.Medi_Den_Project.entity.*;
+import com.example.Medi_Den_Project.entity.Giay;
+import com.example.Medi_Den_Project.entity.KhachHang;
+import com.example.Medi_Den_Project.entity.TaiKhoan;
+import com.example.Medi_Den_Project.entity.TheLoaiGiay;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -27,8 +30,6 @@ public class HibernateConfig {
          conf.addAnnotatedClass(KhachHang.class);
          conf.addAnnotatedClass(TaiKhoan.class);
          conf.addAnnotatedClass(TheLoaiGiay.class);
-         conf.addAnnotatedClass(HoaDon.class);
-         conf.addAnnotatedClass(HoaDonChiTiet.class);
         conf.setProperties(properties);
         ServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .applySettings(conf.getProperties()).build();

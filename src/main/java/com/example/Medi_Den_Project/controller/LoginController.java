@@ -35,12 +35,10 @@ public class LoginController extends HttpServlet {
             req.getSession().setAttribute("user", tk);
 
             if ("ADMIN".equalsIgnoreCase(tk.getVaiTro())) {
-                req.getSession().setAttribute("role", "ADMIN");
+                resp.sendRedirect("/trang-chu-admin");
             } else {
-                req.getSession().setAttribute("role", "USER");
+                resp.sendRedirect("/giay/hien-thi");
             }
-
-            resp.sendRedirect("/giay/hien-thi");
             return;
         }
     }

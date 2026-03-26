@@ -17,12 +17,14 @@ import java.io.IOException;
         "/khach-hang",
         "/san-pham",
         "/don-hang",
+        "/trang-chu-admin"
 })
 public class QuanLyController extends HttpServlet{
     TheLoaiGiayRepository theLoaiGiayRepository = new TheLoaiGiayRepository();
     KhachHangRepository khachHangRepository = new KhachHangRepository();
     GiayRepository giayRepository = new GiayRepository();
     HoaDonRepository hoaDonRepository = new HoaDonRepository();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,7 +37,13 @@ public class QuanLyController extends HttpServlet{
             sphienThi(req,resp);
         } else if (uri.contains("don-hang")) {
             hdhienThi(req,resp);
+        } else if (uri.contains("trang-chu-admin")) {
+            trangChuAdmin(req,resp);
         }
+    }
+
+    private void trangChuAdmin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/quan-ly/trang-chu-admin.jsp").forward(req,resp);
     }
 
     private void khhienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

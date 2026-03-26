@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
 Created-By: IntelliJ IDEA
+<<<<<<< HEAD
 Built-By: ADMIN
 Build-Jdk: 17.0.12
+=======
+Built-By: Hp
+Build-Jdk: 17.0.1
+>>>>>>> 901322a5e3fa8ffe56dc819060cca1571310d667
 
