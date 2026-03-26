@@ -22,9 +22,6 @@ public class HoaDon {
     @Column(name = "ngay_dat")
     private LocalDate ngayDat;
 
-    @Column(name = "gioi_tinh")
-    private Boolean gioiTinh;
-
     @Column(name = "tong_tien")
     private Double tongTien;
 

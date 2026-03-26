@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <%-- THÊM DÒNG NÀY --%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -355,40 +356,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="sp" items="${listSanPham}">
-                            <tr onclick="chonRow(this, '${sp.id}', '${sp.ten}', '${sp.gia}', '${sp.soLuong}', '${sp.moTa}', '${sp.danhMucId}')">
-                                <td style="color:var(--text-light); font-size:13px;">#${sp.id}</td>
-                                <td>
-                                    <div style="display:flex; align-items:center; gap:12px;">
-                                        <c:choose>
-                                            <c:when test="${not empty sp.hinhAnh}">
-                                                <img src="${sp.hinhAnh}" alt="${sp.ten}" class="product-img">
-                                            </c:when>
-                                            <c:otherwise>
-                                                <div class="product-img-placeholder">👟</div>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <strong>${sp.ten}</strong>
-                                    </div>
-                                </td>
-                                <td>${sp.tenDanhMuc}</td>
-                                <td style="font-weight:700; color:var(--pink);">
-                                    <c:if test="${not empty sp.gia}">
-                                        ${sp.gia} đ
-                                    </c:if>
-                                </td>
-                                <td>${sp.soLuong}</td>
-                                <td>
-                                    <span class="badge ${sp.soLuong > 0 ? 'badge-green' : 'badge-red'}">
-                                        ${sp.soLuong > 0 ? 'Còn hàng' : 'Hết hàng'}
-                                    </span>
-                                </td>
-                                <td style="text-align:right; padding-right:24px;">
-                                    <button class="btn-delete"
-                                        onclick="event.stopPropagation(); xoaSanPham('${sp.id}', '${sp.ten}')">Xóa</button>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                    <c:forEach var="sp" items="${listSanPham}">
+                        <%-- Chú ý: Thứ tự tham số truyền vào chonRow phải khớp với định nghĩa hàm ở dưới script --%>
+                        <tr onclick="chonRow(this, '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.soLuong}', '${sp.size}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}')">
+                            <td style="color:var(--text-light); font-size:13px;">#${sp.id}</td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:12px;">
+                                    <c:choose>
+                                        <c:when test="${not empty sp.hinhAnh}">
+                                            <img src="${sp.hinhAnh}" alt="${sp.tenGiay}" class="product-img">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="product-img-placeholder">👟</div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <strong>${sp.tenGiay}</strong>
+                                </div>
+                            </td>
+                            <td>${sp.theLoaiGiay.tenTheLoai}</td>
+                            <td style="font-weight:700; color:var(--pink);">
+                                <fmt:formatNumber value="${sp.gia}" pattern="#,###"/> đ
+                            </td>
+                            <td>${sp.soLuong}</td>
+                            <td>
+                <span class="badge ${sp.soLuong > 0 ? 'badge-green' : 'badge-red'}">
+                        ${sp.soLuong > 0 ? 'Còn hàng' : 'Hết hàng'}
+                </span>
+                            </td>
+                            <td style="text-align:right; padding-right:24px;">
+                                <button class="btn-delete" onclick="event.stopPropagation(); xoaSanPham('${sp.id}', '${sp.tenGiay}')">Xóa</button>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>

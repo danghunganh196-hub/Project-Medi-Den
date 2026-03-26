@@ -33,7 +33,7 @@ public class QuanLyController extends HttpServlet{
             khhienThi(req,resp);
         } else if (uri.contains("san-pham")) {
             sphienThi(req,resp);
-        } else if (uri.contains("hoa_don")) {
+        } else if (uri.contains("don-hang")) {
             hdhienThi(req,resp);
         }
     }
@@ -49,7 +49,7 @@ public class QuanLyController extends HttpServlet{
     }
 
     private void sphienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("listGiay",giayRepository.getAll());
+        req.setAttribute("listSanPham",giayRepository.getAll());
         req.getRequestDispatcher("/quan-ly/san-pham.jsp").forward(req,resp);
     }
 
