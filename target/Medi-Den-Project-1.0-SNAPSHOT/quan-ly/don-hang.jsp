@@ -8,6 +8,40 @@
     <title>Quản lý Đơn hàng - Medi Den</title>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        .table-wrap { padding: 0; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            padding: 12px 20px;
+            text-align: left;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-light);
+            background: #fdf0f7;
+            border-bottom: 1.5px solid rgba(240,18,122,0.08);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid rgba(240,18,122,0.06);
+            transition: background 0.18s;
+        }
+
+        tbody tr:hover {
+            background: #fdf0f7;
+        }
+
+        tbody td {
+            padding: 13px 20px;
+            font-size: 13.5px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
         :root {
             --pink: #F0127A; --pink-dark: #c70060; --pink-soft: #fce4f0;
             --pink-glow: rgba(240, 18, 122, 0.18); --text-dark: #1a0010;
@@ -55,7 +89,7 @@
     <nav class="sidebar">
         <div class="sidebar-section">
             <div class="sidebar-section-label">Chính</div>
-            <div class="nav-item" onclick="location.href='trang-chu-admin.jsp'">
+            <div class="nav-item" onclick="location.href='/quan-ly/trang-chu-admin.jsp'">
                 <div class="nav-icon">🏠</div> Trang chủ
             </div>
         </div>
@@ -78,6 +112,64 @@
     </nav>
 
     <main class="main">
+        <div class="page-header" style="margin-bottom:16px;">
+            <h1>Quản lý hóa đơn</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Danh sách hóa đơn</span>
+                <span style="font-size:13px; color:var(--text-light);">
+            Tổng: <strong>${listHoaDon.size()}</strong> hóa đơn
+        </span>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Khách hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Địa chỉ</th>
+                        <th style="text-align:right; padding-right:24px;">Hành động</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <c:forEach var="hd" items="${listHoaDon}">
+                        <tr>
+                            <td>#${hd.id}</td>
+
+                            <!-- Khách hàng -->
+                            <td>
+                                    ${hd.khachHang != null ? hd.khachHang.ten : '---'}
+                            </td>
+
+                            <!-- LocalDate -> in thẳng -->
+                            <td>${hd.ngayDat}</td>
+
+                            <!-- Format tiền -->
+                            <td>
+                                    ${hd.tongTien} đ
+                            </td>
+
+                            <td>${hd.trangThai}</td>
+
+                            <td>${hd.diaChi}</td>
+
+                            <td style="text-align:right; padding-right:24px;">
+                                <button class="btn-delete">Xóa</button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
     </main>
 </div>
 

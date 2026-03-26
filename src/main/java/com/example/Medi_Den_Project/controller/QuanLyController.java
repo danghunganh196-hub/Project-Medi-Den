@@ -1,6 +1,5 @@
 package com.example.Medi_Den_Project.controller;
 
-import com.example.Medi_Den_Project.entity.Giay;
 import com.example.Medi_Den_Project.repository.GiayRepository;
 import com.example.Medi_Den_Project.repository.HoaDonRepository;
 import com.example.Medi_Den_Project.repository.KhachHangRepository;
