@@ -1,0 +1,455 @@
+/* --- 1. Reset & Cài đặt chung --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* --- 2. Header & Navigation --- */
+header {
+    background-color: #e91e63;
+    /* Màu hồng chủ đạo */
+    color: white;
+    padding: 10px 5%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar {
+    text-align: right;
+    font-size: 13px;
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Đẩy Logo - Menu - Search ra 3 phần */
+    gap: 20px;
+}
+
+/* Cụm Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+}
+
+.logo img {
+    height: 90px;
+    /* Độ cao logo - bạn có thể tăng lên 120px tùy ý */
+    width: auto;
+    border-radius: 15px;
+    background: white;
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+}
+
+.logo h1 {
+    font-size: 30px;
+    color: white;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+/* Menu chính */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: 0.3s;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover {
+    border-bottom: 2px solid white;
+}
+
+/* Ô tìm kiếm */
+.search-box {
+    display: flex;
+    background: white;
+    border-radius: 25px;
+    padding: 4px 4px 4px 15px;
+    min-width: 250px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+}
+
+.search-box button {
+    background: #ad1457;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-box button:hover {
+    background: #333;
+}
+
+.container {
+    display: flex;
+    padding: 20px 3%;
+    gap: 40px;
+    max-width: 1400px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    /* Cấu hình đứng im tuyệt đối */
+    position: fixed;
+    left: 20px;            /* Cách lề trái màn hình 20px */
+    top: 150px;            /* Cách lề trên màn hình 150px (để không đè vào Header) */
+    z-index: 100;          /* Đảm bảo nó luôn nằm trên các lớp khác */
+}
+
+.icon-btn {
+    font-size: 26px;
+    color: #555;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.icon-btn:hover {
+    color: #e91e63;
+    transform: scale(1.2);
+}
+
+/* --- 4. Danh sách sản phẩm (Grid) --- */
+/* Thay đổi quan trọng: Dàn hàng tự động thay vì dùng width 500px */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    width: 100%;
+}
+
+.product-card {
+    background: white;
+    border-radius: 20px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #eee;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.product-img img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    /* Làm ảnh thành hình vuông cho đều */
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.product-card h3 {
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.price {
+    color: #e91e63;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.add-cart {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.add-cart:hover {
+    background: #e91e63;
+}
+
+/* --- 5. Responsive (Cho điện thoại) --- */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .nav-links {
+        gap: 10px;
+        font-size: 14px;
+    }
+}
+
+.slidechuyen {
+    width: 100%;
+    height: 450px;
+    /* Độ cao của banner */
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Giúp ảnh phủ kín khung mà không bị móp */
+}
+
+/* Tùy chỉnh màu sắc nút điều hướng theo tone hồng của bạn */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #e91e63 !important;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    transition: all 0.3s ease;
+    background-color: rgb(83, 82, 82);
+}
+
+.swiper-pagination-bullet-active {
+    background: #e91e63 !important;
+}
+/* Container bao ngoài */
+.services-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 5%;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin: 20px 0;
+    flex-wrap: wrap; /* Tự xuống hàng nếu màn hình nhỏ */
+    gap: 20px;
+}
+
+/* Từng mục nhỏ */
+.service-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1; /* Chia đều chiều rộng cho 4 cột */
+    min-width: 200px;
+}
+
+/* Vòng tròn chứa icon */
+.service-icon {
+    width: 55px;
+    height: 55px;
+    border: 1.5px solid #91b3d1; /* Màu xanh nhạt như hình */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: #91b3d1;
+    flex-shrink: 0; /* Không cho vòng tròn bị bóp méo */
+}
+
+/* Phần chữ */
+.service-text h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.service-text p {
+    font-size: 13px;
+    color: #777;
+    margin: 0;
+}
+.title{
+    text-align: center;
+}
+/* Responsive cho điện thoại */
+@media (max-width: 768px) {
+    .services-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Chia 2 cột trên mobile */
+    }
+}
+footer {
+    background-color: #e91e63; /* Màu hồng chủ đạo */
+    color: white;
+    padding: 60px 5% 40px;
+    width: 100%;
+    margin-top: 50px;
+}
+
+/* Dàn hàng ngang logo các hãng */
+.footer-brands {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px; /* Khoảng cách giữa các logo */
+    padding-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.brand-item img {
+    height: 35px;
+    width: auto;
+    /* Biến logo gốc thành màu trắng cho sang trên nền hồng */
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.brand-item img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.footer-divider {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin-bottom: 40px;
+}
+
+/* Bố cục 4 cột */
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-col h4 {
+    margin-bottom: 25px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 12px;
+}
+
+.footer-col ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-col ul li a:hover {
+    color: white;
+    padding-left: 5px;
+}
+
+/* Form đăng ký nhận tin */
+.subscribe-form {
+    display: flex;
+    background: white;
+    border-radius: 25px;
+    padding: 3px;
+    margin-bottom: 20px;
+}
+
+.subscribe-form input {
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    flex: 1;
+    border-radius: 25px;
+}
+
+.subscribe-form button {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Icon MXH */
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    width: 35px;
+    height: 35px;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    background: white;
+    color: #e91e63;
+}
