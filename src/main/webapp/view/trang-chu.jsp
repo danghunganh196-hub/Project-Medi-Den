@@ -12,6 +12,7 @@
     <title>Medi Den</title>
     <meta charset="UTF-8">
     <base href="${pageContext.request.contextPath}/">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -46,7 +47,33 @@
             margin-bottom: 8px;
             opacity: 0.9;
         }
+        .top-bar .btn {
+            position: relative;
+            text-decoration: none;
+            color: white;
+            font-size: 13px;
+            padding: 7px;
+            border-radius: 12px;
+        }
 
+        .top-bar .btn::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0%;
+            height: 2px;
+            background: currentColor;
+        }
+
+        /* Hover là hiện ngay lập tức */
+        .top-bar .btn:hover::after {
+            width: 100%;
+        }
+        /* hover -> chạy từ trái sang phải */
+        .top-bar .btn:hover::after {
+            width: 100%;
+        }
         .navbar {
             display: flex;
             align-items: center;
@@ -924,7 +951,10 @@
                 },
             });
         });    </script>
-    <div class="top-bar">Đăng nhập | Đăng ký</div>
+    <div class="top-bar">
+        <a class="btn login" href="view/dang-nhap.jsp">Đăng nhập</a>
+        <a class="btn register" href="view/dang-ky.jsp">Đăng ký</a>
+    </div>
     <nav class="navbar">
         <div class="logo">
 
@@ -965,8 +995,32 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <aside class="sidebar">
     <div class="icon-btn"><i class="fas fa-shopping-cart"></i></div>
+    <!-- Thêm id và thẻ số lượng vào đây -->
+    <div class="icon-btn" id="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count">0</span> <!-- Số nhảy ở đây -->
+    </div>
     <div class="icon-btn"><i class="fas fa-cog"></i></div>
 </aside>
+
+<div id="mini-cart" class="mini-cart">
+    <div class="cart-header">
+        <h3>GIỎ HÀNG</h3>
+        <span class="close-mini-cart" onclick="toggleCart()">&times;</span>
+    </div>
+
+    <div id="cart-items-list">
+        <!-- Sản phẩm sẽ tự động hiện ở đây qua JavaScript -->
+    </div>
+
+    <div class="cart-footer">
+        <div class="total-price">
+            <span>TỔNG TIỀN:</span>
+            <span id="cart-total-amount">0đ</span>
+        </div>
+        <button class="btn-checkout">THANH TOÁN</button>
+    </div>
+</div>
 <div class="content">
     <div class="services-container">
         <!-- Mục 1 -->
@@ -1147,5 +1201,6 @@
         </div>
     </div>
 </footer>
+<script src="${pageContext.request.contextPath}/view/script.js"></script>
 </body>
 </html>
