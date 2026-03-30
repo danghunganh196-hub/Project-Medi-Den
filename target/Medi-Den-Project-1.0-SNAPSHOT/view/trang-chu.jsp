@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.example.Medi_Den_Project.entity.TaiKhoan" %><%--
   Created by IntelliJ IDEA.
   User: ADMIN
   Date: 3/19/2026
@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.example.Medi_Den_Project.entity.TaiKhoan" %>
+
 <html>
 <head>
     <title>Medi Den</title>
@@ -18,8 +20,19 @@
 <body>
 <header>
     <div class="top-bar">
-        <a class="btn login" href="view/dang-nhap.jsp">Đăng nhập</a>
-        <a class="btn register" href="view/dang-ky.jsp">Đăng ký</a>
+        <%
+            TaiKhoan user = (TaiKhoan) session.getAttribute("user");
+            if (user == null) {
+        %>
+        <a class="btn login" href="/view/dang-nhap.jsp">Đăng nhập</a>
+        <a class="btn register" href="/view/dang-ky.jsp">Đăng ký</a>
+        <%
+        } else {
+        %>
+        <span>Xin chào, <b><%= user.getUsername() %></b></span>
+        <a class="btn logout" href="${pageContext.request.contextPath}/logout">Đăng xuất</a> <%
+        }
+    %>
     </div>
     <nav class="navbar">
         <div class="logo">
@@ -28,52 +41,54 @@
             <h1>Medi Den</h1>
         </div>
         <ul class="nav-links">
-            <!-- Menu NIKE -->
+            <!-- Giày Thể Thao -->
             <li class="dropdown">
                 <a href="#">Giày Thể Thao <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="#">GIÀY NIKE NAM</a></li>
-                    <li><a href="#">GIÀY NIKE NỮ</a></li>
-                    <li><a href="#">Jordan</a></li>
-                    <li><a href="#">Air Force 1</a></li>
-                    <li><a href="#">Air Zoom Pegasus</a></li>
+                    <li><a href="#">Nike Running</a></li>
+                    <li><a href="#">Adidas Running</a></li>
+                    <li><a href="#">Training</a></li>
+                    <li><a href="#">Basketball</a></li>
                 </ul>
             </li>
 
-            <!-- Menu ADIDAS -->
+            <!-- Giày Thời Trang -->
             <li class="dropdown">
                 <a href="#">Giày Thời Trang <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="#">Ultra Boost</a></li>
-                    <li><a href="#">Adidas NMD</a></li>
+                    <li><a href="#">Air Force 1</a></li>
+                    <li><a href="#">Jordan</a></li>
                     <li><a href="#">Stan Smith</a></li>
                     <li><a href="#">Superstar</a></li>
+                    <li><a href="#">Vans Old Skool</a></li>
                 </ul>
             </li>
 
-            <!-- Menu JORDAN -->
+            <!-- Giày Theo Hãng -->
             <li class="dropdown">
                 <a href="#">Giày Theo Hãng <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="#">Jordan 1 High</a></li>
-                    <li><a href="#">Jordan 1 Low</a></li>
-                    <li><a href="#">Jordan 4</a></li>
+                    <li><a href="#">Nike</a></li>
+                    <li><a href="#">Adidas</a></li>
+                    <li><a href="#">Puma</a></li>
+                    <li><a href="#">New Balance</a></li>
+                    <li><a href="#">Converse</a></li>
                 </ul>
             </li>
 
-            <!-- Menu HÃNG KHÁC -->
+            <!-- Giày Công Sở -->
             <li class="dropdown">
-                <a href="#">HÃNG KHÁC <i class="fas fa-chevron-down"></i></a>
+                <a href="#">Giày Công Sở <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="#">PUMA</a></li>
-                    <li><a href="#">New Balance</a></li>
-                    <li><a href="#">Converse</a></li>
-                    <li><a href="#">Vans</a></li>
+                    <li><a href="#">Giày da nam</a></li>
+                    <li><a href="#">Giày lười</a></li>
+                    <li><a href="#">Giày Oxford</a></li>
+                    <li><a href="#">Giày Loafer</a></li>
                 </ul>
             </li>
         </ul>
         <div class="search-box">
-            <input type="text" placeholder="Tìm kiếm...">
+            <input type="text" name="search" placeholder="Tìm kiếm...">
             <button><i class="fas fa-search"></i></button>
         </div>
     </nav>
@@ -182,13 +197,14 @@
             </div>
             <h3>${sp.tenGiay}</h3>
             <p class="price">
-                <fmt:formatNumber value="${sp.gia}" pattern="#,###" /> VNĐ
+                <fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ
             </p>
             <button class="add-cart"
                     onclick="openModal('${sp.tenGiay}', '${sp.gia}', '${sp.hinhAnh}', '${sp.thuongHieu}')">
                 Xem chi tiết
             </button>
-        </div> </c:forEach>
+        </div>
+    </c:forEach>
 </main>
 <div id="productModal" class="modal">
     <div class="modal-content">
