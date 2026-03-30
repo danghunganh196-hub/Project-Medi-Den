@@ -12,15 +12,20 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(value = {
-        "/login"
+        "/login", "/logout"
 })
 public class LoginController extends HttpServlet {
     TaiKhoanRepository repo = new TaiKhoanRepository();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
-        if(uri.contains("login")){
-            req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req,resp);
+        if (uri.contains("login")) {
+            req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
+        }
+        if (uri.contains("logout")) {
+            req.getSession().invalidate(); // Xoá session user
+            resp.sendRedirect(req.getContextPath() + "/login"); // quay về trang login
         }
     }
 
@@ -28,18 +33,22 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+
         TaiKhoan tk = repo.login(username, password);
 
         if (tk != null) {
-
-            req.getSession().setAttribute("user", tk);
+            req.getSession().setAttribute("user", tk); // lưu session user
 
             if ("ADMIN".equalsIgnoreCase(tk.getVaiTro())) {
-                resp.sendRedirect("/trang-chu-admin");
+                resp.sendRedirect(req.getContextPath() + "/trang-chu-admin");
             } else {
-                resp.sendRedirect("/giay/hien-thi");
+                resp.sendRedirect(req.getContextPath() + "/giay/hien-thi");
             }
             return;
+        } else {
+            req.setAttribute("error", "Sai tài khoản hoặc mật khẩu");
+            req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
         }
+
     }
 }
