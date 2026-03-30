@@ -37,8 +37,8 @@ const swiper = new Swiper('.swiper', {
 
     // Nút mũi tên
     navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: '.swiper-button-prev',
+        prevEl: '.swiper-button-next',
     },
 });
 document.addEventListener("DOMContentLoaded", function () {

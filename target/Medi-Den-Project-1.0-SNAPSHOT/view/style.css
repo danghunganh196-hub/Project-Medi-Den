@@ -1,4 +1,3 @@
-
 /* --- 1. Reset & Cài đặt chung --- */
 * {
     margin: 0;
@@ -146,9 +145,6 @@ header {
 }
 
 .container {
-    display: flex;
-    padding: 20px 3%;
-    gap: 40px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 30px;
@@ -182,23 +178,10 @@ header {
     transform: scale(1.2);
 }
 
-/* --- 4. Danh sách sản phẩm (Grid) --- */
-/* Thay đổi quan trọng: Dàn hàng tự động thay vì dùng width 500px */
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 30px;
-    width: 100%;
-}
 
 .product-card {
     background: white;
     border-radius: 20px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-    cursor: pointer;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     display: flex;
@@ -220,21 +203,16 @@ header {
 }
 
 .product-img img {
-    width: 100%;
-    aspect-ratio: 1/1;
-    /* Làm ảnh thành hình vuông cho đều */
     width: 100%;             /* SỬA LỖI: Không để 275px nữa mà để 100% */
     display: block;
     aspect-ratio: 1/1;       /* Giữ ảnh luôn là hình vuông */
     object-fit: cover;
     border-radius: 15px;
-    margin-bottom: 15px;
 }
 
 .product-card h3 {
     font-size: 18px;
     color: #222;
-    margin-bottom: 8px;
     margin-bottom: 10px;
     text-align: center;
 }

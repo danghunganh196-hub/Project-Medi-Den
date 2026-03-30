@@ -23,17 +23,54 @@
     </div>
     <nav class="navbar">
         <div class="logo">
-
             <img src="/images/logo/Screenshot 2026-03-19 014252.png" style="border-radius: 20px;" width="20%"
                  alt="Logo">
             <h1>Medi Den</h1>
         </div>
         <ul class="nav-links">
-            <li><a href="#">Giày Thể Thao</a></li>
-            <li><a href="#">Giày Thời Trang</a></li>
-            <li><a href="#">Giày Thể Thao</a></li>
-            <li><a href="#">Giày Thời Trang</a></li>
+            <!-- Menu NIKE -->
+            <li class="dropdown">
+                <a href="#">Giày Thể Thao <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+                    <li><a href="#">GIÀY NIKE NAM</a></li>
+                    <li><a href="#">GIÀY NIKE NỮ</a></li>
+                    <li><a href="#">Jordan</a></li>
+                    <li><a href="#">Air Force 1</a></li>
+                    <li><a href="#">Air Zoom Pegasus</a></li>
+                </ul>
+            </li>
 
+            <!-- Menu ADIDAS -->
+            <li class="dropdown">
+                <a href="#">Giày Thời Trang <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Ultra Boost</a></li>
+                    <li><a href="#">Adidas NMD</a></li>
+                    <li><a href="#">Stan Smith</a></li>
+                    <li><a href="#">Superstar</a></li>
+                </ul>
+            </li>
+
+            <!-- Menu JORDAN -->
+            <li class="dropdown">
+                <a href="#">Giày Theo Hãng <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Jordan 1 High</a></li>
+                    <li><a href="#">Jordan 1 Low</a></li>
+                    <li><a href="#">Jordan 4</a></li>
+                </ul>
+            </li>
+
+            <!-- Menu HÃNG KHÁC -->
+            <li class="dropdown">
+                <a href="#">Giày Công Sở<i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+                    <li><a href="#">PUMA</a></li>
+                    <li><a href="#">New Balance</a></li>
+                    <li><a href="#">Converse</a></li>
+                    <li><a href="#">Vans</a></li>
+                </ul>
+            </li>
         </ul>
         <div class="search-box">
             <input type="text" placeholder="Tìm kiếm...">
