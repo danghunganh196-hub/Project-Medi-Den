@@ -1,23 +1,49 @@
-<%@ page import="com.example.Medi_Den_Project.entity.TaiKhoan" %><%--
-  Created by IntelliJ IDEA.
-  User: ADMIN
-  Date: 3/19/2026
-  Time: 10:26 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.example.Medi_Den_Project.entity.TaiKhoan" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="com.example.Medi_Den_Project.entity.TaiKhoan" %>
 
 <html>
 <head>
-    <title>Medi Den</title>
+    <title>Sản phẩm ${param.brand} - Medi Den</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* CSS Tinh chỉnh riêng cho trang danh mục */
+        .collection-wrapper { background-color: #f9f9f9; padding: 40px 0; min-height: 80vh; }
+        .adidas-style-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background: #fff; border-radius: 12px; padding: 20px;
+            text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: 0.3s; border: 1px solid #eee;
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .product-card img { max-width: 100%; height: 220px; object-fit: contain; margin-bottom: 15px; }
+        .product-card h3 { font-size: 18px; color: #333; margin: 10px 0; height: 45px; overflow: hidden; }
+        .product-card .price { color: #ff1493; font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
+
+        .collection-header { text-align: center; margin-bottom: 30px; }
+        .collection-header h1 { text-transform: uppercase; font-weight: 800; margin-bottom: 10px; }
+        .btn-back { color: #ff1493; text-decoration: none; font-weight: 500; transition: 0.3s; }
+        .btn-back:hover { text-decoration: underline; }
+
+        .toolbar {
+            max-width: 1200px; margin: 0 auto 20px;
+            display: flex; justify-content: flex-end; align-items: center; gap: 15px;
+        }
+        .sort-dropdown { padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd; outline: none; }
+    </style>
 </head>
 <body>
+
 <header>
     <div class="top-bar">
         <%
@@ -97,167 +123,35 @@
     </nav>
 
 </header>
-<div class="slidechuyen">
-    <div class="swiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1552346154-21d32810aba3"
-                                           alt="Banner 1"></div>
-            <div class="swiper-slide"><img
-                    src="https://www.elleman.vn/app/uploads/2018/08/13/gi%C3%A0y-sneakers-2-elle-man-8.jpg"
-                    alt="Banner 2"></div>
-            <div class="swiper-slide"><img
-                    src="https://png.pngtree.com/thumb_back/fh260/background/20220929/pngtree-shoes-promotion-banner-background-image_1466238.jpg"
-                    alt="Banner 3"></div>
-        </div>
-        <div class="swiper-pagination"></div>
 
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
-</div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<aside class="sidebar">
-    <!-- Thêm id và thẻ số lượng vào đây -->
-    <div class="icon-btn" id="cart-icon">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cart-count">0</span> <!-- Số nhảy ở đây -->
-    </div>
-    <div class="icon-btn"><i class="fas fa-cog"></i></div>
-</aside>
-
-<div id="mini-cart" class="mini-cart">
-    <div class="cart-header">
-        <h3>GIỎ HÀNG</h3>
-        <span class="close-mini-cart" onclick="toggleCart()">&times;</span>
+<div class="collection-wrapper">
+    <div class="collection-header">
+        <h1>GIÀY CHÍNH HÃNG ${param.brand}</h1>
+        <a href="${pageContext.request.contextPath}/giay/hien-thi" class="btn-back">← Quay về trang chủ</a>
     </div>
 
-    <div id="cart-items-list">
-        <!-- Sản phẩm sẽ tự động hiện ở đây qua JavaScript -->
+    <div class="toolbar">
+        <span id="product-count">${listGiay.size()} sản phẩm</span>
+        <select id="sortPrice" class="sort-dropdown" onchange="sortProducts()">
+            <option value="default">Sắp xếp: Mặc định</option>
+            <option value="asc">Giá: Thấp đến Cao</option>
+            <option value="desc">Giá: Cao đến Thấp</option>
+        </select>
     </div>
 
-    <div class="cart-footer">
-        <div class="total-price">
-            <span>TỔNG TIỀN:</span>
-            <span id="cart-total-amount">0đ</span>
-        </div>
-        <button class="btn-checkout">THANH TOÁN</button>
-    </div>
-</div>
-<div class="content">
-    <div class="services-container">
-        <!-- Mục 1 -->
-        <div class="service-item">
-            <div class="service-icon">
-                <i class="fas fa-truck"></i>
+    <main class="adidas-style-grid" id="productList">
+        <c:forEach var="sp" items="${listGiay}">
+            <div class="product-card" data-price="${sp.gia}">
+                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}" onerror="this.src='https://via.placeholder.com/300x220?text=Medi+Den'">
+                <h3>${sp.tenGiay}</h3>
+                <p class="price"><fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ</p>
+                <button class="add-cart" style="width:100%; padding:10px; background:#333; color:#fff; border:none; border-radius:5px; cursor:pointer"
+                        onclick="openModal('${sp.tenGiay}', '${sp.gia}', '${sp.hinhAnh}', '${sp.thuongHieu}')">
+                    Xem chi tiết
+                </button>
             </div>
-            <div class="service-text">
-                <h3>Vận chuyển toàn quốc</h3>
-                <p>Vận chuyển nhanh chóng</p>
-            </div>
-        </div>
-
-        <!-- Mục 2 -->
-        <div class="service-item">
-            <div class="service-icon">
-                <i class="fas fa-gift"></i>
-            </div>
-            <div class="service-text">
-                <h3>Ưu đãi hấp dẫn</h3>
-                <p>Nhiều ưu đãi khuyến mãi hot</p>
-            </div>
-        </div>
-
-        <!-- Mục 3 -->
-        <div class="service-item">
-            <div class="service-icon">
-                <i class="fas fa-award"></i>
-            </div>
-            <div class="service-text">
-                <h3>Bảo đảm chất lượng</h3>
-                <p>Sản phẩm đã được kiểm định</p>
-            </div>
-        </div>
-
-        <!-- Mục 4 -->
-        <div class="service-item">
-            <div class="service-icon">
-                <i class="fas fa-headset"></i>
-            </div>
-            <div class="service-text">
-                <h3>Hotline: 0999999999</h3>
-                <p>Vui lòng gọi hotline để hỗ trợ</p>
-            </div>
-        </div>
-    </div>
-</div>
-<h1 class="title">GIÀY CHÍNH HÃNG NIKE</h1>
-<main class="container">
-    <c:forEach var="sp" items="${listGiay}">
-        <div class="product-card">
-            <div class="product-img">
-                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}">
-            </div>
-            <h3>${sp.tenGiay}</h3>
-            <p class="price">
-                <fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ
-            </p>
-            <button class="add-cart"
-                    onclick="openModal('${sp.tenGiay}', '${sp.gia}', '${sp.hinhAnh}', '${sp.thuongHieu}')">
-                Xem chi tiết
-            </button>
-        </div>
-    </c:forEach>
-</main>
-<div id="productModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <div class="modal-body">
-            <!-- Bên trái: Ảnh lớn -->
-            <div class="modal-left">
-                <img id="modalImg" src="" alt="Sản phẩm">
-            </div>
-
-            <!-- Bên phải: Thông tin chi tiết -->
-            <div class="modal-right">
-                <h2 id="modalName">Tên sản phẩm</h2>
-                <p class="brand-info">Thương hiệu: <span id="modalBrand">Chính hãng</span> | Tình trạng: <span>Còn
-                            hàng</span></p>
-                <div class="modal-price-container">
-                    <span id="modalPrice" class="price-main">0đ</span>
-                </div>
-
-                <p id="modalDesc" class="product-description"></p>
-
-                <div class="size-section">
-                    <h4>Kích thước:</h4>
-                    <div class="size-options">
-                        <button>40.5</button>
-                        <button>42</button>
-                        <button>42.5</button>
-                    </div>
-                </div>
-
-                <div class="quantity-section">
-                    <h4>Số lượng:</h4>
-                    <div class="qty-input">
-                        <button>-</button>
-                        <input type="number" value="1" min="1">
-                        <button>+</button>
-                    </div>
-                </div>
-
-                <div class="modal-actions">
-                    <button class="btn-buy-now" onclick="buyNowFromModal()">
-                        MUA NGAY <br><span>Giao hàng thanh toán (COD)</span>
-                    </button>
-
-                    <button class="btn-add-to-cart" onclick="addToCart()">THÊM VÀO GIỎ <br><span>Thêm để mua
-                                sau</span></button>
-                </div>
-            </div>
-        </div>
-    </div>
+        </c:forEach>
+    </main>
 </div>
 <footer>
     <div class="footer-brands">
@@ -331,6 +225,26 @@
         </div>
     </div>
 </footer>
+<script>
+    // Hàm sắp xếp sản phẩm theo giá không cần tải lại trang
+    function sortProducts() {
+        const sortValue = document.getElementById('sortPrice').value;
+        const productList = document.getElementById('productList');
+        const products = Array.from(productList.getElementsByClassName('product-card'));
+
+        if (sortValue === 'default') return;
+
+        products.sort((a, b) => {
+            const priceA = parseFloat(a.getAttribute('data-price'));
+            const priceB = parseFloat(b.getAttribute('data-price'));
+            return sortValue === 'asc' ? priceA - priceB : priceB - priceA;
+        });
+
+        // Xóa danh sách cũ và chèn danh sách đã sắp xếp
+        productList.innerHTML = '';
+        products.forEach(p => productList.appendChild(p));
+    }
+</script>
 <script src="${pageContext.request.contextPath}/view/script.js"></script>
 </body>
 </html>
