@@ -196,15 +196,21 @@
     <c:forEach var="sp" items="${listGiay}">
         <div class="product-card">
             <div class="product-img">
-                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}">
+                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}"
+                     onerror="this.src='${pageContext.request.contextPath}/images/default-shoe.jpg'">
             </div>
             <h3>${sp.tenGiay}</h3>
             <p class="price">
                 <fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ
             </p>
+
             <button class="add-cart"
-                    onclick="openModal('${sp.tenGiay}', '${sp.gia}', '${sp.hinhAnh}', '${sp.thuongHieu}')">
-                Xem chi tiết
+                    onclick="openProductModal(this)"
+                    data-id="${sp.id}"
+                    data-name="${sp.tenGiay}"
+                    data-price="${sp.gia}"
+                    data-img="${sp.hinhAnh}"
+                    data-brand="${sp.thuongHieu}"> Xem chi tiết
             </button>
         </div>
     </c:forEach>
@@ -259,6 +265,91 @@
         </div>
     </div>
 </div>
+<!-- PHẦN THANH TOÁN 3 BƯỚC (Dán vào đây) -->
+<div id="checkout-modal" class="modal">
+    <div class="modal-content checkout-container">
+        <span class="close-btn" onclick="closeCheckout()">&times;</span>
+
+        <div class="checkout-layout">
+            <!-- Cột trái: Các bước nhập liệu -->
+            <div class="checkout-main">
+                <!-- Bước 1: Thông tin -->
+                <div id="step-1" class="checkout-step active">
+                    <h2 class="pink-title">Thông tin giao hàng</h2>
+                    <form id="form-info">
+                        <div class="input-group">
+                            <input type="text" id="fullname" placeholder="Họ và tên" class="pink-input">
+                            <small class="error-msg" id="name-error"></small>
+                        </div>
+
+                        <div class="row-flex">
+                            <div class="input-group">
+                                <input type="email" id="email" placeholder="Email" class="pink-input">
+                                <small class="error-msg" id="email-error"></small>
+                            </div>
+                            <div class="input-group">
+                                <input type="tel" id="phone" placeholder="Số điện thoại" class="pink-input">
+                                <small class="error-msg" id="phone-error"></small>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="text" id="address" placeholder="Địa chỉ nhận hàng" class="pink-input">
+                            <small class="error-msg" id="address-error"></small>
+                        </div>
+
+                        <button type="button" class="btn-pink-large" onclick="validateStep1()">TIẾP TỤC ĐẾN PHƯƠNG
+                            THỨC THANH TOÁN</button>
+                    </form>
+                </div>
+
+                <!-- Bước 2: Thanh toán -->
+                <div id="step-2" class="checkout-step">
+                    <h3 class="pink-title">Phương thức vận chuyển</h3>
+                    <div class="shipping-box">
+                        <input type="radio" checked> Giao hàng tận nơi - 35,000đ
+                    </div>
+
+                    <h3 class="pink-title">Phương thức thanh toán</h3>
+                    <div class="payment-methods">
+                        <label class="payment-item">
+                            <input type="radio" name="payment" value="COD" checked>
+                            <span>Thanh toán khi giao hàng (COD)</span>
+                        </label>
+                        <label class="payment-item">
+                            <input type="radio" name="payment" value="Bank">
+                            <span>Chuyển khoản qua ngân hàng</span>
+                        </label>
+
+                        <div id="bank-info" class="bank-details-box">
+                            <p>Ngân hàng TMCP Kỹ Thương Việt Nam (Techcombank)</p>
+                            <p>STK: <strong>19061706200888</strong></p>
+                            <p>Chủ TK: <strong>DANG HUNG ANH</strong></p>
+                            <p class="note">*Vui lòng ghi nội dung: [Họ tên + SĐT đặt hàng]</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-pink-large" onclick="completeOrder()">HOÀN TẤT ĐƠN
+                        HÀNG</button>
+                </div>
+
+                <!-- Bước 3: Hoàn tất -->
+                <div id="step-3" class="checkout-step text-center">
+                    <div class="success-icon">♥</div>
+                    <h2 class="pink-title">Đặt hàng thành công!</h2>
+                    <p>Cảm ơn bạn đã tin tưởng <strong>Medi Den</strong>.</p>
+                    <div class="order-info-summary">
+                        <p><strong>Người nhận:</strong> <span id="res-name"></span></p>
+                        <p><strong>Số điện thoại:</strong> <span id="res-phone"></span></p>
+                        <p><strong>Địa chỉ:</strong> <span id="res-address"></span></p>
+                        <p><strong>Thanh toán:</strong> <span id="res-payment"></span></p>
+                    </div>
+                    <button class="btn-pink-large" onclick="location.reload()">TIẾP TỤC MUA SẮM</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer>
     <div class="footer-brands">
         <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg"
@@ -331,6 +422,10 @@
         </div>
     </div>
 </footer>
+<script>
+    // Khai báo biến toàn cục contextPath để file script.js có thể dùng
+    window.contextPath = '${pageContext.request.contextPath}';
+</script>
 <script src="${pageContext.request.contextPath}/view/script.js"></script>
 </body>
 </html>
