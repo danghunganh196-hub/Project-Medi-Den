@@ -89,6 +89,17 @@
                     <li><a href="#">Giày Loafer</a></li>
                 </ul>
             </li>
+
+            <!-- Giày Cao cấp -->
+            <li class="dropdown">
+                <a href="#">Giày Cao cấp <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Giày da nam</a></li>
+                    <li><a href="#">Giày lười</a></li>
+                    <li><a href="#">Giày Oxford</a></li>
+                    <li><a href="#">Giày Loafer</a></li>
+                </ul>
+            </li>
         </ul>
         <div class="search-box">
             <input type="text" name="search" placeholder="Tìm kiếm...">
