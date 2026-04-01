@@ -6,7 +6,7 @@ function openModal(name, price, img, brand) {
     document.getElementById("modalPrice").innerText = formattedPrice + " VNĐ";
 
     document.getElementById("modalImg").src = img;
-    document.getElementById("modalBrand").innerText = brand;
+    document.getElementBycompleteOrderId("modalBrand").innerText = brand;
     document.getElementById("productModal").style.display = "block";
 }
 function closeModal() {
@@ -251,19 +251,31 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     window.completeOrder = function () {
-        document.getElementById('res-name').innerText = document.getElementById('fullname').value;
-        document.getElementById('res-phone').innerText = document.getElementById('phone').value;
-        document.getElementById('res-address').innerText = document.getElementById('address').value;
 
-        const payMethod = document.querySelector('input[name="payment"]:checked').value;
+        const orderData = {
+            name: document.getElementById('fullname').value,
+            phone: document.getElementById('phone').value,
+            address: document.getElementById('address').value,
+            payment: document.querySelector('input[name="payment"]:checked').value,
+            cart: cart
+        };
 
-        document.getElementById('res-payment').innerText =
-            payMethod === 'COD' ? "Thanh toán khi nhận hàng" : "Chuyển khoản";
+        fetch('/hoa-don/thanh-toan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        })
+            .then(res => res.text())
+            .then(data => {
+                console.log(data);
 
-        document.getElementById('step-2').classList.remove('active');
-        document.getElementById('step-3').classList.add('active');
+                document.getElementById('step-2').classList.remove('active');
+                document.getElementById('step-3').classList.add('active');
+            })
+            .catch(err => console.error(err));
     };
-
     // ===== MUA NGAY =====
     window.buyNowFromModal = function () {
         closeModal();
