@@ -10,8 +10,5 @@
         <module name="Medi-Den-Project" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Medi-Den-Project" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
