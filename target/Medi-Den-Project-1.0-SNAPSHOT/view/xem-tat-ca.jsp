@@ -216,7 +216,7 @@
             </div>
             <div class="social-icons">
                 <a href="https://www.facebook.com/dang.hung.anh.887452"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/accounts/login/?next=%2Fnoobbon3793%2F&source=omni_redirect"><i
+                <a href="https://www.institagram.com/accounts/login/?next=%2Fnoobbon3793%2F&source=omni_redirect"><i
                         class="fab fa-instagram"></i></a>
                 <a href="https://www.youtube.com/@nercatto-w6n"><i class="fa-brands fa-youtube"></i>
                 </a>
