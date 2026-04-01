@@ -11,7 +11,9 @@ body {
     color: #333;
     line-height: 1.6;
 }
-
+#bank-info {
+    display: none;
+}
 /* --- 2. Header & Navigation --- */
 header {
     background-color: #e91e63;

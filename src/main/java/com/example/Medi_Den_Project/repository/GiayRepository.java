@@ -89,4 +89,8 @@ public class GiayRepository {
             return null;
         }
     }
-}
+    public Giay findByName(Session session, String name) {
+        return session.createQuery("FROM Giay WHERE tenGiay = :name", Giay.class)
+                .setParameter("name", name)
+                .uniqueResult();
+    }}

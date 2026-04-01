@@ -196,15 +196,21 @@
     <c:forEach var="sp" items="${listGiay}">
         <div class="product-card">
             <div class="product-img">
-                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}">
+                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}"
+                     onerror="this.src='${pageContext.request.contextPath}/images/default-shoe.jpg'">
             </div>
             <h3>${sp.tenGiay}</h3>
             <p class="price">
                 <fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ
             </p>
+
             <button class="add-cart"
-                    onclick="openModal('${sp.tenGiay}', '${sp.gia}', '${sp.hinhAnh}', '${sp.thuongHieu}')">
-                Xem chi tiết
+                    onclick="openProductModal(this)"
+                    data-id="${sp.id}"
+                    data-name="${sp.tenGiay}"
+                    data-price="${sp.gia}"
+                    data-img="${sp.hinhAnh}"
+                    data-brand="${sp.thuongHieu}"> Xem chi tiết
             </button>
         </div>
     </c:forEach>
@@ -416,6 +422,10 @@
         </div>
     </div>
 </footer>
+<script>
+    // Khai báo biến toàn cục contextPath để file script.js có thể dùng
+    window.contextPath = '${pageContext.request.contextPath}';
+</script>
 <script src="${pageContext.request.contextPath}/view/script.js"></script>
 </body>
 </html>
