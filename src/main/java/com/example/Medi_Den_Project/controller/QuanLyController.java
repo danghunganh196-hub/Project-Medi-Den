@@ -1,5 +1,6 @@
 package com.example.Medi_Den_Project.controller;
 
+import com.example.Medi_Den_Project.entity.TheLoaiGiay;
 import com.example.Medi_Den_Project.repository.GiayRepository;
 import com.example.Medi_Den_Project.repository.HoaDonRepository;
 import com.example.Medi_Den_Project.repository.KhachHangRepository;
@@ -13,8 +14,14 @@ import java.io.IOException;
 
 @WebServlet(name = "quanLyController",value = {
         "/danh-muc",
+        "/danh-muc/add",
+        "/danh-muc/update",
+        "/danh-muc/delete",
         "/khach-hang",
         "/san-pham",
+        "/san-pham/add",
+        "/san-pham/update",
+        "/san-pham/delete",
         "/don-hang",
         "/trang-chu-admin"
 })
@@ -63,5 +70,56 @@ public class QuanLyController extends HttpServlet{
     private void dmhienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("listTheLoai",theLoaiGiayRepository.getAll());
         req.getRequestDispatcher("/quan-ly/danh-muc.jsp").forward(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uri = req.getRequestURI();
+        if (uri.contains("danh-muc/add")) {
+            dmThem(req, resp);
+        } else if (uri.contains("danh-muc/update")) {
+            dmSua(req, resp);
+        } else if (uri.contains("danh-muc/delete")) {
+            dmXoa(req,resp);
+        }
+    }
+
+    private void dmThem(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String ten = req.getParameter("tenTheLoai");
+
+        TheLoaiGiay tlg = new TheLoaiGiay();
+        tlg.setTenTheLoai(ten);
+
+        theLoaiGiayRepository.themTheLoai(tlg);
+        resp.sendRedirect("/danh-muc");
+    }
+
+    private void dmXoa(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer id = Integer.parseInt(req.getParameter("id"));
+        theLoaiGiayRepository.xoaTheLoai(id);
+        resp.sendRedirect("/danh-muc");
+    }
+
+
+    private void dmSua(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String action = req.getParameter("action"); // Sẽ là "sua"
+        String idStr = req.getParameter("id");      // ID của dòng đang chọn
+        String tenMoi = req.getParameter("tenTheLoai");
+
+        if ("sua".equals(action)) {
+            try {
+                Integer id = Integer.parseInt(idStr);
+
+                TheLoaiGiay tlg = theLoaiGiayRepository.getById(id);
+
+                if (tlg != null) {
+                    tlg.setTenTheLoai(tenMoi);
+                    theLoaiGiayRepository.suaTheLoai(tlg);
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        resp.sendRedirect(req.getContextPath() + "/danh-muc");
     }
 }

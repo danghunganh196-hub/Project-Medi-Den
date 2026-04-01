@@ -144,7 +144,12 @@
             <h1>Quản lý danh mục</h1>
             <div style="display:flex; gap:10px;">
                 <button class="btn-pink" onclick="toggleForm('them')">＋ Thêm danh mục</button>
-                <button class="btn-edit" id="btnSua" style="padding:9px 20px; font-size:13.5px; border-radius:10px; opacity:0.5; cursor:not-allowed;" disabled onclick="toggleForm('sua')">Sửa</button>
+                <button class="btn-edit" id="btnSua"
+                        style="padding:9px 20px; font-size:13.5px; border-radius:10px; opacity:0.5; cursor:not-allowed;"
+                        disabled
+                        onclick="toggleForm('sua')">
+                    Sửa
+                </button>
             </div>
         </div>
 
@@ -155,7 +160,7 @@
                 <span class="card-action" onclick="dongForm()">✕ Đóng</span>
             </div>
             <div style="padding:24px;">
-                <form method="post" action="${pageContext.request.contextPath}/danh-muc/">
+                <form method="post" action="${pageContext.request.contextPath}/danh-muc/add">
                     <input type="hidden" name="action" id="formAction" value="them">
                     <input type="hidden" name="id" id="formId" value="">
                     <div style="display:flex; gap:16px; align-items:flex-end;">
@@ -193,7 +198,10 @@
                             <td style="color:var(--text-light); font-size:13px;">#${tl.id}</td>
                             <td><strong>${tl.tenTheLoai}</strong></td>
                             <td style="text-align:right; padding-right:24px;">
-                                <button class="btn-delete" onclick="event.stopPropagation()">Xóa</button>
+                                <a href="${pageContext.request.contextPath}/danh-muc/delete?id=${tl.id}"
+                                   class="btn-delete"
+                                   style="text-decoration: none;"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?')">Xóa</a>
                             </td>
                         </tr>
                     </c:forEach>

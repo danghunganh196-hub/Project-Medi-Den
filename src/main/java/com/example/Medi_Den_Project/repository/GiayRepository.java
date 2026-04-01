@@ -23,8 +23,41 @@ public class GiayRepository {
                 .setMaxResults(4) // Giới hạn lấy đúng 4 bản ghi đầu tiên
                 .list();
     }
+
     public Giay getById(Integer id){
         return session.find(Giay.class, id);
     }
 
+    public void themSanPham(Giay g){
+        try {
+            session.getTransaction().begin();
+            session.save(g);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
+
+    public void suaSanPham(Giay g){
+        try {
+            session.getTransaction().begin();
+            session.merge(g);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
+
+    public void xoaSanPham(Integer id){
+        try {
+            session.getTransaction().begin();
+            session.delete(this.getById(id));
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
 }

@@ -20,4 +20,37 @@ public class TheLoaiGiayRepository {
     public TheLoaiGiay getById(Integer id){
         return session.find(TheLoaiGiay.class, id);
     }
+
+    public void themTheLoai(TheLoaiGiay tlg){
+        try {
+            session.getTransaction().begin();
+            session.save(tlg);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
+
+    public void suaTheLoai(TheLoaiGiay tlg){
+        try {
+            session.getTransaction().begin();
+            session.merge(tlg);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
+
+    public void xoaTheLoai(Integer id){
+        try {
+            session.getTransaction().begin();
+            session.delete(this.getById(id));
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
 }
