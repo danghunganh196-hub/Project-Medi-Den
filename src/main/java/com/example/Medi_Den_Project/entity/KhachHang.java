@@ -27,4 +27,7 @@ public class KhachHang {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "trang_thai")
+    private Boolean trangThai;
 }

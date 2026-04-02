@@ -351,7 +351,7 @@
                                 <td style="text-align:right; padding-right:24px;">
                                     <button class="btn-disable"
                                             onclick="event.stopPropagation(); voHieuHoa('${kh.id}', '${kh.ten}')">
-                                            ${kh.vohieu ? 'Kích hoạt' : 'Vô hiệu hoá'}
+                                            ${kh.trangThai ? 'Vô hiệu hoá' : 'Kích hoạt'}
                                     </button>
                                 </td>
                             </tr>
