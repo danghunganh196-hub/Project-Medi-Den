@@ -7,7 +7,8 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class GiayRepository {
-    // Hàm lấy tất cả sản phẩm (không lọc, không sắp xếp) để phục vụ trang Quản lý
+
+    // Lấy tất cả sản phẩm (cho trang Quản lý)
     public List<Giay> getAll() {
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
             return session.createQuery("FROM Giay", Giay.class).list();
@@ -16,52 +17,9 @@ public class GiayRepository {
             return null;
         }
     }
-    // 1. Hàm cũ: Lấy 4 đôi Nike cho trang chủ (GIỮ NGUYÊN)
+
+    // Lấy 4 đôi Nike cho trang chủ
     public List<Giay> getNikeOnly() {
-        String hql = "SELECT g FROM Giay g WHERE g.thuongHieu = 'Nike'";
-        return session.createQuery(hql, Giay.class)
-                .setMaxResults(4) // Giới hạn lấy đúng 4 bản ghi đầu tiên
-                .list();
-    }
-
-    public Giay getById(Integer id){
-        return session.find(Giay.class, id);
-    }
-
-    public void themSanPham(Giay g){
-        try {
-            session.getTransaction().begin();
-            session.save(g);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-    }
-
-    public void suaSanPham(Giay g){
-        try {
-            session.getTransaction().begin();
-            session.merge(g);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-    }
-
-    public void xoaSanPham(Integer id){
-        try {
-            session.getTransaction().begin();
-            session.delete(this.getById(id));
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-    }
-}
-
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
             String hql = "FROM Giay g WHERE g.thuongHieu = 'Nike'";
             return session.createQuery(hql, Giay.class)
@@ -73,18 +31,14 @@ public class GiayRepository {
         }
     }
 
-    // 2. HÀM MỚI TỔNG HỢP: Vừa lọc hãng, vừa sắp xếp giá (Dùng cho trang xem-tat-ca)
+    // Lọc hãng + sắp xếp giá (cho trang xem-tat-ca)
     public List<Giay> getAllFlex(String brand, String sort) {
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
-            // Xây dựng câu HQL động
             StringBuilder hql = new StringBuilder("FROM Giay g WHERE 1=1");
 
-            // Nếu có chọn hãng thì lọc theo hãng
             if (brand != null && !brand.isEmpty()) {
                 hql.append(" AND g.thuongHieu = :brandName");
             }
-
-            // Sắp xếp theo giá
             if ("asc".equals(sort)) {
                 hql.append(" ORDER BY g.gia ASC");
             } else if ("desc".equals(sort)) {
@@ -92,11 +46,9 @@ public class GiayRepository {
             }
 
             Query<Giay> query = session.createQuery(hql.toString(), Giay.class);
-
             if (brand != null && !brand.isEmpty()) {
                 query.setParameter("brandName", brand);
             }
-
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,19 +56,17 @@ public class GiayRepository {
         }
     }
 
-    // 3. HÀM MỚI: Đếm số lượng sản phẩm để hiển thị lên trang web
+    // Đếm số lượng sản phẩm
     public Long countByBrand(String brand) {
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
             String hql = "SELECT count(g) FROM Giay g";
             if (brand != null && !brand.isEmpty()) {
                 hql += " WHERE g.thuongHieu = :brandName";
             }
-
             Query<Long> query = session.createQuery(hql, Long.class);
             if (brand != null && !brand.isEmpty()) {
                 query.setParameter("brandName", brand);
             }
-
             return query.uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,7 +74,7 @@ public class GiayRepository {
         }
     }
 
-    // 4. Các hàm bổ trợ khác (GIỮ NGUYÊN)
+    // Lấy theo ID
     public Giay getById(Integer id) {
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
             return session.get(Giay.class, id);
@@ -133,9 +83,46 @@ public class GiayRepository {
             return null;
         }
     }
+
+    // Thêm sản phẩm
+    public void themSanPham(Giay g) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            session.getTransaction().begin();
+            session.save(g);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Sửa sản phẩm
+    public void suaSanPham(Giay g) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            session.getTransaction().begin();
+            session.merge(g);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Xóa sản phẩm
+    public void xoaSanPham(Integer id) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            session.getTransaction().begin();
+            Giay g = session.get(Giay.class, id);
+            if (g != null) session.delete(g);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Tìm theo tên
+// Tìm theo tên (dùng session từ ngoài)
     public Giay findByName(Session session, String name) {
         return session.createQuery("FROM Giay WHERE tenGiay = :name", Giay.class)
                 .setParameter("name", name)
                 .uniqueResult();
-    }}
-
+    }
+}

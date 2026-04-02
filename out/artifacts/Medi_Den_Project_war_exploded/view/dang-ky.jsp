@@ -198,17 +198,17 @@
         </div>
 
         <div class="input-group">
-            <input type="number" name="tuoi" placeholder="Tuổi" required>
+            <input type="number" name="tuoi" placeholder="Tuổi">
             <i class="fa-solid fa-cake-candles"></i>
         </div>
 
         <div class="input-group">
-            <input type="text" name="diaChi" placeholder="Địa chỉ" required>
+            <input type="text" name="diaChi" placeholder="Địa chỉ">
             <i class="fa-solid fa-location-dot"></i>
         </div>
 
         <div class="input-group">
-            <input type="email" name="email" placeholder="Email" required>
+            <input type="email" name="email" placeholder="Email">
             <i class="fa-solid fa-envelope"></i>
         </div>
 

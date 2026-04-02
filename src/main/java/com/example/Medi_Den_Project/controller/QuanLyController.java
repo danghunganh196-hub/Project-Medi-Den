@@ -1,5 +1,6 @@
 package com.example.Medi_Den_Project.controller;
 
+import com.example.Medi_Den_Project.entity.Giay;
 import com.example.Medi_Den_Project.entity.TheLoaiGiay;
 import com.example.Medi_Den_Project.repository.GiayRepository;
 import com.example.Medi_Den_Project.repository.HoaDonRepository;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "quanLyController",value = {
         "/danh-muc",
@@ -62,9 +64,19 @@ public class QuanLyController extends HttpServlet{
         req.getRequestDispatcher("/quan-ly/don-hang.jsp").forward(req,resp);
     }
 
-    private void sphienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("listSanPham",giayRepository.getAll());
-        req.getRequestDispatcher("/quan-ly/san-pham.jsp").forward(req,resp);
+    private void sphienThi(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        try {
+            System.out.println(">>> sphienThi called");
+            List<Giay> list = giayRepository.getAll();
+            System.out.println(">>> listSanPham size: " + list.size());
+            req.setAttribute("listSanPham", list);
+            req.setAttribute("listDanhMuc", theLoaiGiayRepository.getAll());
+            req.getRequestDispatcher("/quan-ly/san-pham.jsp").forward(req, resp);
+        } catch (Exception e) {
+            System.out.println(">>> LỖI: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void dmhienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
