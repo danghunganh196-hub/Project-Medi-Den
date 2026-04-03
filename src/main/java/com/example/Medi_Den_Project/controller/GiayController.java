@@ -20,26 +20,23 @@ public class GiayController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Object user = req.getSession().getAttribute("user");
-
-        if(user == null){
-            resp.sendRedirect("/login");
-            return;
-        }
+        // Đã gỡ bỏ đoạn bắt buộc login ở đây để khách vào xem sản phẩm tự do
 
         String uri = req.getRequestURI();
         if(uri.contains("xem-tat-ca")){
             xemTatCa(req, resp);
         }
-        // NHÁNH 2: Nếu vào hien-thi (Trang chủ cũ)
+        // NHÁNH 2: Nếu vào hien-thi (Trang chủ)
         else if(uri.contains("hien-thi")){
             hienThi(req, resp);
         }
     }
+
     private void hienThi(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
         req.setAttribute("listGiay", giayRepository.getNikeOnly());
         req.getRequestDispatcher("/view/trang-chu.jsp").forward(req, resp);
     }
+
     private void xemTatCa(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 1. Lấy tham số từ URL (ví dụ: ?brand=Adidas&sort=desc)
         String brand = req.getParameter("brand");

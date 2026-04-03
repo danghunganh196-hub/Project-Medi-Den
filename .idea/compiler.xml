@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Medi-Den-Project" />
+        <module name="Project-Medi-Den" />
       </profile>
     </annotationProcessing>
   </component>

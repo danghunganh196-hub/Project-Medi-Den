@@ -39,7 +39,6 @@ public class CheckoutServlet extends HttpServlet {
         Gson gson = new Gson();
 
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
-
             BufferedReader reader = request.getReader();
             JsonObject data = gson.fromJson(reader, JsonObject.class);
 
@@ -51,7 +50,7 @@ public class CheckoutServlet extends HttpServlet {
             HoaDonRepository hdRepo = new HoaDonRepository();
             GiayRepository giayRepo = new GiayRepository();
 
-            // ===== KHÁCH HÀNG =====
+            // 1. KHÁCH HÀNG
             KhachHang kh = new KhachHang();
             kh.setTen(data.get("tenKhachHang").getAsString());
             kh.setEmail(data.get("email").getAsString());
@@ -59,22 +58,24 @@ public class CheckoutServlet extends HttpServlet {
             kh.setGioiTinh(true);
             kh.setTuoi(20);
 
-            // ===== HÓA ĐƠN =====
+            // 2. HÓA ĐƠN
             HoaDon hd = new HoaDon();
             hd.setNgayDat(LocalDate.now());
             hd.setTongTien(data.get("tongTien").getAsDouble());
             hd.setDiaChi(data.get("diaChi").getAsString());
             hd.setTrangThai("Chờ xác nhận");
 
-            // ===== CHI TIẾT =====
+            // Lấy phương thức thanh toán từ JSON gửi lên
+            String pttt = data.has("phuongThucTT") ? data.get("phuongThucTT").getAsString() : "COD";
+            hd.setPhuongThucTT(pttt);
+
+            // 3. CHI TIẾT HÓA ĐƠN
             JsonArray items = data.getAsJsonArray("chiTiet");
             List<HoaDonChiTiet> listCT = new ArrayList<>();
 
             for (JsonElement e : items) {
                 JsonObject item = e.getAsJsonObject();
-
                 String tenSP = item.get("tenSanPham").getAsString();
-
                 Giay sp = giayRepo.findByName(session, tenSP);
 
                 if (sp == null) {
@@ -87,22 +88,17 @@ public class CheckoutServlet extends HttpServlet {
                 ct.setSoLuong(item.get("soLuong").getAsInt());
                 ct.setDonGia(item.get("donGia").getAsDouble());
                 ct.setThanhTien(ct.getSoLuong() * ct.getDonGia());
-
                 listCT.add(ct);
             }
 
-            // 🔥 GỌI SAVE CHUNG SESSION
+            // GỌI REPOSITORY LƯU TOÀN BỘ (Sử dụng Transaction)
             hdRepo.saveFullOrder(session, kh, hd, listCT);
 
             out.print("{\"status\":\"success\"}");
 
         } catch (Exception e) {
             e.printStackTrace();
-            JsonObject err = new JsonObject();
-            err.addProperty("status", "error");
-            err.addProperty("message", e.getMessage());
-
-            out.print(new Gson().toJson(err));
+            out.print("{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}");
         }
     }
 }

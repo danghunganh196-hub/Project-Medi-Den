@@ -33,7 +33,8 @@ public class HoaDon {
 
     @Column(name = "ghi_chu")
     private String ghiChu;
-
+    @Column(name = "phuong_thuc_tt")
+    private String phuongThucTT;
     @ManyToOne
     @JoinColumn(name = "khach_hang_id",referencedColumnName = "id")
     private KhachHang khachHang;

@@ -94,7 +94,7 @@
     <nav class="sidebar">
         <div class="sidebar-section">
             <div class="sidebar-section-label">Chính</div>
-            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/quan-ly/trang-chu-admin.jsp'">
+            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/trang-chu-admin'">
                 <div class="nav-icon">🏠</div>
                 Trang chủ
             </div>
@@ -142,15 +142,7 @@
     <main class="main">
         <div class="page-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
             <h1>Quản lý danh mục</h1>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-pink" onclick="toggleForm('them')">＋ Thêm danh mục</button>
-                <button class="btn-edit" id="btnSua"
-                        style="padding:9px 20px; font-size:13.5px; border-radius:10px; opacity:0.5; cursor:not-allowed;"
-                        disabled
-                        onclick="toggleForm('sua')">
-                    Sửa
-                </button>
-            </div>
+            <button class="btn-pink" onclick="toggleForm('them')">＋ Thêm danh mục</button>
         </div>
 
         <%-- FORM THÊM / SỬA --%>
@@ -198,6 +190,11 @@
                             <td style="color:var(--text-light); font-size:13px;">#${tl.id}</td>
                             <td><strong>${tl.tenTheLoai}</strong></td>
                             <td style="text-align:right; padding-right:24px;">
+                                <button class="btn-edit"
+                                        onclick="chonRow(this.closest('tr'), '${tl.id}', '${tl.tenTheLoai}'); toggleForm('sua')"
+                                        style="margin-right:6px;">
+                                    Sửa
+                                </button>
                                 <a href="${pageContext.request.contextPath}/danh-muc/delete?id=${tl.id}"
                                    class="btn-delete"
                                    style="text-decoration: none;"
@@ -220,8 +217,6 @@
             const formAction = document.getElementById('formAction');
             const btnSubmit = document.getElementById('btnSubmit');
             const inputTen = document.getElementById('inputTen');
-
-            if (mode === 'sua' && !selectedId) return;
 
             // Nếu form đang mở cùng mode thì đóng lại
             if (formCard.style.display !== 'none' && formCard.dataset.mode === mode) {

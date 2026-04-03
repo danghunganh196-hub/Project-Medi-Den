@@ -318,29 +318,34 @@
                 <div id="step-2" class="checkout-step">
                     <h3 class="pink-title">Phương thức vận chuyển</h3>
                     <div class="shipping-box">
-                        <input type="radio" checked> Giao hàng tận nơi - 35,000đ
+                        <label>
+                            <input type="radio" name="shipping" value="35000" checked>
+                            <span>Giao hàng tận nơi - 35,000đ</span>
+                        </label>
                     </div>
 
                     <h3 class="pink-title">Phương thức thanh toán</h3>
                     <div class="payment-methods">
                         <label class="payment-item">
-                            <input type="radio" name="payment" value="COD" checked>
+                            <input type="radio" name="payment" value="COD" checked onclick="toggleBankInfo(false)">
                             <span>Thanh toán khi giao hàng (COD)</span>
                         </label>
+
                         <label class="payment-item">
-                            <input type="radio" name="payment" value="Bank">
+                            <input type="radio" name="payment" value="Bank" onclick="toggleBankInfo(true)">
                             <span>Chuyển khoản qua ngân hàng</span>
                         </label>
 
-                        <div id="bank-info" class="bank-details-box">
-                            <p>Ngân hàng TMCP Kỹ Thương Việt Nam (Techcombank)</p>
+                        <div id="bank-info" class="bank-details-box" style="display: none; margin-top: 10px; padding: 10px; border: 1px dashed #ff69b4; background: #fffafb;">
+                            <p style="color: #d81b60; font-weight: bold;">Thông tin chuyển khoản:</p>
+                            <p>Ngân hàng: <strong>Techcombank</strong></p>
                             <p>STK: <strong>19061706200888</strong></p>
                             <p>Chủ TK: <strong>DANG HUNG ANH</strong></p>
-                            <p class="note">*Vui lòng ghi nội dung: [Họ tên + SĐT đặt hàng]</p>
+                            <p class="note" style="font-size: 0.9em; font-style: italic;">*Nội dung: [Họ tên + SĐT đặt hàng]</p>
                         </div>
                     </div>
-                    <button type="button" class="btn-pink-large" onclick="completeOrder()">HOÀN TẤT ĐƠN
-                        HÀNG</button>
+
+                    <button type="button" class="btn-pink-large" onclick="completeOrder()">HOÀN TẤT ĐƠN HÀNG</button>
                 </div>
 
                 <!-- Bước 3: Hoàn tất -->
@@ -434,8 +439,9 @@
     </div>
 </footer>
 <script>
-    // Khai báo biến toàn cục contextPath để file script.js có thể dùng
-    window.contextPath = '${pageContext.request.contextPath}';
+    // Kiểm tra xem session "user" có tồn tại hay không
+    // Nếu có, isLoggedIn = true. Nếu không, isLoggedIn = false.
+    window.isLoggedIn = <%= session.getAttribute("user") != null %>;
 </script>
 <script src="${pageContext.request.contextPath}/view/script.js"></script>
 </body>

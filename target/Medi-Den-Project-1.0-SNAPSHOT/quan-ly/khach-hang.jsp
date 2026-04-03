@@ -143,6 +143,13 @@
             font-family: inherit; font-size: 13.5px; font-weight: 600;
             cursor: pointer; transition: all 0.2s;
         }
+        .btn-disable {
+            background: #fff7ed; color: #ea580c; border: none;
+            padding: 5px 12px; border-radius: 8px;
+            font-family: inherit; font-size: 12.5px; font-weight: 600;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .btn-disable:hover { background: #ffedd5; }
         .btn-edit:not(:disabled):hover { background: var(--pink); color: white; transform: translateY(-2px); }
 
         /* ── CARD ── */
@@ -221,7 +228,7 @@
     <nav class="sidebar">
         <div class="sidebar-section">
             <div class="sidebar-section-label">Chính</div>
-            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/quan-ly/trang-chu-admin.jsp'">
+            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/trang-chu-admin'">
                 <div class="nav-icon">🏠</div>
                 Trang chủ
             </div>
@@ -270,10 +277,6 @@
     <main class="main">
         <div class="page-header">
             <h1>Quản lý khách hàng</h1>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-pink" onclick="toggleForm('them')">＋ Thêm khách hàng</button>
-                <button class="btn-edit" id="btnSua" style="opacity:0.5; cursor:not-allowed;" disabled onclick="toggleForm('sua')">✏️ Sửa</button>
-            </div>
         </div>
 
         <%-- FORM THÊM / SỬA --%>
@@ -335,7 +338,7 @@
                     </thead>
                     <tbody>
                         <c:forEach var="kh" items="${listKhachHang}">
-                            <tr onclick="chonRow(this, '${kh.id}', '${kh.ten}', '${kh.tuoi}', '${kh.gioiTinh}', '${kh.email}')">
+                            <tr>
                                 <td style="color:var(--text-light); font-size:13px;">#${kh.id}</td>
                                 <td><strong>${kh.ten}</strong></td>
                                 <td>${kh.tuoi}</td>
@@ -346,8 +349,10 @@
                                 </td>
                                 <td>${kh.email}</td>
                                 <td style="text-align:right; padding-right:24px;">
-                                    <button class="btn-delete"
-                                        onclick="event.stopPropagation(); xoaKhachHang('${kh.id}', '${kh.ten}')">Xóa</button>
+                                    <button class="btn-disable"
+                                            onclick="event.stopPropagation(); voHieuHoa('${kh.id}', '${kh.ten}')">
+                                            ${kh.trangThai ? 'Vô hiệu hoá' : 'Kích hoạt'}
+                                    </button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -361,63 +366,10 @@
 <script>
     let selectedId = null;
 
-    function chonRow(row, id, ten, tuoi, gioiTinh, email) {
-        document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
-
-        if (selectedId === id) {
-            selectedId = null;
-            const btn = document.getElementById('btnSua');
-            btn.disabled = true; btn.style.opacity = '0.5'; btn.style.cursor = 'not-allowed';
-            dongForm();
-            return;
+    function voHieuHoa(id, ten) {
+        if (confirm('Bạn có chắc muốn vô hiệu hoá khách hàng ' + ten + '?')) {
+            window.location.href = '${pageContext.request.contextPath}/khach-hang?action=voHieu&id=' + id;
         }
-
-        selectedId = id;
-        row.style.background = '#fce4f0';
-
-        document.getElementById('formId').value = id;
-        document.getElementById('inputTen').value = ten;
-        document.getElementById('inputTuoi').value = tuoi;
-        document.getElementById('inputGioiTinh').value = gioiTinh;
-        document.getElementById('inputEmail').value = email;
-
-        const btn = document.getElementById('btnSua');
-        btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
-    }
-
-    function toggleForm(mode) {
-        const formCard = document.getElementById('formCard');
-        const formTitle = document.getElementById('formTitle');
-        const formAction = document.getElementById('formAction');
-        const btnSubmit = document.getElementById('btnSubmit');
-
-        if (mode === 'sua' && !selectedId) return;
-
-        if (formCard.style.display !== 'none' && formCard.dataset.mode === mode) {
-            dongForm(); return;
-        }
-
-        formCard.dataset.mode = mode;
-        formCard.style.display = 'block';
-
-        if (mode === 'them') {
-            formTitle.textContent = 'Thêm khách hàng mới';
-            formAction.value = 'them';
-            btnSubmit.textContent = '＋ Thêm';
-            document.getElementById('formId').value = '';
-            ['inputTen', 'inputTuoi', 'inputEmail'].forEach(i => document.getElementById(i).value = '');
-            document.getElementById('inputTen').focus();
-        } else {
-            formTitle.textContent = 'Chỉnh sửa khách hàng #' + selectedId;
-            formAction.value = 'sua';
-            btnSubmit.textContent = '💾 Lưu';
-        }
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function dongForm() {
-        document.getElementById('formCard').style.display = 'none';
     }
 
     function xoaKhachHang(id, ten) {

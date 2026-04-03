@@ -89,23 +89,23 @@
     <nav class="sidebar">
         <div class="sidebar-section">
             <div class="sidebar-section-label">Chính</div>
-            <div class="nav-item" onclick="location.href='/quan-ly/trang-chu-admin.jsp'">
+            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/trang-chu-admin'">
                 <div class="nav-icon">🏠</div> Trang chủ
             </div>
         </div>
         <div class="sidebar-section">
             <div class="sidebar-section-label">Quản lý</div>
-            <div class="nav-item" onclick="location.href='danh-muc'">
+            <div class="nav-item" onclick="location.href='${pageContext.request.contextPath}/danh-muc'">
                 <div class="nav-icon">📂</div> Quản lý danh mục
             </div>
-            <div class="nav-item" onclick="location.href='san-pham'">
+            <div class="nav-item" onclick="location.href='${pageContext.request.contextPath}/san-pham'">
                 <div class="nav-icon">👟</div> Quản lý sản phẩm
             </div>
             <div class="nav-item active">
                 <div class="nav-icon">🛒</div> Quản lý đơn hàng
                 <span class="nav-badge">7</span>
             </div>
-            <div class="nav-item" onclick="location.href='khach-hang'">
+            <div class="nav-item" onclick="location.href='${pageContext.request.contextPath}/khach-hang'">
                 <div class="nav-icon">👥</div> Quản lý khách hàng
             </div>
         </div>

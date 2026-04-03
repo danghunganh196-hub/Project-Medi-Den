@@ -237,7 +237,7 @@
     <nav class="sidebar">
         <div class="sidebar-section">
             <div class="sidebar-section-label">Chính</div>
-            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/quan-ly/trang-chu-admin.jsp'">
+            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/trang-chu-admin'">
                 <div class="nav-icon">🏠</div>
                 Trang chủ
             </div>
@@ -286,10 +286,7 @@
     <main class="main">
         <div class="page-header">
             <h1>Quản lý sản phẩm</h1>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-pink" onclick="toggleForm('them')">＋ Thêm sản phẩm</button>
-                <button class="btn-edit" id="btnSua" style="opacity:0.5; cursor:not-allowed;" disabled onclick="toggleForm('sua')">✏️ Sửa</button>
-            </div>
+            <button class="btn-pink" onclick="toggleForm('them')">＋ Thêm sản phẩm</button>
         </div>
 
         <%-- FORM THÊM / SỬA --%>
@@ -323,9 +320,9 @@
                             <label>Số lượng</label>
                             <input type="number" name="soLuong" id="inputSoLuong" placeholder="Nhập số lượng...">
                         </div>
-                        <div class="form-group full">
-                            <label>Mô tả</label>
-                            <textarea name="moTa" id="inputMoTa" rows="3" placeholder="Nhập mô tả sản phẩm..."></textarea>
+                        <div class="form-group">
+                            <label>Hình ảnh</label>
+                            <input type="file" name="hinhAnh" id="inputHinhAnh" placeholder="Chọn file ảnh (Hỗ trợ PNG hoặc JPG)">
                         </div>
                     </div>
                     <div class="form-actions">
@@ -351,6 +348,7 @@
                             <th>Danh mục</th>
                             <th>Giá</th>
                             <th>Số lượng</th>
+                            <th>Size</th>
                             <th>Trạng thái</th>
                             <th style="text-align:right; padding-right:24px;">Hành động</th>
                         </tr>
@@ -378,13 +376,21 @@
                                 <fmt:formatNumber value="${sp.gia}" pattern="#,###"/> đ
                             </td>
                             <td>${sp.soLuong}</td>
+                            <td>${sp.size}</td>
                             <td>
                 <span class="badge ${sp.soLuong > 0 ? 'badge-green' : 'badge-red'}">
                         ${sp.soLuong > 0 ? 'Còn hàng' : 'Hết hàng'}
                 </span>
                             </td>
                             <td style="text-align:right; padding-right:24px;">
-                                <button class="btn-delete" onclick="event.stopPropagation(); xoaSanPham('${sp.id}', '${sp.tenGiay}')">Xóa</button>
+                                <button class="btn-edit" style="margin-right:6px; padding:5px 12px; font-size:12.5px; border-radius:8px;"
+                                        onclick="event.stopPropagation(); chonRow(this.closest('tr'), '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.soLuong}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}'); toggleForm('sua')">
+                                    Sửa
+                                </button>
+                                <button class="btn-delete"
+                                        onclick="event.stopPropagation(); xoaSanPham('${sp.id}', '${sp.tenGiay}')">
+                                    Xóa
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -398,7 +404,7 @@
 <script>
     let selectedId = null;
 
-    function chonRow(row, id, ten, gia, soLuong, moTa, danhMucId) {
+    function chonRow(row, id, ten, gia, soLuong, danhMucId) {
         document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
 
         if (selectedId === id) {
@@ -416,7 +422,6 @@
         document.getElementById('inputTen').value = ten;
         document.getElementById('inputGia').value = gia;
         document.getElementById('inputSoLuong').value = soLuong;
-        document.getElementById('inputMoTa').value = moTa;
         const dmSelect = document.getElementById('inputDanhMuc');
         if (dmSelect) dmSelect.value = danhMucId;
 
@@ -430,8 +435,6 @@
         const formAction = document.getElementById('formAction');
         const btnSubmit = document.getElementById('btnSubmit');
 
-        if (mode === 'sua' && !selectedId) return;
-
         if (formCard.style.display !== 'none' && formCard.dataset.mode === mode) {
             dongForm(); return;
         }
@@ -444,7 +447,7 @@
             formAction.value = 'them';
             btnSubmit.textContent = '＋ Thêm';
             document.getElementById('formId').value = '';
-            ['inputTen', 'inputGia', 'inputSoLuong', 'inputMoTa'].forEach(i => document.getElementById(i).value = '');
+            ['inputTen', 'inputGia', 'inputSoLuong'].forEach(i => document.getElementById(i).value = '');
             document.getElementById('inputTen').focus();
         } else {
             formTitle.textContent = 'Chỉnh sửa sản phẩm #' + selectedId;
