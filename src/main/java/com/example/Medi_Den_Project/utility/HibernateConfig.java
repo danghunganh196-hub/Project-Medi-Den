@@ -29,6 +29,9 @@ public class HibernateConfig {
          conf.addAnnotatedClass(TheLoaiGiay.class);
          conf.addAnnotatedClass(HoaDon.class);
          conf.addAnnotatedClass(HoaDonChiTiet.class);
+         conf.addAnnotatedClass(SizeGiay.class);
+         conf.addAnnotatedClass(GioHang.class);
+         conf.addAnnotatedClass(GioHangChiTiet.class);
         conf.setProperties(properties);
         ServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .applySettings(conf.getProperties()).build();

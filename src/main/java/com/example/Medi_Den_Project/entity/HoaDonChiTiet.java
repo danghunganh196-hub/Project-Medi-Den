@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import com.example.Medi_Den_Project.entity.SizeGiay;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,13 +23,19 @@ public class HoaDonChiTiet {
     @Column(name = "don_gia")
     private Double donGia;
 
-    @Column(name = "thanh_tien")
+    // ❌ bỏ hoặc set insertable=false
+    @Column(name = "thanh_tien", insertable = false, updatable = false)
     private Double thanhTien;
 
     @ManyToOne
-    @JoinColumn(name = "hoa_don_id",referencedColumnName = "id")
+    @JoinColumn(name = "hoa_don_id")
     private HoaDon hoaDon;
+
     @ManyToOne
-    @JoinColumn(name = "giay_id",referencedColumnName = "id")
+    @JoinColumn(name = "giay_id")
     private Giay giay;
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    private SizeGiay sizeGiay;
 }

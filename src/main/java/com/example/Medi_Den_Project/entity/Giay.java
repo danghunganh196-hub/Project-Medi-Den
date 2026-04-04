@@ -1,6 +1,10 @@
 package com.example.Medi_Den_Project.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,12 +23,6 @@ public class Giay {
     @Column(name = "gia")
     private Double gia;
 
-    @Column(name = "size")
-    private Integer size;
-
-    @Column(name = "so_luong")
-    private Integer soLuong;
-
     @Column(name = "thuong_hieu")
     private String thuongHieu;
 
@@ -32,6 +30,17 @@ public class Giay {
     private String hinhAnh;
 
     @ManyToOne
-    @JoinColumn(name = "the_loai_id",referencedColumnName = "id")
+    @JoinColumn(name = "the_loai_id")
     private TheLoaiGiay theLoaiGiay;
+
+    @OneToMany(mappedBy = "giay", fetch = FetchType.EAGER)
+    private List<SizeGiay> listSize;
+
+    @Transient
+    public String getSizeString() {
+        if (listSize == null || listSize.isEmpty()) return "";
+        return listSize.stream()
+                .map(s -> String.valueOf(s.getSoSize()))
+                .collect(Collectors.joining(","));
+    }
 }
