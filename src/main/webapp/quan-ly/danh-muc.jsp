@@ -139,112 +139,98 @@
 
     <!-- MAIN -->
     <main class="main">
-        <div class="page-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
-            <h1>Quản lý danh mục</h1>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+            <h1 style="font-size:26px; font-weight:800;">Quản lý danh mục</h1>
             <button class="btn-pink" onclick="moFormThem()">＋ Thêm danh mục</button>
         </div>
 
-        <%-- FORM THÊM / SỬA --%>
-        <div id="formCard" class="card" style="display:none; margin-bottom:24px;">
+        <div id="formCard" class="card" style="display:none;">
             <div class="card-header">
                 <span class="card-title" id="formTitle">Thêm danh mục mới</span>
-                <span class="card-action" onclick="dongForm()">✕ Đóng</span>
+                <span style="cursor:pointer; font-weight:bold;" onclick="dongForm()">✕ Đóng</span>
             </div>
             <div style="padding:24px;">
-                <form method="post" action="${pageContext.request.contextPath}/danh-muc/add">
-                    <input type="hidden" name="action" id="formAction" value="them">
-                    <input type="hidden" name="id" id="formId" value="">
+                <form id="mainForm" method="post" action="">
+                    <input type="hidden" name="id" id="formId">
                     <div style="display:flex; gap:16px; align-items:flex-end;">
                         <div style="flex:1;">
-                            <label style="display:block; font-size:13px; font-weight:600; color:var(--text-mid); margin-bottom:8px;">Tên thể loại</label>
-                            <input type="text" name="tenTheLoai" id="inputTen"
-                                   placeholder="Nhập tên thể loại..."
-                                   style="width:100%; padding:10px 14px; border:1.5px solid rgba(240,18,122,0.2); border-radius:10px; font-family:inherit; font-size:14px; outline:none; transition:border-color 0.2s;"
-                                   onfocus="this.style.borderColor='var(--pink)'" onblur="this.style.borderColor='rgba(240,18,122,0.2)'">
+                            <label style="display:block; font-size:13px; font-weight:600; margin-bottom:8px;">Tên thể loại</label>
+                            <input required type="text" name="tenTheLoai" id="inputTen" placeholder="Nhập tên..."
+                                   style="width:100%; padding:10px 14px; border:1.5px solid rgba(240,18,122,0.2); border-radius:10px; outline:none;">
                         </div>
-                        <button type="submit" class="btn-pink" style="white-space:nowrap;" id="btnSubmit">Thêm</button>
+                        <button type="submit" class="btn-pink" id="btnSubmit">Xác nhận</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <%-- TABLE --%>
         <div class="card">
             <div class="card-header">
                 <span class="card-title">Danh sách thể loại</span>
-                <span style="font-size:13px; color:var(--text-light);">Tổng: <strong>${listTheLoai.size()}</strong> danh mục</span>
             </div>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên thể loại</th>
-                        <th style="text-align:right; padding-right:24px;">Hành động</th>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên thể loại</th>
+                    <th style="text-align:right;">Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="tl" items="${listTheLoai}">
+                    <tr id="row-${tl.id}">
+                        <td>#${tl.id}</td>
+                        <td><strong>${tl.tenTheLoai}</strong></td>
+                        <td style="text-align:right;">
+                            <button class="btn-edit" onclick="moFormSua('${tl.id}', '${tl.tenTheLoai}')">Sửa</button>
+                            <a href="${pageContext.request.contextPath}/danh-muc/delete?id=${tl.id}"
+                               class="btn-delete" onclick="return confirm('Xóa danh mục này?')">Xóa</a>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="tl" items="${listTheLoai}">
-                        <tr id="row-${tl.id}">
-                            <td>#${tl.id}</td>
-                            <td id="ten-${tl.id}"><strong>${tl.tenTheLoai}</strong></td>
-                            <td style="text-align:right; padding-right:20px;">
-                                <button class="btn-edit" onclick="moFormSua('${tl.id}', '${tl.tenTheLoai}')">
-                                    Sửa
-                                </button>
-                                <a href="${pageContext.request.contextPath}/danh-muc/delete?id=${tl.id}"
-                                   class="btn-delete"
-                                   onclick="return confirm('Xóa danh mục này?')">Xóa</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </main>
+</div>
 
-    <script>
-        const formCard = document.getElementById('formCard');
-        const formTitle = document.getElementById('formTitle');
-        const mainForm = document.getElementById('mainForm');
-        const inputId = document.getElementById('formId');
-        const inputTen = document.getElementById('inputTen');
-        const btnSubmit = document.getElementById('btnSubmit');
+<script>
+    const formCard = document.getElementById('formCard');
+    const formTitle = document.getElementById('formTitle');
+    const mainForm = document.getElementById('mainForm');
+    const inputId = document.getElementById('formId');
+    const inputTen = document.getElementById('inputTen');
+    const btnSubmit = document.getElementById('btnSubmit');
 
-        function moFormThem() {
-            formCard.style.display = 'block';
-            formTitle.innerText = 'Thêm danh mục mới';
-            mainForm.action = "${pageContext.request.contextPath}/danh-muc/add";
-            inputId.value = "";
-            inputTen.value = "";
-            btnSubmit.innerText = "＋ Thêm ngay";
-            inputTen.focus();
-        }
+    function moFormThem() {
+        formCard.style.display = 'block';
+        formTitle.innerText = 'Thêm danh mục mới';
+        mainForm.action = "${pageContext.request.contextPath}/danh-muc/add";
+        inputId.value = "";
+        inputTen.value = "";
+        btnSubmit.innerText = "Thêm ngay";
+        inputTen.focus();
+    }
 
-        function moFormSua(id, ten) {
-            formCard.style.display = 'block';
-            formTitle.innerText = 'Chỉnh sửa danh mục (ID: #' + id + ')';
-            // Đổi action sang update
-            mainForm.action = "${pageContext.request.contextPath}/danh-muc/update";
+    function moFormSua(id, ten) {
+        formCard.style.display = 'block';
+        formTitle.innerText = 'Sửa danh mục #' + id;
+        mainForm.action = "${pageContext.request.contextPath}/danh-muc/update";
+        inputId.value = id;
+        inputTen.value = ten;
+        btnSubmit.innerText = "Lưu thay đổi";
+        inputTen.focus();
 
-            // Điền dữ liệu cũ vào input
-            inputId.value = id;
-            inputTen.value = ten;
+        // Highlight dòng đang chọn
+        document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
+        document.getElementById('row-' + id).style.background = '#fce4f0';
+    }
 
-            btnSubmit.innerText = "💾 Lưu thay đổi";
-            inputTen.focus();
-
-            // Highlight dòng đang sửa
-            document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
-            document.getElementById('row-' + id).style.background = '#fce4f0';
-        }
-
-        function dongForm() {
-            formCard.style.display = 'none';
-            document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
-        }
-    </script>
+    function dongForm() {
+        formCard.style.display = 'none';
+        document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
+    }
+</script>
 </div>
 
 </body>
