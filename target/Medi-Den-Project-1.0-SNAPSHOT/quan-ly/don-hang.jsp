@@ -103,7 +103,6 @@
             </div>
             <div class="nav-item active">
                 <div class="nav-icon">🛒</div> Quản lý đơn hàng
-                <span class="nav-badge">7</span>
             </div>
             <div class="nav-item" onclick="location.href='${pageContext.request.contextPath}/khach-hang'">
                 <div class="nav-icon">👥</div> Quản lý khách hàng

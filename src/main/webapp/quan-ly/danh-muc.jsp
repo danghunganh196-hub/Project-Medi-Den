@@ -107,7 +107,6 @@
             <div class="nav-item active">
                 <div class="nav-icon">📂</div>
                 Quản lý danh mục
-                <span class="nav-badge">${listTheLoai.size()}</span>
             </div>
             <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/san-pham'">
                 <div class="nav-icon">👟</div>
@@ -142,7 +141,7 @@
     <main class="main">
         <div class="page-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
             <h1>Quản lý danh mục</h1>
-            <button class="btn-pink" onclick="toggleForm('them')">＋ Thêm danh mục</button>
+            <button class="btn-pink" onclick="moFormThem()">＋ Thêm danh mục</button>
         </div>
 
         <%-- FORM THÊM / SỬA --%>
@@ -186,19 +185,16 @@
                     </thead>
                     <tbody>
                     <c:forEach var="tl" items="${listTheLoai}">
-                        <tr onclick="chonRow(this, '${tl.id}', '${tl.tenTheLoai}')" style="cursor:pointer;">
-                            <td style="color:var(--text-light); font-size:13px;">#${tl.id}</td>
-                            <td><strong>${tl.tenTheLoai}</strong></td>
-                            <td style="text-align:right; padding-right:24px;">
-                                <button class="btn-edit"
-                                        onclick="chonRow(this.closest('tr'), '${tl.id}', '${tl.tenTheLoai}'); toggleForm('sua')"
-                                        style="margin-right:6px;">
+                        <tr id="row-${tl.id}">
+                            <td>#${tl.id}</td>
+                            <td id="ten-${tl.id}"><strong>${tl.tenTheLoai}</strong></td>
+                            <td style="text-align:right; padding-right:20px;">
+                                <button class="btn-edit" onclick="moFormSua('${tl.id}', '${tl.tenTheLoai}')">
                                     Sửa
                                 </button>
                                 <a href="${pageContext.request.contextPath}/danh-muc/delete?id=${tl.id}"
                                    class="btn-delete"
-                                   style="text-decoration: none;"
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?')">Xóa</a>
+                                   onclick="return confirm('Xóa danh mục này?')">Xóa</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -209,64 +205,44 @@
     </main>
 
     <script>
-        let selectedId = null;
+        const formCard = document.getElementById('formCard');
+        const formTitle = document.getElementById('formTitle');
+        const mainForm = document.getElementById('mainForm');
+        const inputId = document.getElementById('formId');
+        const inputTen = document.getElementById('inputTen');
+        const btnSubmit = document.getElementById('btnSubmit');
 
-        function toggleForm(mode) {
-            const formCard = document.getElementById('formCard');
-            const formTitle = document.getElementById('formTitle');
-            const formAction = document.getElementById('formAction');
-            const btnSubmit = document.getElementById('btnSubmit');
-            const inputTen = document.getElementById('inputTen');
-
-            // Nếu form đang mở cùng mode thì đóng lại
-            if (formCard.style.display !== 'none' && formCard.dataset.mode === mode) {
-                dongForm(); return;
-            }
-
-            formCard.dataset.mode = mode;
+        function moFormThem() {
             formCard.style.display = 'block';
-
-            if (mode === 'them') {
-                formTitle.textContent = 'Thêm danh mục mới';
-                formAction.value = 'them';
-                btnSubmit.textContent = '＋ Thêm';
-                inputTen.value = '';
-                document.getElementById('formId').value = '';
-            } else {
-                formTitle.textContent = 'Sửa danh mục';
-                formAction.value = 'sua';
-                btnSubmit.textContent = '💾 Lưu';
-                // inputTen.value đã được set bởi chonRow()
-            }
-
+            formTitle.innerText = 'Thêm danh mục mới';
+            mainForm.action = "${pageContext.request.contextPath}/danh-muc/add";
+            inputId.value = "";
+            inputTen.value = "";
+            btnSubmit.innerText = "＋ Thêm ngay";
             inputTen.focus();
         }
 
-        function dongForm() {
-            document.getElementById('formCard').style.display = 'none';
+        function moFormSua(id, ten) {
+            formCard.style.display = 'block';
+            formTitle.innerText = 'Chỉnh sửa danh mục (ID: #' + id + ')';
+            // Đổi action sang update
+            mainForm.action = "${pageContext.request.contextPath}/danh-muc/update";
+
+            // Điền dữ liệu cũ vào input
+            inputId.value = id;
+            inputTen.value = ten;
+
+            btnSubmit.innerText = "💾 Lưu thay đổi";
+            inputTen.focus();
+
+            // Highlight dòng đang sửa
+            document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
+            document.getElementById('row-' + id).style.background = '#fce4f0';
         }
 
-        function chonRow(row, id, ten) {
-            // Bỏ chọn row cũ
+        function dongForm() {
+            formCard.style.display = 'none';
             document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
-
-            if (selectedId === id) {
-                // Click lại row đang chọn → bỏ chọn
-                selectedId = null;
-                const btn = document.getElementById('btnSua');
-                btn.disabled = true; btn.style.opacity = '0.5'; btn.style.cursor = 'not-allowed';
-                dongForm();
-                return;
-            }
-
-            // Chọn row mới
-            selectedId = id;
-            row.style.background = '#fce4f0';
-            document.getElementById('formId').value = id;
-            document.getElementById('inputTen').value = ten;
-
-            const btn = document.getElementById('btnSua');
-            btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
         }
     </script>
 </div>

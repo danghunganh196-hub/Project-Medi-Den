@@ -440,17 +440,14 @@
       <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/danh-muc'">
         <div class="nav-icon">📂</div>
         Quản lý danh mục
-        <span class="nav-badge">4</span>
       </div>
       <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/san-pham'">
         <div class="nav-icon">👟</div>
         Quản lý sản phẩm
-        <span class="nav-badge">24</span>
       </div>
       <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/don-hang'">
         <div class="nav-icon">🛒</div>
         Quản lý đơn hàng
-        <span class="nav-badge">7</span>
       </div>
       <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/khach-hang'">
         <div class="nav-icon">👥</div>
@@ -485,25 +482,21 @@
         <div class="stat-icon">💰</div>
         <div class="stat-value">-</div>
         <div class="stat-label">Doanh thu tháng</div>
-        <div class="stat-change">↑ 12.4% so với tháng trước</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">🛍️</div>
         <div class="stat-value">-</div>
         <div class="stat-label">Đơn hàng mới</div>
-        <div class="stat-change">↑ 8.1% so với tháng trước</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">👥</div>
         <div class="stat-value">-</div>
         <div class="stat-label">Khách hàng</div>
-        <div class="stat-change">↑ 5.3% so với tháng trước</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">👟</div>
         <div class="stat-value">-</div>
         <div class="stat-label">Sản phẩm</div>
-        <div class="stat-change down">↓ 2 sản phẩm hết hàng</div>
       </div>
     </div>
 
