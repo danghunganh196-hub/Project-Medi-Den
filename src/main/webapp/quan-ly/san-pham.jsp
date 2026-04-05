@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <%-- THÊM DÒNG NÀY --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -33,7 +33,6 @@
             min-height: 100vh;
         }
 
-        /* ── TOPBAR ── */
         .topbar {
             background: var(--pink);
             height: 64px;
@@ -73,10 +72,8 @@
         }
         .topbar-avatar:hover { transform: scale(1.08); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
 
-        /* ── LAYOUT ── */
         .layout { display: flex; min-height: calc(100vh - 64px); }
 
-        /* ── SIDEBAR ── */
         .sidebar {
             width: 260px; background: var(--sidebar-bg);
             padding: 28px 0 24px;
@@ -105,15 +102,8 @@
         .nav-item:hover .nav-icon { background: var(--pink-soft); transform: scale(1.1); }
         .nav-item.active { background: var(--pink); color: white; box-shadow: 0 4px 16px var(--pink-glow); }
         .nav-item.active .nav-icon { background: rgba(255,255,255,0.22); }
-        .nav-badge {
-            margin-left: auto; background: var(--pink); color: white;
-            font-size: 11px; font-weight: 700; padding: 2px 8px;
-            border-radius: 10px; min-width: 22px; text-align: center;
-        }
-        .nav-item.active .nav-badge { background: rgba(255,255,255,0.3); }
         .sidebar-divider { height: 1px; background: rgba(240,18,122,0.12); margin: 10px 20px; }
 
-        /* ── MAIN ── */
         .main { flex: 1; padding: 32px 36px; overflow-y: auto; background: #ffffff; }
         .page-header {
             display: flex; align-items: center; justify-content: space-between;
@@ -121,7 +111,6 @@
         }
         .page-header h1 { font-size: 26px; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; }
 
-        /* ── BUTTONS ── */
         .btn-pink {
             background: var(--pink); color: white; border: none;
             padding: 9px 20px; border-radius: 10px;
@@ -138,7 +127,6 @@
         }
         .btn-edit:not(:disabled):hover { background: var(--pink); color: white; transform: translateY(-2px); }
 
-        /* ── CARD ── */
         .card {
             background: white; border-radius: var(--radius);
             box-shadow: var(--shadow); border: 1.5px solid rgba(240,18,122,0.07);
@@ -153,7 +141,6 @@
         .card-action { font-size: 12.5px; font-weight: 600; color: var(--pink); cursor: pointer; transition: opacity 0.2s; }
         .card-action:hover { opacity: 0.7; }
 
-        /* ── FORM ── */
         #formCard { display: none; margin-bottom: 24px; }
         .form-inner { padding: 24px; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
@@ -177,7 +164,6 @@
         }
         .btn-cancel:hover { background: var(--pink-soft); }
 
-        /* ── TABLE ── */
         .table-wrap { padding: 0; }
         table { width: 100%; border-collapse: collapse; }
         thead th {
@@ -210,6 +196,11 @@
             background: var(--pink-soft); display: flex; align-items: center;
             justify-content: center; font-size: 20px;
             border: 1.5px solid rgba(240,18,122,0.12);
+        }
+        .size-tag {
+            display: inline-block; background: var(--pink-soft); color: var(--pink);
+            font-size: 11px; font-weight: 700; padding: 2px 7px;
+            border-radius: 6px; margin: 1px;
         }
     </style>
 </head>
@@ -251,7 +242,7 @@
                 <div class="nav-icon">📂</div>
                 Quản lý danh mục
             </div>
-            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/san-pham'">
+            <div class="nav-item active" onclick="window.location.href='${pageContext.request.contextPath}/san-pham'">
                 <div class="nav-icon">👟</div>
                 Quản lý sản phẩm
             </div>
@@ -314,12 +305,12 @@
                             <input type="number" name="gia" id="inputGia" placeholder="Nhập giá...">
                         </div>
                         <div class="form-group">
-                            <label>Số lượng</label>
-                            <input type="number" name="soLuong" id="inputSoLuong" placeholder="Nhập số lượng...">
+                            <label>Thương hiệu</label>
+                            <input type="text" name="thuongHieu" id="inputThuongHieu" placeholder="Nhập thương hiệu...">
                         </div>
                         <div class="form-group">
                             <label>Hình ảnh</label>
-                            <input type="file" name="hinhAnh" id="inputHinhAnh" placeholder="Chọn file ảnh (Hỗ trợ PNG hoặc JPG)">
+                            <input type="file" name="hinhAnh" id="inputHinhAnh">
                         </div>
                     </div>
                     <div class="form-actions">
@@ -344,16 +335,20 @@
                             <th>Sản phẩm</th>
                             <th>Danh mục</th>
                             <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Size</th>
+                            <th>Size & Số lượng</th>
                             <th>Trạng thái</th>
                             <th style="text-align:right; padding-right:24px;">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="sp" items="${listSanPham}">
-                        <%-- Chú ý: Thứ tự tham số truyền vào chonRow phải khớp với định nghĩa hàm ở dưới script --%>
-                        <tr onclick="chonRow(this, '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.soLuong}', '${sp.size}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}')">
+                        <%-- Tính tổng số lượng từ listSize --%>
+                        <c:set var="tongSL" value="0"/>
+                        <c:forEach var="sg" items="${sp.listSize}">
+                            <c:set var="tongSL" value="${tongSL + sg.soLuong}"/>
+                        </c:forEach>
+
+                        <tr onclick="chonRow(this, '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}')">
                             <td style="color:var(--text-light); font-size:13px;">#${sp.id}</td>
                             <td>
                                 <div style="display:flex; align-items:center; gap:12px;">
@@ -365,23 +360,32 @@
                                             <div class="product-img-placeholder">👟</div>
                                         </c:otherwise>
                                     </c:choose>
-                                    <strong>${sp.tenGiay}</strong>
+                                    <div>
+                                        <strong>${sp.tenGiay}</strong>
+                                        <div style="font-size:12px; color:var(--text-light);">${sp.thuongHieu}</div>
+                                    </div>
                                 </div>
                             </td>
                             <td>${sp.theLoaiGiay.tenTheLoai}</td>
                             <td style="font-weight:700; color:var(--pink);">
                                 <fmt:formatNumber value="${sp.gia}" pattern="#,###"/> đ
                             </td>
-                            <td>${sp.soLuong}</td>
-                            <td>${sp.size}</td>
                             <td>
-                <span class="badge ${sp.soLuong > 0 ? 'badge-green' : 'badge-red'}">
-                        ${sp.soLuong > 0 ? 'Còn hàng' : 'Hết hàng'}
-                </span>
+                                <c:forEach var="sg" items="${sp.listSize}">
+                                    <span class="size-tag">${sg.soSize}: ${sg.soLuong}</span>
+                                </c:forEach>
+                            </td>
+                            <td>
+                                <span class="badge ${tongSL > 0 ? 'badge-green' : 'badge-red'}">
+                                    ${tongSL > 0 ? 'Còn hàng' : 'Hết hàng'}
+                                </span>
                             </td>
                             <td style="text-align:right; padding-right:24px;">
-                                <button class="btn-edit" style="margin-right:6px; padding:5px 12px; font-size:12.5px; border-radius:8px;"
-                                        onclick="event.stopPropagation(); chonRow(this.closest('tr'), '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.soLuong}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}'); toggleForm('sua')">
+                                <button class="btn-edit"
+                                        style="margin-right:6px; padding:5px 12px; font-size:12.5px; border-radius:8px;"
+                                        onclick="event.stopPropagation();
+                                                chonRow(this.closest('tr'), '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}');
+                                                toggleForm('sua')">
                                     Sửa
                                 </button>
                                 <button class="btn-delete"
@@ -401,13 +405,11 @@
 <script>
     let selectedId = null;
 
-    function chonRow(row, id, ten, gia, soLuong, danhMucId) {
+    function chonRow(row, id, ten, gia, danhMucId, thuongHieu) {
         document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
 
         if (selectedId === id) {
             selectedId = null;
-            const btn = document.getElementById('btnSua');
-            btn.disabled = true; btn.style.opacity = '0.5'; btn.style.cursor = 'not-allowed';
             dongForm();
             return;
         }
@@ -418,12 +420,9 @@
         document.getElementById('formId').value = id;
         document.getElementById('inputTen').value = ten;
         document.getElementById('inputGia').value = gia;
-        document.getElementById('inputSoLuong').value = soLuong;
+        document.getElementById('inputThuongHieu').value = thuongHieu;
         const dmSelect = document.getElementById('inputDanhMuc');
         if (dmSelect) dmSelect.value = danhMucId;
-
-        const btn = document.getElementById('btnSua');
-        btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
     }
 
     function toggleForm(mode) {
@@ -444,7 +443,7 @@
             formAction.value = 'them';
             btnSubmit.textContent = '＋ Thêm';
             document.getElementById('formId').value = '';
-            ['inputTen', 'inputGia', 'inputSoLuong'].forEach(i => document.getElementById(i).value = '');
+            ['inputTen', 'inputGia', 'inputThuongHieu'].forEach(i => document.getElementById(i).value = '');
             document.getElementById('inputTen').focus();
         } else {
             formTitle.textContent = 'Chỉnh sửa sản phẩm #' + selectedId;
