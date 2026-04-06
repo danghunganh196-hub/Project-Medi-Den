@@ -76,4 +76,21 @@ public class SizeGiayRepository {
             return session.get(SizeGiay.class, id);
         }
     }
+
+    public void xoaTatCaSizeCuaGiay(int giayId) {
+        Transaction tx = null;
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            tx = session.beginTransaction();
+
+            // Sử dụng HQL để xóa tất cả các size liên quan đến giayId
+            session.createMutationQuery("DELETE FROM SizeGiay s WHERE s.giay.id = :giayId")
+                    .setParameter("giayId", giayId)
+                    .executeUpdate();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
+    }
 }

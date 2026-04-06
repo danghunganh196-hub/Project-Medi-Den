@@ -8,10 +8,14 @@ import com.example.Medi_Den_Project.repository.KhachHangRepository;
 import com.example.Medi_Den_Project.repository.TheLoaiGiayRepository;
 import com.google.gson.GsonBuilder;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,7 +23,12 @@ import com.example.Medi_Den_Project.entity.SizeGiay;
 import com.example.Medi_Den_Project.repository.SizeGiayRepository;
 import com.google.gson.Gson;
 
-@WebServlet(name = "quanLyController",value = {
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024,       // 1 MB — ghi thẳng vào disk nếu file lớn hơn
+        maxFileSize       = 5 * 1024 * 1024,   // tối đa 5 MB / file
+        maxRequestSize    = 10 * 1024 * 1024   // tối đa 10 MB / request
+)
+@WebServlet(name = "quanLyController", value = {
         "/danh-muc",
         "/danh-muc/add",
         "/danh-muc/update",
@@ -31,85 +40,210 @@ import com.google.gson.Gson;
         "/san-pham/delete",
         "/don-hang",
         "/trang-chu-admin",
-        "/size-giay",
-        "/size-giay/add",
-        "/size-giay/update",
-        "/size-giay/delete",
+        "/size-giay"
 })
-public class QuanLyController extends HttpServlet{
-    TheLoaiGiayRepository theLoaiGiayRepository = new TheLoaiGiayRepository();
-    KhachHangRepository khachHangRepository = new KhachHangRepository();
-    GiayRepository giayRepository = new GiayRepository();
-    HoaDonRepository hoaDonRepository = new HoaDonRepository();
+public class QuanLyController extends HttpServlet {
 
-    SizeGiayRepository sizeGiayRepository = new SizeGiayRepository();
+    TheLoaiGiayRepository theLoaiGiayRepository = new TheLoaiGiayRepository();
+    KhachHangRepository   khachHangRepository   = new KhachHangRepository();
+    GiayRepository        giayRepository        = new GiayRepository();
+    HoaDonRepository      hoaDonRepository      = new HoaDonRepository();
+    SizeGiayRepository    sizeGiayRepository    = new SizeGiayRepository();
+
     Gson gson = new GsonBuilder()
             .excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT)
             .create();
 
-
+    // ─────────────────────────────────────────────────────────────────────────
+    // GET
+    // ─────────────────────────────────────────────────────────────────────────
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         String uri = req.getRequestURI();
-        if(uri.contains("danh-muc/delete")) {
-            dmXoa(req, resp);
-            return;
-        }
+
+        if (uri.contains("danh-muc/delete")) { dmXoa(req, resp); return; }
+
+        if (uri.contains("san-pham/delete"))  { spXoa(req, resp);    return; }
 
         if (uri.contains("danh-muc")) {
-            dmhienThi(req,resp);
+            dmhienThi(req, resp);
         } else if (uri.contains("khach-hang")) {
-            khhienThi(req,resp);
+            khhienThi(req, resp);
         } else if (uri.contains("san-pham")) {
             String action = req.getParameter("action");
             if ("getSizes".equals(action)) {
-                spGetSizes(req, resp);  // trả JSON
+                spGetSizes(req, resp);
             } else {
-                sphienThi(req, resp);   // render trang bình thường
+                sphienThi(req, resp);
             }
         } else if (uri.contains("don-hang")) {
-            hdhienThi(req,resp);
+            hdhienThi(req, resp);
         } else if (uri.contains("trang-chu-admin")) {
-            trangChuAdmin(req,resp);
+            trangChuAdmin(req, resp);
         } else if (uri.contains("size-giay")) {
             spGetSizes(req, resp);
         }
     }
 
-    private void trangChuAdmin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/quan-ly/trang-chu-admin.jsp").forward(req,resp);
+    // ─────────────────────────────────────────────────────────────────────────
+    // POST
+    // ─────────────────────────────────────────────────────────────────────────
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        req.setCharacterEncoding("UTF-8");
+        String uri = req.getRequestURI();
+
+        if (uri.contains("danh-muc/add")) {
+            dmThem(req, resp);
+        } else if (uri.contains("danh-muc/update")) {
+            dmSua(req, resp);
+        } else if (uri.contains("san-pham/add")) {
+            spThem(req, resp);
+        } else if (uri.contains("san-pham/update")) {
+            spSua(req, resp);
+        } else if (uri.contains("size-giay")) {
+            String action = req.getParameter("action");
+            switch (action) {
+                case "them"    -> spThemSize(req, resp);
+                case "capNhat" -> spCapNhatSize(req, resp);
+                case "xoa"     -> spXoaSize(req, resp);
+            }
+        }
     }
 
-    private void khhienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("listKhachHang",khachHangRepository.getAll());
-        req.getRequestDispatcher("/quan-ly/khach-hang.jsp").forward(req,resp);
-    }
-
-    private void hdhienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("listHoaDon",hoaDonRepository.getAll());
-        req.getRequestDispatcher("/quan-ly/don-hang.jsp").forward(req,resp);
-    }
-
+    // ─────────────────────────────────────────────────────────────────────────
+    // SẢN PHẨM — hiển thị
+    // ─────────────────────────────────────────────────────────────────────────
     private void sphienThi(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-            System.out.println(">>> sphienThi called");
             List<Giay> list = giayRepository.getAll();
-            System.out.println(">>> listSanPham size: " + list.size());
             req.setAttribute("listSanPham", list);
             req.setAttribute("listDanhMuc", theLoaiGiayRepository.getAll());
             req.getRequestDispatcher("/quan-ly/san-pham.jsp").forward(req, resp);
         } catch (Exception e) {
-            System.out.println(">>> LỖI: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // SẢN PHẨM — thêm
+    // ─────────────────────────────────────────────────────────────────────────
+    private void spThem(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            String ten        = req.getParameter("ten");
+            String thuongHieu = req.getParameter("thuongHieu");
+            Double gia        = Double.parseDouble(req.getParameter("gia"));
+            int    danhMucId  = Integer.parseInt(req.getParameter("danhMucId"));
+
+            TheLoaiGiay theLoai = theLoaiGiayRepository.getById(danhMucId);
+
+            Giay giay = new Giay();
+            giay.setTenGiay(ten);
+            giay.setThuongHieu(thuongHieu);
+            giay.setGia(gia);
+            giay.setTheLoaiGiay(theLoai);
+
+            // Xử lý upload hình ảnh
+            String tenFile = xuLyUploadAnh(req, "hinhAnh");
+            if (tenFile != null) giay.setHinhAnh(tenFile);
+
+            giayRepository.them(giay);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        resp.sendRedirect(req.getContextPath() + "/san-pham");
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // SẢN PHẨM — sửa
+    // ─────────────────────────────────────────────────────────────────────────
+    private void spSua(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            int    id         = Integer.parseInt(req.getParameter("id"));
+            String ten        = req.getParameter("ten");
+            String thuongHieu = req.getParameter("thuongHieu");
+            Double gia        = Double.parseDouble(req.getParameter("gia"));
+            int    danhMucId  = Integer.parseInt(req.getParameter("danhMucId"));
+
+            Giay giay = giayRepository.getById(id);
+            if (giay == null) { resp.sendError(404); return; }
+
+            TheLoaiGiay theLoai = theLoaiGiayRepository.getById(danhMucId);
+            giay.setTenGiay(ten);
+            giay.setThuongHieu(thuongHieu);
+            giay.setGia(gia);
+            giay.setTheLoaiGiay(theLoai);
+
+            // Chỉ cập nhật ảnh nếu người dùng chọn ảnh mới
+            String tenFile = xuLyUploadAnh(req, "hinhAnh");
+            if (tenFile != null) giay.setHinhAnh(tenFile);
+
+            giayRepository.sua(giay);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        resp.sendRedirect(req.getContextPath() + "/san-pham");
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // SẢN PHẨM — xóa  (GET: /san-pham/delete?id=...)
+    // ─────────────────────────────────────────────────────────────────────────
+    private void spXoa(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+
+            // 1. Xóa tất cả các size thuộc về sản phẩm này trước
+            sizeGiayRepository.xoaTatCaSizeCuaGiay(id); // Bạn cần viết thêm hàm này trong Repository
+
+            // 2. Sau đó mới xóa sản phẩm
+            boolean ok = giayRepository.xoa(id);
+
+            if (!ok) System.out.println(">>> Không tìm thấy sản phẩm id=" + id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        resp.sendRedirect(req.getContextPath() + "/san-pham");
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Upload helper — trả về tên file đã lưu, hoặc null nếu không có file
+    // ─────────────────────────────────────────────────────────────────────────
+    private String xuLyUploadAnh(HttpServletRequest req, String fieldName) {
+        try {
+            Part part = req.getPart(fieldName);
+            if (part == null || part.getSize() == 0) return null;
+
+            String fileName = part.getSubmittedFileName();
+            if (fileName == null || fileName.isBlank()) return null;
+
+            // Thư mục lưu ảnh: webapp/images/
+            String uploadDir = getServletContext().getRealPath("/images");
+            File dir = new File(uploadDir);
+            if (!dir.exists()) dir.mkdirs();
+
+            String savePath = uploadDir + File.separator + fileName;
+            part.write(savePath);
+
+            // Trả về đường dẫn tương đối để lưu vào DB
+            return req.getContextPath() + "/images/" + fileName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // SIZE
+    // ─────────────────────────────────────────────────────────────────────────
     private void spGetSizes(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int giayId = Integer.parseInt(req.getParameter("giayId"));
         List<SizeGiay> list = sizeGiayRepository.getByGiayId(giayId);
 
-        // Build JSON thủ công, tránh circular reference
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < list.size(); i++) {
             SizeGiay s = list.get(i);
@@ -140,10 +274,10 @@ public class QuanLyController extends HttpServlet{
             size.setGiay(giay);
             size.setSoSize(soSize);
             size.setSoLuong(soLuong);
-
             sizeGiayRepository.them(size);
-            resp.getWriter().write("OK");
 
+            resp.setContentType("text/plain");
+            resp.getWriter().write("OK");
         } catch (Exception e) {
             e.printStackTrace();
             resp.sendError(500);
@@ -160,8 +294,9 @@ public class QuanLyController extends HttpServlet{
 
             size.setSoLuong(soLuong);
             sizeGiayRepository.capNhat(size);
-            resp.getWriter().write("OK");
 
+            resp.setContentType("text/plain");
+            resp.getWriter().write("OK");
         } catch (Exception e) {
             e.printStackTrace();
             resp.sendError(500);
@@ -172,57 +307,36 @@ public class QuanLyController extends HttpServlet{
         try {
             int sizeId = Integer.parseInt(req.getParameter("sizeId"));
             boolean ok = sizeGiayRepository.xoa(sizeId);
-
             resp.setContentType("text/plain");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(ok ? "OK" : "ERROR_FK");
-
         } catch (Exception e) {
             e.printStackTrace();
             resp.sendError(500);
         }
     }
 
-    private void dmhienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("listTheLoai",theLoaiGiayRepository.getAll());
-        req.getRequestDispatcher("/quan-ly/danh-muc.jsp").forward(req,resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        String uri = req.getRequestURI();
-        if (uri.contains("danh-muc/add")) {
-            dmThem(req, resp);
-        } else if (uri.contains("danh-muc/update")) {
-            dmSua(req, resp);
-        } else if (uri.contains("size-giay")) {
-            String action = req.getParameter("action");
-            switch (action) {
-                case "them"     -> spThemSize(req, resp);
-                case "capNhat"  -> spCapNhatSize(req, resp);
-                case "xoa"      -> spXoaSize(req, resp);
-            }
-        }
+    // ─────────────────────────────────────────────────────────────────────────
+    // DANH MỤC
+    // ─────────────────────────────────────────────────────────────────────────
+    private void dmhienThi(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.setAttribute("listTheLoai", theLoaiGiayRepository.getAll());
+        req.getRequestDispatcher("/quan-ly/danh-muc.jsp").forward(req, resp);
     }
 
     private void dmThem(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String ten = req.getParameter("tenTheLoai");
-
         TheLoaiGiay tlg = new TheLoaiGiay();
         tlg.setTenTheLoai(ten);
-
         theLoaiGiayRepository.themTheLoai(tlg);
-        resp.sendRedirect("/danh-muc");
+        resp.sendRedirect(req.getContextPath() + "/danh-muc");
     }
 
     private void dmXoa(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             String idStr = req.getParameter("id");
-            if (idStr != null) {
-                Integer id = Integer.parseInt(idStr);
-                theLoaiGiayRepository.xoaTheLoai(id);
-            }
+            if (idStr != null) theLoaiGiayRepository.xoaTheLoai(Integer.parseInt(idStr));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -231,9 +345,8 @@ public class QuanLyController extends HttpServlet{
 
     private void dmSua(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            Integer id = Integer.parseInt(req.getParameter("id"));
-            String tenMoi = req.getParameter("tenTheLoai");
-
+            Integer id     = Integer.parseInt(req.getParameter("id"));
+            String  tenMoi = req.getParameter("tenTheLoai");
             TheLoaiGiay tlg = theLoaiGiayRepository.getById(id);
             if (tlg != null) {
                 tlg.setTenTheLoai(tenMoi);
@@ -243,5 +356,25 @@ public class QuanLyController extends HttpServlet{
             e.printStackTrace();
         }
         resp.sendRedirect(req.getContextPath() + "/danh-muc");
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // KHÁCH HÀNG / ĐƠN HÀNG / TRANG CHỦ
+    // ─────────────────────────────────────────────────────────────────────────
+    private void khhienThi(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.setAttribute("listKhachHang", khachHangRepository.getAll());
+        req.getRequestDispatcher("/quan-ly/khach-hang.jsp").forward(req, resp);
+    }
+
+    private void hdhienThi(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.setAttribute("listHoaDon", hoaDonRepository.getAll());
+        req.getRequestDispatcher("/quan-ly/don-hang.jsp").forward(req, resp);
+    }
+
+    private void trangChuAdmin(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.getRequestDispatcher("/quan-ly/trang-chu-admin.jsp").forward(req, resp);
     }
 }

@@ -277,20 +277,32 @@
             <button class="btn-pink" onclick="toggleForm('them')">＋ Thêm sản phẩm</button>
         </div>
 
-        <%-- FORM THÊM / SỬA --%>
+        <%-- ══════════════════════════════════════════════════
+             FORM THÊM / SỬA
+             THAY ĐỔI SO VỚI BẢN CŨ:
+             1. id="spForm" để JS cập nhật action động
+             2. enctype="multipart/form-data" để upload ảnh
+             3. Bỏ hidden "action", thay bằng action URL riêng
+             4. Thêm span#anhHienTai hiện tên ảnh khi sửa
+        ═══════════════════════════════════════════════════ --%>
         <div id="formCard" class="card">
             <div class="card-header">
                 <span class="card-title" id="formTitle">Thêm sản phẩm mới</span>
                 <span class="card-action" onclick="dongForm()">✕ Đóng</span>
             </div>
             <div class="form-inner">
-                <form method="post" action="${pageContext.request.contextPath}/san-pham">
-                    <input type="hidden" name="action" id="formAction" value="them">
+                <form id="spForm"
+                      method="post"
+                      action="${pageContext.request.contextPath}/san-pham/add"
+                      enctype="multipart/form-data">
+
                     <input type="hidden" name="id" id="formId" value="">
+
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Tên sản phẩm</label>
-                            <input type="text" name="ten" id="inputTen" placeholder="Nhập tên sản phẩm..." required>
+                            <input type="text" name="ten" id="inputTen"
+                                   placeholder="Nhập tên sản phẩm..." required>
                         </div>
                         <div class="form-group">
                             <label>Danh mục</label>
@@ -302,23 +314,31 @@
                         </div>
                         <div class="form-group">
                             <label>Giá (VNĐ)</label>
-                            <input type="number" name="gia" id="inputGia" placeholder="Nhập giá...">
+                            <input type="number" name="gia" id="inputGia"
+                                   placeholder="Nhập giá..." min="0" step="1000">
                         </div>
                         <div class="form-group">
                             <label>Thương hiệu</label>
-                            <input type="text" name="thuongHieu" id="inputThuongHieu" placeholder="Nhập thương hiệu...">
+                            <input type="text" name="thuongHieu" id="inputThuongHieu"
+                                   placeholder="Nhập thương hiệu...">
                         </div>
                         <div class="form-group">
-                            <label>Hình ảnh</label>
-                            <input type="file" name="hinhAnh" id="inputHinhAnh">
+                            <label>
+                                Hình ảnh
+                                <span id="anhHienTai"
+                                      style="font-weight:400; color:var(--text-light); font-size:12px;"></span>
+                            </label>
+                            <input type="file" name="hinhAnh" id="inputHinhAnh" accept="image/*">
                         </div>
                     </div>
+
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="dongForm()">Hủy bỏ</button>
                         <button type="submit" class="btn-pink" id="btnSubmit">＋ Thêm</button>
                     </div>
                 </form>
-                <%-- BẢNG QUẢN LÝ SIZE — chỉ hiện khi đang ở mode "sửa" --%>
+
+                <%-- BẢNG QUẢN LÝ SIZE — chỉ hiện khi mode = "sửa" --%>
                 <div id="sizeSection" style="display:none; margin-top:24px;">
                     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
                         <span style="font-size:14px; font-weight:700; color:var(--text-dark);">Quản lý size</span>
@@ -326,7 +346,6 @@
                                 onclick="toggleThemSize()">＋ Thêm size</button>
                     </div>
 
-                    <%-- Form thêm size mới --%>
                     <div id="themSizeForm" style="display:none; background:var(--pink-soft); border-radius:12px; padding:16px; margin-bottom:12px;">
                         <div style="display:flex; gap:12px; align-items:flex-end;">
                             <div class="form-group" style="margin:0; flex:1;">
@@ -343,25 +362,22 @@
                         </div>
                     </div>
 
-                    <%-- Bảng size hiện có --%>
                     <div id="sizeBang" style="border:1.5px solid rgba(240,18,122,0.12); border-radius:12px; overflow:hidden;">
                         <table style="width:100%; border-collapse:collapse;">
                             <thead>
                             <tr style="background:#fdf0f7;">
                                 <th style="padding:10px 16px; text-align:left; font-size:11.5px; font-weight:700;
-                                text-transform:uppercase; letter-spacing:0.8px; color:var(--text-light);">Size</th>
+                                    text-transform:uppercase; letter-spacing:0.8px; color:var(--text-light);">Size</th>
                                 <th style="padding:10px 16px; text-align:left; font-size:11.5px; font-weight:700;
-                                text-transform:uppercase; letter-spacing:0.8px; color:var(--text-light);">Tồn kho</th>
+                                    text-transform:uppercase; letter-spacing:0.8px; color:var(--text-light);">Tồn kho</th>
                                 <th style="padding:10px 16px; text-align:right; font-size:11.5px; font-weight:700;
-                                text-transform:uppercase; letter-spacing:0.8px; color:var(--text-light);">Thao tác</th>
+                                    text-transform:uppercase; letter-spacing:0.8px; color:var(--text-light);">Thao tác</th>
                             </tr>
                             </thead>
-                            <tbody id="sizeTbody">
-                            <%-- render bằng JS --%>
-                            </tbody>
+                            <tbody id="sizeTbody"></tbody>
                         </table>
                         <div id="sizeEmpty" style="display:none; padding:20px; text-align:center;
-                                    font-size:13px; color:var(--text-light);">
+                             font-size:13px; color:var(--text-light);">
                             Chưa có size nào. Thêm size bên trên.
                         </div>
                     </div>
@@ -369,34 +385,38 @@
             </div>
         </div>
 
-        <%-- TABLE --%>
+        <%-- ══════════════════════════════════════════════════
+             BẢNG DANH SÁCH SẢN PHẨM
+             THAY ĐỔI: chonRow() nhận thêm tham số hinhAnh
+        ═══════════════════════════════════════════════════ --%>
         <div class="card">
             <div class="card-header">
                 <span class="card-title">Danh sách sản phẩm</span>
-                <span style="font-size:13px; color:var(--text-light);">Tổng: <strong>${listSanPham.size()}</strong> sản phẩm</span>
+                <span style="font-size:13px; color:var(--text-light);">
+                    Tổng: <strong>${listSanPham.size()}</strong> sản phẩm
+                </span>
             </div>
             <div class="table-wrap">
                 <table>
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Sản phẩm</th>
-                            <th>Thể loại</th>
-                            <th>Giá</th>
-                            <th>Size & Số lượng</th>
-                            <th>Trạng thái</th>
-                            <th style="text-align:right; padding-right:24px;">Hành động</th>
-                        </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sản phẩm</th>
+                        <th>Thể loại</th>
+                        <th>Giá</th>
+                        <th>Size & Số lượng</th>
+                        <th>Trạng thái</th>
+                        <th style="text-align:right; padding-right:24px;">Hành động</th>
+                    </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="sp" items="${listSanPham}">
-                        <%-- Tính tổng số lượng từ listSize --%>
                         <c:set var="tongSL" value="0"/>
                         <c:forEach var="sg" items="${sp.listSize}">
                             <c:set var="tongSL" value="${tongSL + sg.soLuong}"/>
                         </c:forEach>
 
-                        <tr onclick="chonRow(this, '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}')">
+                        <tr onclick="chonRow(this, '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}', '${sp.hinhAnh}')">
                             <td style="color:var(--text-light); font-size:13px;">#${sp.id}</td>
                             <td>
                                 <div style="display:flex; align-items:center; gap:12px;">
@@ -425,14 +445,14 @@
                             </td>
                             <td>
                                 <span class="badge ${tongSL > 0 ? 'badge-green' : 'badge-red'}">
-                                    ${tongSL > 0 ? 'Còn hàng' : 'Hết hàng'}
+                                        ${tongSL > 0 ? 'Còn hàng' : 'Hết hàng'}
                                 </span>
                             </td>
                             <td style="text-align:right; padding-right:24px;">
                                 <button class="btn-edit"
                                         style="margin-right:6px; padding:5px 12px; font-size:12.5px; border-radius:8px;"
                                         onclick="event.stopPropagation();
-                                                chonRow(this.closest('tr'), '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}');
+                                                chonRow(this.closest('tr'), '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}', '${sp.hinhAnh}');
                                                 toggleForm('sua')">
                                     Sửa
                                 </button>
@@ -453,9 +473,10 @@
 <script>
     const contextPath = '${pageContext.request.contextPath}';
 
-    let selectedId = null;
+    let selectedId   = null;
     let currentSizes = [];
 
+    // ─── SIZE ─────────────────────────────────────────────────────────────────
     async function loadSizes(giayId) {
         try {
             const res = await fetch(contextPath + '/san-pham?action=getSizes&giayId=' + giayId);
@@ -491,8 +512,7 @@
                 '<td style="padding:10px 16px; text-align:right;">' +
                 '<button onclick="xoaSize(' + s.id + ', ' + s.soSize + ')"' +
                 ' style="color:#dc2626; border:none; background:none; cursor:pointer;' +
-                ' font-weight:700; font-size:12.5px; padding:4px 8px;' +
-                ' border-radius:6px; transition:background 0.2s;"' +
+                ' font-weight:700; font-size:12.5px; padding:4px 8px; border-radius:6px;"' +
                 ' onmouseover="this.style.background=\'#fee2e2\'"' +
                 ' onmouseout="this.style.background=\'none\'">Xóa</button>' +
                 '</td>';
@@ -509,9 +529,8 @@
     async function themSizeMoi() {
         const soSize  = document.getElementById('inputSizeMoi').value;
         const soLuong = document.getElementById('inputSoLuongMoi').value;
-
-        if (!soSize || !soLuong) { alert('Vui lòng nhập đủ size và số lượng'); return; }
-        if (soSize < 35 || soSize > 50) { alert('Size phải từ 35 đến 50'); return; }
+        if (!soSize || !soLuong)                        { alert('Vui lòng nhập đủ size và số lượng'); return; }
+        if (soSize < 35 || soSize > 50)                 { alert('Size phải từ 35 đến 50'); return; }
         if (currentSizes.find(s => s.soSize == soSize)) { alert('Size này đã tồn tại'); return; }
 
         const res = await fetch(contextPath + '/size-giay', {
@@ -519,9 +538,8 @@
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'action=them&giayId=' + selectedId + '&soSize=' + soSize + '&soLuong=' + soLuong
         });
-
         if (res.ok) {
-            document.getElementById('inputSizeMoi').value = '';
+            document.getElementById('inputSizeMoi').value    = '';
             document.getElementById('inputSoLuongMoi').value = '';
             toggleThemSize();
             await loadSizes(selectedId);
@@ -538,7 +556,7 @@
 
     async function xoaSize(sizeId, soSize) {
         if (!confirm('Xóa size ' + soSize + '?')) return;
-        const res = await fetch(contextPath + '/size-giay', {
+        const res    = await fetch(contextPath + '/size-giay', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'action=xoa&sizeId=' + sizeId
@@ -551,7 +569,9 @@
         }
     }
 
-    function chonRow(row, id, ten, gia, danhMucId, thuongHieu) {
+    // ─── CHỌN HÀNG ────────────────────────────────────────────────────────────
+    // Thêm tham số hinhAnh so với bản cũ
+    function chonRow(row, id, ten, gia, danhMucId, thuongHieu, hinhAnh) {
         document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
 
         if (selectedId === id) {
@@ -563,38 +583,59 @@
         selectedId = id;
         row.style.background = '#fce4f0';
 
-        document.getElementById('formId').value = id;
-        document.getElementById('inputTen').value = ten;
-        document.getElementById('inputGia').value = gia;
+        document.getElementById('formId').value          = id;
+        document.getElementById('inputTen').value        = ten;
+        document.getElementById('inputGia').value        = gia;
         document.getElementById('inputThuongHieu').value = thuongHieu;
+
         const dmSelect = document.getElementById('inputDanhMuc');
         if (dmSelect) dmSelect.value = String(danhMucId);
+
+        // Hiện tên ảnh hiện tại để người dùng biết
+        const anhLabel = document.getElementById('anhHienTai');
+        if (hinhAnh && hinhAnh !== 'null' && hinhAnh.trim() !== '') {
+            anhLabel.textContent = '(hiện tại: ' + hinhAnh.split('/').pop() + ')';
+        } else {
+            anhLabel.textContent = '';
+        }
     }
 
+    // ─── TOGGLE FORM ──────────────────────────────────────────────────────────
     function toggleForm(mode) {
         const formCard  = document.getElementById('formCard');
         const formTitle = document.getElementById('formTitle');
-        const formAction = document.getElementById('formAction');
+        const spForm    = document.getElementById('spForm');      // lấy form theo id
         const btnSubmit = document.getElementById('btnSubmit');
 
+        // Click cùng mode → đóng
         if (formCard.style.display !== 'none' && formCard.dataset.mode === mode) {
             dongForm(); return;
         }
 
-        formCard.dataset.mode = mode;
+        formCard.dataset.mode  = mode;
         formCard.style.display = 'block';
 
         if (mode === 'them') {
-            formTitle.textContent = 'Thêm sản phẩm mới';
-            formAction.value = 'them';
-            btnSubmit.textContent = '＋ Thêm';
-            document.getElementById('formId').value = '';
-            ['inputTen', 'inputGia', 'inputThuongHieu'].forEach(i => document.getElementById(i).value = '');
+            formTitle.textContent  = 'Thêm sản phẩm mới';
+            spForm.action          = contextPath + '/san-pham/add';    // POST → /san-pham/add
+            btnSubmit.textContent  = '＋ Thêm';
+
+            // Reset form
+            document.getElementById('formId').value          = '';
+            document.getElementById('inputTen').value        = '';
+            document.getElementById('inputGia').value        = '';
+            document.getElementById('inputThuongHieu').value = '';
+            document.getElementById('inputHinhAnh').value    = '';
+            document.getElementById('anhHienTai').textContent = '';
+            document.getElementById('sizeSection').style.display = 'none';
             document.getElementById('inputTen').focus();
-        } else {
-            formTitle.textContent = 'Chỉnh sửa sản phẩm #' + selectedId;
-            formAction.value = 'sua';
-            btnSubmit.textContent = '💾 Lưu';
+
+        } else { // 'sua'
+            if (!selectedId) { alert('Vui lòng chọn sản phẩm cần sửa!'); return; }
+            formTitle.textContent  = 'Chỉnh sửa sản phẩm #' + selectedId;
+            spForm.action          = contextPath + '/san-pham/update'; // POST → /san-pham/update
+            btnSubmit.textContent  = '💾 Lưu thay đổi';
+
             document.getElementById('sizeSection').style.display = 'block';
             loadSizes(selectedId);
         }
@@ -603,14 +644,19 @@
     }
 
     function dongForm() {
-        document.getElementById('formCard').style.display = 'none';
+        document.getElementById('formCard').style.display    = 'none';
         document.getElementById('sizeSection').style.display = 'none';
+        document.getElementById('anhHienTai').textContent    = '';
+        document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
         currentSizes = [];
+        selectedId   = null;
     }
 
+    // ─── XÓA SẢN PHẨM ─────────────────────────────────────────────────────────
+    // GET /san-pham/delete?id=...
     function xoaSanPham(id, ten) {
-        if (confirm('Bạn có chắc muốn xóa sản phẩm ' + ten + '?')) {
-            window.location.href = contextPath + '/san-pham?action=xoa&id=' + id;
+        if (confirm('Bạn có chắc muốn xóa sản phẩm "' + ten + '"?\nThao tác này không thể hoàn tác!')) {
+            window.location.href = contextPath + '/san-pham/delete?id=' + id;
         }
     }
 </script>
