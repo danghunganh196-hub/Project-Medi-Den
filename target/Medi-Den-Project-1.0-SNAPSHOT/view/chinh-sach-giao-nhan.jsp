@@ -1,45 +1,88 @@
 <%@ page import="com.example.Medi_Den_Project.entity.TaiKhoan" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
-    <title>Sản phẩm ${param.brand} - Medi Den</title>
+    <title>Chính sách giao nhận - Medi Den</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <style>
-        /* CSS Tinh chỉnh riêng cho trang danh mục */
-        .collection-wrapper { background-color: #f9f9f9; padding: 40px 0; min-height: 80vh; }
-        .adidas-style-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
+        .policy-wrapper {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #333;
+            line-height: 1.8;
         }
-        .product-card {
-            background: #fff; border-radius: 12px; padding: 20px;
-            text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: 0.3s; border: 1px solid #eee;
+        .policy-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
         }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .product-card img { max-width: 100%; height: 220px; object-fit: contain; margin-bottom: 15px; }
-        .product-card h3 { font-size: 18px; color: #333; margin: 10px 0; height: 45px; overflow: hidden; }
-        .product-card .price { color: #ff1493; font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
+        .policy-card h1 {
+            color: #ff1493;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+        .section-title {
+            color: #d81b60;
+            border-bottom: 2px solid #fce4ec;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        .highlight-text {
+            color: #ff1493;
+            font-weight: bold;
+        }
+        /* Style chung cho tất cả các danh sách để thụt lề thống nhất */
+        .policy-card ul {
+            margin-left: 40px; /* Thụt vào lề đồng nhất */
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .policy-card ul li {
+            margin-bottom: 8px;
+        }
 
-        .collection-header { text-align: center; margin-bottom: 30px; }
-        .collection-header h1 { text-transform: uppercase; font-weight: 800; margin-bottom: 10px; }
-        .btn-back { color: #ff1493; text-decoration: none; font-weight: 500; transition: 0.3s; }
-        .btn-back:hover { text-decoration: underline; }
-
-        .toolbar {
-            max-width: 1200px; margin: 0 auto 20px;
-            display: flex; justify-content: flex-end; align-items: center; gap: 15px;
+        .important-note-box {
+            background-color: #fff5f8;
+            border-left: 5px solid #ff1493;
+            padding: 20px;
+            margin: 25px 0;
         }
-        .sort-dropdown { padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd; outline: none; }
+        /* Danh sách trong box lưu ý bỏ dấu chấm tròn vì đã có dấu gạch ngang */
+        .important-note-box ul {
+            list-style-type: none;
+            margin-left: 20px;
+        }
+
+        .pink-contact-box {
+            background-color: #fff0f5;
+            border: 2px dashed #ff69b4;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        .pink-contact-box strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+        .pink-contact-box i {
+            color: #ff1493;
+            margin-right: 10px;
+            width: 20px;
+        }
     </style>
 </head>
 <body>
@@ -135,35 +178,67 @@
 
 </header>
 
-<div class="collection-wrapper">
-    <div class="collection-header">
-        <h1>GIÀY CHÍNH HÃNG ${param.brand}</h1>
-        <a href="${pageContext.request.contextPath}/giay/hien-thi" class="btn-back">← Quay về trang chủ</a>
-    </div>
+<main class="policy-wrapper">
+    <div class="policy-card">
+        <h1>Chính sách giao nhận hàng</h1>
 
-    <div class="toolbar">
-        <span id="product-count">${listGiay.size()} sản phẩm</span>
-        <select id="sortPrice" class="sort-dropdown" onchange="sortProducts()">
-            <option value="default">Sắp xếp: Mặc định</option>
-            <option value="asc">Giá: Thấp đến Cao</option>
-            <option value="desc">Giá: Cao đến Thấp</option>
-        </select>
-    </div>
+        <p>Nhằm đáp ứng nhu cầu mua sắm Sneaker trực tuyến ngày càng cao, <strong>Medi Den</strong> hân hạnh gửi tới Quý khách chính sách vận chuyển linh hoạt. Chúng tôi cam kết thủ tục nhanh chóng, đảm bảo đôi giày của bạn được đóng gói kỹ lưỡng và giao tận tay trong thời gian ngắn nhất.</p>
 
-    <main class="adidas-style-grid" id="productList">
-        <c:forEach var="sp" items="${listGiay}">
-            <div class="product-card" data-price="${sp.gia}">
-                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}" onerror="this.src='https://via.placeholder.com/300x220?text=Medi+Den'">
-                <h3>${sp.tenGiay}</h3>
-                <p class="price"><fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ</p>
-                <button class="add-cart" style="width:100%; padding:10px; background:#333; color:#fff; border:none; border-radius:5px; cursor:pointer"
-                        onclick="openModal('${sp.tenGiay}', '${sp.gia}', '${sp.hinhAnh}', '${sp.thuongHieu}')">
-                    Xem chi tiết
-                </button>
-            </div>
-        </c:forEach>
-    </main>
-</div>
+        <h2 class="section-title">2.1 Đặt hàng và xác nhận đơn hàng</h2>
+        <p>Khi đặt hàng, Quý khách vui lòng cung cấp đầy đủ và chính xác các thông tin (Số điện thoại, địa chỉ cụ thể). Chúng tôi không chịu trách nhiệm đối với trường hợp giao hàng chậm trễ hay thất lạc do thông tin sai lệch.</p>
+        <p>Sau khi đặt hàng thành công, đội ngũ CSKH của <strong>Medi Den</strong> sẽ liên hệ qua điện thoại để xác minh đơn hàng và thống nhất thời gian giao nhận.</p>
+
+        <h2 class="section-title">2.2 Hình thức thanh toán</h2>
+        <ul style="list-style-type: disc;">
+            <li><strong>Thanh toán trả trước:</strong> Chuyển khoản qua ngân hàng (Ưu tiên xử lý đơn hàng nhanh).</li>
+            <li><strong>Thanh toán trả sau (COD):</strong> Quý khách nhận hàng và thanh toán tiền mặt trực tiếp cho bưu tá.</li>
+        </ul>
+
+        <h2 class="section-title">2.3 Kiểm tra tình trạng đơn hàng</h2>
+        <p>Để tra cứu đơn hàng đã gửi đi hay chưa, Quý khách có thể:</p>
+        <ul style="list-style-type: disc;">
+            <li>Sử dụng mã vận đơn tại mục <strong>Tra cứu đơn hàng</strong> trên website.</li>
+            <li>Liên hệ trực tiếp Hotline: <span class="highlight-text">08 2222 1992</span> để gặp nhân viên hỗ trợ.</li>
+        </ul>
+
+        <h2 class="section-title">2.4 Khu vực và Thời gian giao hàng</h2>
+        <p>Hiện tại, <strong>Medi Den</strong> tập trung phục vụ và giao hàng
+            <span class="highlight-text">duy nhất tại khu vực nội thành và ngoại thành Hà Nội</span>
+            để đảm bảo chất lượng phục vụ tốt nhất.</p>
+
+        <p style="margin-top: 15px;"><strong>Thời gian nhận hàng dự kiến:</strong></p>
+        <ul style="list-style-type: disc;">
+            <li><strong>Giao hàng tiêu chuẩn:</strong> 1 - 2 ngày làm việc.</li>
+            <li><strong>Giao hàng hỏa tốc:</strong> Nhận hàng ngay trong vòng 2 giờ (Vui lòng liên hệ Hotline).</li>
+        </ul>
+
+        <div class="important-note-box">
+            <strong>⚠️ LƯU Ý QUAN TRỌNG:</strong>
+            <ul>
+                <li>- Đơn hàng <span class="highlight-text">KHÔNG ĐỒNG KIỂM</span> (Theo quy định bảo mật niêm phong sản phẩm).</li>
+                <li>- Quý khách vui lòng <strong>QUAY VIDEO CLIP KHI MỞ HỘP HÀNG</strong>. Đây là bằng chứng duy nhất để Medi Den giải quyết các khiếu nại về việc thiếu hàng, sai mẫu hoặc hư hỏng do vận chuyển.</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title">2.5 Chi phí giao hàng</h2>
+        <ul style="list-style-type: disc;">
+            <li><strong>Cước phí cố định:</strong> <span class="highlight-text">30.000 VNĐ</span> áp dụng cho mọi đơn hàng Sneaker tại khu vực Hà Nội.</li>
+            <li>Trong một số trường hợp đơn hàng nặng hoặc yêu cầu hỏa tốc, phí vận chuyển sẽ được thỏa thuận trực tiếp dựa trên đơn vị vận chuyển bên thứ 3.</li>
+        </ul>
+
+        <h2 class="section-title">2.6 Trường hợp đơn hàng bị hủy</h2>
+        <p>Đơn hàng sẽ bị hủy nếu nhân viên giao hàng không thể liên hệ với Quý khách quá 03 lần hoặc Quý khách vắng mặt tại điểm giao mà không hẹn trước.</p>
+
+        <!-- Box liên hệ nền hồng viền đứt đoạn -->
+        <div class="pink-contact-box">
+            <strong>Thông tin hỗ trợ vận chuyển - Medi Den</strong>
+            <p><i class="fas fa-phone-alt"></i> Hotline: <span style="color: #ff1493; font-weight: bold;">08 2222 1992</span></p>
+            <p><i class="fas fa-envelope"></i> Email: MediDen8888@gmail.com</p>
+            <p><i class="fas fa-map-marker-alt"></i> Địa chỉ gửi hàng: 118 Đ. Phương Canh, Nam Từ Liêm, Hà Nội.</p>
+        </div>
+    </div>
+</main>
+
 <footer>
     <div class="footer-brands">
         <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg"
@@ -237,26 +312,6 @@
         </div>
     </div>
 </footer>
-<script>
-    // Hàm sắp xếp sản phẩm theo giá không cần tải lại trang
-    function sortProducts() {
-        const sortValue = document.getElementById('sortPrice').value;
-        const productList = document.getElementById('productList');
-        const products = Array.from(productList.getElementsByClassName('product-card'));
 
-        if (sortValue === 'default') return;
-
-        products.sort((a, b) => {
-            const priceA = parseFloat(a.getAttribute('data-price'));
-            const priceB = parseFloat(b.getAttribute('data-price'));
-            return sortValue === 'asc' ? priceA - priceB : priceB - priceA;
-        });
-
-        // Xóa danh sách cũ và chèn danh sách đã sắp xếp
-        productList.innerHTML = '';
-        products.forEach(p => productList.appendChild(p));
-    }
-</script>
-<script src="${pageContext.request.contextPath}/view/script.js"></script>
 </body>
 </html>

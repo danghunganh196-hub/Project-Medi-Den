@@ -185,7 +185,7 @@
         <div class="footer-col">
             <div class="info-item">
                 <i class="fas fa-map-marker-alt"></i>
-                <p>Địa chỉ: Số 48 ngách 26 ngõ Thái Thịnh 2, Đống Đa, Hà Nội.</p>
+                <p>Địa chỉ: 118 Đ.Phương Canh,Nam Từ Liêm, Hà Nội.</p>
             </div>
             <div class="info-item">
                 <i class="fas fa-phone-alt"></i>
@@ -201,10 +201,10 @@
         <div class="footer-col">
             <h4>CHÍNH SÁCH</h4>
             <ul>
-                <li><a href="#">Trang chủ</a></li>
-                <li><a href="#">Sản phẩm</a></li>
-                <li><a href="#">Chính sách bảo mật</a></li>
-                <li><a href="#">Điều khoản dịch vụ</a></li>
+                <li><a href="${pageContext.request.contextPath}/giay/hien-thi">Trang chủ</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/gioi-thieu.jsp">Giới thiệu</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-bao-mat.jsp">Chính sách bảo mật</a></li>
+
             </ul>
         </div>
 
@@ -212,9 +212,10 @@
         <div class="footer-col">
             <h4>HỖ TRỢ KHÁCH HÀNG</h4>
             <ul>
-                <li><a href="#">Tìm kiếm</a></li>
-                <li><a href="#">Chính sách đổi trả</a></li>
-                <li><a href="#">Chính sách thanh toán</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/dieu-khoan-dich-vu.jsp">Điều khoản dịch vụ</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-giao-nhan.jsp">Chính sách giao nhận</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-doi-tra.jsp">Chính sách đổi trả</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-thanh-toan.jsp">Chính sách thanh toán</a></li>
             </ul>
         </div>
 
@@ -227,7 +228,7 @@
             </div>
             <div class="social-icons">
                 <a href="https://www.facebook.com/dang.hung.anh.887452"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.institagram.com/accounts/login/?next=%2Fnoobbon3793%2F&source=omni_redirect"><i
+                <a href="https://www.instagram.com/accounts/login/?next=%2Fnoobbon3793%2F&source=omni_redirect"><i
                         class="fab fa-instagram"></i></a>
                 <a href="https://www.youtube.com/@nercatto-w6n"><i class="fa-brands fa-youtube"></i>
                 </a>

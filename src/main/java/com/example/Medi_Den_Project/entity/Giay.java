@@ -39,8 +39,18 @@ public class Giay {
     @Transient
     public String getSizeString() {
         if (listSize == null || listSize.isEmpty()) return "";
+
         return listSize.stream()
                 .map(s -> String.valueOf(s.getSoSize()))
+                .collect(Collectors.joining(","));
+    }
+
+    @Transient
+    public String getSizeIdString() {
+        if (listSize == null || listSize.isEmpty()) return "";
+
+        return listSize.stream()
+                .map(s -> String.valueOf(s.getId()))
                 .collect(Collectors.joining(","));
     }
 }

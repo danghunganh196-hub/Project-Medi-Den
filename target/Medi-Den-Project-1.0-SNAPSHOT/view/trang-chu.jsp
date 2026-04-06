@@ -17,6 +17,21 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+<!-- TOAST -->
+<div id="toast" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    display: none;
+    z-index: 9999;
+    font-weight: bold;
+">
+    ✅ Đã thêm vào giỏ hàng!
+</div>
 <body>
 <header>
     <div class="top-bar">
@@ -130,10 +145,10 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <aside class="sidebar">
     <!-- Thêm id và thẻ số lượng vào đây -->
-    <div class="icon-btn" id="cart-icon">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cart-count">0</span> <!-- Số nhảy ở đây -->
-    </div>
+        <div class="icon-btn" id="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>
     <div class="icon-btn"><i class="fas fa-cog"></i></div>
 </aside>
 
@@ -150,7 +165,7 @@
     <div class="cart-footer">
         <div class="total-price">
             <span>TỔNG TIỀN:</span>
-            <span id="cart-total-amount">0đ</span>
+            <span id="cart-total-amount"></span>
         </div>
         <button class="btn-checkout">THANH TOÁN</button>
     </div>
@@ -163,8 +178,8 @@
                 <i class="fas fa-truck"></i>
             </div>
             <div class="service-text">
-                <h3>Vận chuyển toàn quốc</h3>
-                <p>Vận chuyển nhanh chóng</p>
+                <h3>Vận chuyển nội thành Hà Nội</h3>
+                <p>Giao hàng siêu tốc - Nhận ngay trong ngày</p>
             </div>
         </div>
 
@@ -196,7 +211,7 @@
                 <i class="fas fa-headset"></i>
             </div>
             <div class="service-text">
-                <h3>Hotline: 0999999999</h3>
+                <h3>Hotline: 08 2222 1992</h3>
                 <p>Vui lòng gọi hotline để hỗ trợ</p>
             </div>
         </div>
@@ -217,7 +232,6 @@
             </div>
             <h3>${sp.tenGiay}</h3>
             <p class="price"><fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ</p>
-
             <button class="add-cart"
                     onclick="openProductModal(this)"
                     data-id="${sp.id}"
@@ -225,7 +239,8 @@
                     data-price="${sp.gia}"
                     data-img="${sp.hinhAnh}"
                     data-brand="${sp.thuongHieu}"
-                    data-size="${sizeStr}">
+                    data-size="${sp.sizeString}"
+                    data-sizeid="${sp.sizeIdString}">
                 Xem chi tiết
             </button>
         </div>
@@ -251,6 +266,12 @@
                 <p>Chọn kích cỡ (Size):</p>
                 <div class="size-options" id="modalSizeContainer"></div>
 
+                <p>Số lượng:</p>
+                <div class="qty-box">
+                    <button onclick="changeQty(-1)">-</button>
+                    <input id="modalQty" type="number" value="1" min="1">
+                    <button onclick="changeQty(1)">+</button>
+                </div>
                 <div class="modal-actions">
                     <button class="btn-buy-now" onclick="buyNowFromModal()">MUA NGAY</button>
                     <button class="btn-add-to-cart" onclick="addToCart()">THÊM VÀO GIỎ</button>
@@ -370,7 +391,7 @@
         <div class="footer-col">
             <div class="info-item">
                 <i class="fas fa-map-marker-alt"></i>
-                <p>Địa chỉ: Số 48 ngách 26 ngõ Thái Thịnh 2, Đống Đa, Hà Nội.</p>
+                <p>Địa chỉ: 118 Đ.Phương Canh,Nam Từ Liêm, Hà Nội.</p>
             </div>
             <div class="info-item">
                 <i class="fas fa-phone-alt"></i>
@@ -386,10 +407,10 @@
         <div class="footer-col">
             <h4>CHÍNH SÁCH</h4>
             <ul>
-                <li><a href="#">Trang chủ</a></li>
-                <li><a href="#">Sản phẩm</a></li>
-                <li><a href="#">Chính sách bảo mật</a></li>
-                <li><a href="#">Điều khoản dịch vụ</a></li>
+                <li><a href="${pageContext.request.contextPath}/giay/hien-thi">Trang chủ</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/gioi-thieu.jsp">Giới thiệu</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-bao-mat.jsp">Chính sách bảo mật</a></li>
+
             </ul>
         </div>
 
@@ -397,9 +418,10 @@
         <div class="footer-col">
             <h4>HỖ TRỢ KHÁCH HÀNG</h4>
             <ul>
-                <li><a href="#">Tìm kiếm</a></li>
-                <li><a href="#">Chính sách đổi trả</a></li>
-                <li><a href="#">Chính sách thanh toán</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/dieu-khoan-dich-vu.jsp">Điều khoản dịch vụ</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-giao-nhan.jsp">Chính sách giao nhận</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-doi-tra.jsp">Chính sách đổi trả</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-thanh-toan.jsp">Chính sách thanh toán</a></li>
             </ul>
         </div>
 
