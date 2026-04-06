@@ -5,41 +5,62 @@
 
 <html>
 <head>
-    <title>Sản phẩm ${param.brand} - Medi Den</title>
+    <title>Chính sách bảo mật - Medi Den</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* CSS Tinh chỉnh riêng cho trang danh mục */
-        .collection-wrapper { background-color: #f9f9f9; padding: 40px 0; min-height: 80vh; }
-        .adidas-style-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* CSS cho phần nội dung chính sách */
+        .policy-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 40px;
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            line-height: 1.8;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .product-card {
-            background: #fff; border-radius: 12px; padding: 20px;
-            text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: 0.3s; border: 1px solid #eee;
+        .policy-container h1 {
+            color: #ff1493;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-weight: 800;
         }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .product-card img { max-width: 100%; height: 220px; object-fit: contain; margin-bottom: 15px; }
-        .product-card h3 { font-size: 18px; color: #333; margin: 10px 0; height: 45px; overflow: hidden; }
-        .product-card .price { color: #ff1493; font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
-
-        .collection-header { text-align: center; margin-bottom: 30px; }
-        .collection-header h1 { text-transform: uppercase; font-weight: 800; margin-bottom: 10px; }
-        .btn-back { color: #ff1493; text-decoration: none; font-weight: 500; transition: 0.3s; }
-        .btn-back:hover { text-decoration: underline; }
-
-        .toolbar {
-            max-width: 1200px; margin: 0 auto 20px;
-            display: flex; justify-content: flex-end; align-items: center; gap: 15px;
+        .policy-container h2 {
+            color: #333;
+            border-left: 4px solid #ff1493;
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.4rem;
+            text-transform: uppercase;
         }
-        .sort-dropdown { padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd; outline: none; }
+        .policy-container h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+        .policy-container p, .policy-container li {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        .policy-container ul {
+            padding-left: 20px;
+        }
+        .highlight {
+            color: #ff1493;
+            font-weight: bold;
+        }
+        .contact-box {
+            background: #fff0f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 1px dashed #ff1493;
+        }
     </style>
 </head>
 <body>
@@ -56,9 +77,10 @@
         } else {
         %>
         <span>Xin chào, <b><%= user.getUsername() %></b></span>
-        <a class="btn logout" href="${pageContext.request.contextPath}/logout">Đăng xuất</a> <%
-        }
-    %>
+        <a class="btn logout" href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
+        <%
+            }
+        %>
     </div>
     <nav class="navbar">
         <div class="logo">
@@ -71,11 +93,10 @@
             <li class="dropdown">
                 <a href="#">Giày Thể Thao <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <!-- Khi ấn vào sẽ dẫn đến trang giay-the-thao kèm tham số hãng -->
-                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Nike">Nike</a></li>
-                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Adidas">Adidas</a></li>
-                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Puma">Puma</a></li>
-                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=New+Balance">New Balance</a></li>
+                    <li><a href="#">Nike Running</a></li>
+                    <li><a href="#">Adidas Running</a></li>
+                    <li><a href="#">Training</a></li>
+                    <li><a href="#">Basketball</a></li>
                 </ul>
             </li>
 
@@ -83,12 +104,11 @@
             <li class="dropdown">
                 <a href="#">Giày Thời Trang <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-
-                    <!-- Giày Thời Trang -->
-                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Nike">Air Force 1 / Jordan</a></li>
-                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Adidas">Stan Smith / Superstar</a></li>
-                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Vans">Vans Old Skool</a></li>
-
+                    <li><a href="#">Air Force 1</a></li>
+                    <li><a href="#">Jordan</a></li>
+                    <li><a href="#">Stan Smith</a></li>
+                    <li><a href="#">Superstar</a></li>
+                    <li><a href="#">Vans Old Skool</a></li>
                 </ul>
             </li>
 
@@ -111,9 +131,10 @@
             <li class="dropdown">
                 <a href="#">Giày Công Sở <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-
-                    <li><a href="${pageContext.request.contextPath}/giay/cong-so?brand=Clarks">Clarks</a></li>
-
+                    <li><a href="#">Giày da nam</a></li>
+                    <li><a href="#">Giày lười</a></li>
+                    <li><a href="#">Giày Oxford</a></li>
+                    <li><a href="#">Giày Loafer</a></li>
                 </ul>
             </li>
 
@@ -121,8 +142,10 @@
             <li class="dropdown">
                 <a href="#">Giày Cao cấp <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap">Tất cả Giày Cao Cấp</a></li>
-                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Balenciaga">Balenciaga</a></li>
+                    <li><a href="#">Giày da nam</a></li>
+                    <li><a href="#">Giày lười</a></li>
+                    <li><a href="#">Giày Oxford</a></li>
+                    <li><a href="#">Giày Loafer</a></li>
                 </ul>
             </li>
         </ul>
@@ -131,38 +154,48 @@
             <button><i class="fas fa-search"></i></button>
         </div>
     </nav>
-
 </header>
 
-<div class="collection-wrapper">
-    <div class="collection-header">
-        <h1>GIÀY CHÍNH HÃNG ${param.brand}</h1>
-        <a href="${pageContext.request.contextPath}/giay/hien-thi" class="btn-back">← Quay về trang chủ</a>
-    </div>
+<!-- PHẦN NỘI DUNG CHÍNH SÁCH BẢO MẬT & ĐỔI TRẢ -->
+<main class="policy-container">
+    <h1>Chính sách bảo mật</h1>
 
-    <div class="toolbar">
-        <span id="product-count">${listGiay.size()} sản phẩm</span>
-        <select id="sortPrice" class="sort-dropdown" onchange="sortProducts()">
-            <option value="default">Sắp xếp: Mặc định</option>
-            <option value="asc">Giá: Thấp đến Cao</option>
-            <option value="desc">Giá: Cao đến Thấp</option>
-        </select>
-    </div>
+    <h2>4. CHÍNH SÁCH ĐỔI TRẢ HÀNG</h2>
 
-    <main class="adidas-style-grid" id="productList">
-        <c:forEach var="sp" items="${listGiay}">
-            <div class="product-card" data-price="${sp.gia}">
-                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}" onerror="this.src='https://via.placeholder.com/300x220?text=Medi+Den'">
-                <h3>${sp.tenGiay}</h3>
-                <p class="price"><fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ</p>
-                <button class="add-cart" style="width:100%; padding:10px; background:#333; color:#fff; border:none; border-radius:5px; cursor:pointer"
-                        onclick="openModal('${sp.tenGiay}', '${sp.gia}', '${sp.hinhAnh}', '${sp.thuongHieu}')">
-                    Xem chi tiết
-                </button>
-            </div>
-        </c:forEach>
-    </main>
-</div>
+    <h3>4.1. Điều kiện đổi trả</h3>
+    <p>Chúng tôi hỗ trợ đổi trả sản phẩm trong vòng <span class="highlight">10 ngày</span> kể từ ngày nhận hàng.</p>
+    <ul>
+        <li>Đổi trả sản phẩm nếu có lỗi từ nhà sản xuất: đế bị bong tróc, nứt, lỗi đường may, hoặc các lỗi kỹ thuật về form dáng.</li>
+        <li>Đổi trả sản phẩm miễn phí nếu khách hàng gặp bất kỳ vấn đề kích ứng hoặc không vừa size (đối với hàng chưa qua sử dụng).</li>
+        <li>Hàng không đúng với sản phẩm khách hàng đã đặt đơn (sai mẫu, sai màu, sai size).</li>
+    </ul>
+    <p><strong>Yêu cầu sản phẩm:</strong> Phải còn nguyên tem mác, hộp đựng và chưa qua sử dụng. Mã đơn hàng phải trùng khớp với thông tin hệ thống.</p>
+
+    <h3>4.1.1 Sản phẩm nguyên giá & Khuyến mãi</h3>
+    <ul>
+        <li><strong>Sản phẩm nguyên giá:</strong> Được đổi sang sản phẩm khác giá trị tương đương hoặc cao hơn (bù chênh lệch).</li>
+        <li><strong>Sản phẩm khuyến mãi:</strong> Vẫn hỗ trợ đổi trả theo chương trình hiện hành tại thời điểm đổi.</li>
+    </ul>
+
+    <h2>4.2. Quy trình và thủ tục</h2>
+    <p>1. Gọi điện hoặc gửi email thông báo tình trạng sản phẩm kèm hình ảnh/video lỗi.</p>
+    <p>2. Gửi hàng về kho của <span class="highlight">Medi Den</span> (đảm bảo hàng nguyên vẹn, không hư hại do cố ý).</p>
+    <p>3. Thời gian xử lý: Trong vòng <strong>03 ngày làm việc</strong> kể từ khi nhận được hàng.</p>
+
+    <h2>4.3. Cước phí vận chuyển</h2>
+    <ul>
+        <li><strong>Lỗi do shop (Giao sai, hàng lỗi):</strong> Shop chịu 100% phí vận chuyển lượt về và lượt đi lần 2.</li>
+        <li><strong>Lỗi do khách hàng (Muốn đổi mẫu, đổi size):</strong> Khách hàng chịu phí vận chuyển 2 chiều.</li>
+    </ul>
+
+    <div class="contact-box">
+        <p><strong>Thông tin liên hệ hỗ trợ:</strong></p>
+        <p><i class="fas fa-phone-alt"></i> Tổng đài tư vấn: <span class="highlight">08 2222 1992</span></p>
+        <p><i class="fas fa-envelope"></i> Email: MediDen8888@gmail.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> Địa chỉ: 118 Đ. Phương Canh, Nam Từ Liêm, Hà Nội.</p>
+    </div>
+</main>
+
 <footer>
     <div class="footer-brands">
         <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg"
@@ -236,26 +269,5 @@
         </div>
     </div>
 </footer>
-<script>
-    // Hàm sắp xếp sản phẩm theo giá không cần tải lại trang
-    function sortProducts() {
-        const sortValue = document.getElementById('sortPrice').value;
-        const productList = document.getElementById('productList');
-        const products = Array.from(productList.getElementsByClassName('product-card'));
-
-        if (sortValue === 'default') return;
-
-        products.sort((a, b) => {
-            const priceA = parseFloat(a.getAttribute('data-price'));
-            const priceB = parseFloat(b.getAttribute('data-price'));
-            return sortValue === 'asc' ? priceA - priceB : priceB - priceA;
-        });
-
-        // Xóa danh sách cũ và chèn danh sách đã sắp xếp
-        productList.innerHTML = '';
-        products.forEach(p => productList.appendChild(p));
-    }
-</script>
-<script src="${pageContext.request.contextPath}/view/script.js"></script>
 </body>
 </html>

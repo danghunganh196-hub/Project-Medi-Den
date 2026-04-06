@@ -2,10 +2,7 @@ package com.example.Medi_Den_Project.controller;
 
 import com.example.Medi_Den_Project.entity.Giay;
 import com.example.Medi_Den_Project.entity.TheLoaiGiay;
-import com.example.Medi_Den_Project.repository.GiayRepository;
-import com.example.Medi_Den_Project.repository.HoaDonRepository;
-import com.example.Medi_Den_Project.repository.KhachHangRepository;
-import com.example.Medi_Den_Project.repository.TheLoaiGiayRepository;
+import com.example.Medi_Den_Project.repository.*;
 import com.google.gson.GsonBuilder;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -20,7 +17,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.example.Medi_Den_Project.entity.SizeGiay;
-import com.example.Medi_Den_Project.repository.SizeGiayRepository;
 import com.google.gson.Gson;
 
 @MultipartConfig(
@@ -46,7 +42,7 @@ public class QuanLyController extends HttpServlet {
 
     TheLoaiGiayRepository theLoaiGiayRepository = new TheLoaiGiayRepository();
     KhachHangRepository   khachHangRepository   = new KhachHangRepository();
-    GiayRepository        giayRepository        = new GiayRepository();
+    GiayRepository giayRepository        = new GiayRepository();
     HoaDonRepository      hoaDonRepository      = new HoaDonRepository();
     SizeGiayRepository    sizeGiayRepository    = new SizeGiayRepository();
 

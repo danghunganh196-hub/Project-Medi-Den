@@ -99,4 +99,23 @@ public class GiayRepository {
                 .setParameter("name", name)
                 .uniqueResult();
     }
+
+    public List<Giay> getByCategory(Integer categoryId, String brand) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            StringBuilder hql = new StringBuilder("FROM Giay g WHERE g.theLoaiGiay.id = :catId");
+
+            if (brand != null && !brand.isEmpty()) {
+                hql.append(" AND g.thuongHieu = :brandName");
+            }
+
+            var query = session.createQuery(hql.toString(), Giay.class)
+                    .setParameter("catId", categoryId);
+
+            if (brand != null && !brand.isEmpty()) {
+                query.setParameter("brandName", brand);
+            }
+
+            return query.list();
+        }
+    }
 }
