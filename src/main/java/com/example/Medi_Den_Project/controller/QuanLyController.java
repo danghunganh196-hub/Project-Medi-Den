@@ -31,7 +31,10 @@ import com.google.gson.Gson;
         "/san-pham/delete",
         "/don-hang",
         "/trang-chu-admin",
-        "/size-giay"
+        "/size-giay",
+        "/size-giay/add",
+        "/size-giay/update",
+        "/size-giay/delete",
 })
 public class QuanLyController extends HttpServlet{
     TheLoaiGiayRepository theLoaiGiayRepository = new TheLoaiGiayRepository();

@@ -242,7 +242,7 @@
                 <div class="nav-icon">📂</div>
                 Quản lý danh mục
             </div>
-            <div class="nav-item active" onclick="window.location.href='${pageContext.request.contextPath}/san-pham'">
+            <div class="nav-item active">
                 <div class="nav-icon">👟</div>
                 Quản lý sản phẩm
             </div>
@@ -381,7 +381,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Sản phẩm</th>
-                            <th>Danh mục</th>
+                            <th>Thể loại</th>
                             <th>Giá</th>
                             <th>Size & Số lượng</th>
                             <th>Trạng thái</th>

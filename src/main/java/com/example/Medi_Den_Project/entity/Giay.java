@@ -34,12 +34,12 @@ public class Giay {
     private TheLoaiGiay theLoaiGiay;
 
     @OneToMany(mappedBy = "giay", fetch = FetchType.EAGER)
-    private List<SizeGiay> size;
+    private List<SizeGiay> listSize;
 
     @Transient
     public String getSizeString() {
-        if (size == null || size.isEmpty()) return "";
-        return size.stream()
+        if (listSize == null || listSize.isEmpty()) return "";
+        return listSize.stream()
                 .map(s -> String.valueOf(s.getSoSize()))
                 .collect(Collectors.joining(","));
     }

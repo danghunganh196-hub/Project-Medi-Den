@@ -82,5 +82,34 @@ public class GiayRepository {
     }
     public Giay findByName(Session session, String name) { return session.createQuery( "FROM Giay WHERE tenGiay = :name", Giay.class ) .setParameter("name", name) .uniqueResult(); }
 
+    public void them(Giay giay) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            session.beginTransaction();
+            session.persist(giay);
+            session.getTransaction().commit();
+        }
+    }
+
+    public void sua(Giay giay) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            session.beginTransaction();
+            session.merge(giay);
+            session.getTransaction().commit();
+        }
+    }
+
+    public boolean xoa(Integer id) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            session.beginTransaction();
+            Giay g = session.get(Giay.class, id);
+            if (g == null) return false;
+            session.remove(g);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
 
