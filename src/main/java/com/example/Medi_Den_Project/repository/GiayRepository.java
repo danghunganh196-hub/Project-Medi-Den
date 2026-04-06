@@ -11,7 +11,12 @@ public class GiayRepository {
 
     public List<Giay> getAll() {
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
-            return session.createQuery("FROM Giay", Giay.class).list();
+            return session.createQuery(
+                    "SELECT DISTINCT g FROM Giay g " +
+                            "LEFT JOIN FETCH g.listSize " +
+                            "LEFT JOIN FETCH g.theLoaiGiay",
+                    Giay.class
+            ).list();
         }
     }
 
