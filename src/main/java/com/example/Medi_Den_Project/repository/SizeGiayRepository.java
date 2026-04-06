@@ -16,6 +16,10 @@ public class SizeGiayRepository {
                     .list();
         }
     }
+    public SizeGiay findById(Session session, Integer id) {
+        if (id == null) return null;
+        return session.get(SizeGiay.class, id);
+    }
 
     // Thêm size mới
     public void them(SizeGiay size) {

@@ -3,6 +3,8 @@ package com.example.Medi_Den_Project.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "gio_hang_chi_tiet",
         uniqueConstraints = @UniqueConstraint(columnNames = {"gio_hang_id", "giay_id", "size_id"}))
@@ -18,6 +20,9 @@ public class GioHangChiTiet {
 
     @Column(name = "so_luong", nullable = false)
     private Integer soLuong;
+
+    @Column(name = "don_gia", nullable = false)
+    private BigDecimal donGia;
 
     // =========================
     // RELATION

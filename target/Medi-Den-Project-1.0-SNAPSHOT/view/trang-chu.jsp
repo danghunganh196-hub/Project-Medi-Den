@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="com.example.Medi_Den_Project.entity.TaiKhoan" %>
 
 <html>
 <head>
@@ -16,6 +15,12 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- ✅ SWIPER CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <!-- ❗ SWIPER JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <!-- TOAST -->
 <div id="toast" style="
@@ -273,8 +278,11 @@
                 </div>
                 <div class="modal-actions">
                     <button class="btn-buy-now" onclick="buyNowFromModal()">MUA NGAY</button>
-                    <button class="btn-add-to-cart" onclick="addToCart()">THÊM VÀO GIỎ</button>
-                </div>
+                    <button class="btn-add-to-cart"
+                            onclick="addToCart()">
+                        Thêm vào giỏ
+                    </button>
+            </div>
             </div>
         </div>
     </div>
@@ -442,6 +450,34 @@
         </div>
     </div>
 </footer>
+<script>
+    window.onload = function () {
+        new Swiper('.swiper', {
+            loop: true,
+
+            // 🔥 HIỆU ỨNG FADE
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false
+            },
+
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    };
+</script>
 <script>
     window.isLoggedIn = <%= session.getAttribute("user") != null %>;
     window.contextPath = "${pageContext.request.contextPath}";

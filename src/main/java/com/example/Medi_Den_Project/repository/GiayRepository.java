@@ -19,6 +19,10 @@ public class GiayRepository {
             ).list();
         }
     }
+    public Giay findById(Session session, Integer id) {
+        if (id == null) return null;
+        return session.get(Giay.class, id);
+    }
 
     public Giay getById(Integer id) {
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
