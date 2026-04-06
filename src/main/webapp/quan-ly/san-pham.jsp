@@ -318,6 +318,54 @@
                         <button type="submit" class="btn-pink" id="btnSubmit">＋ Thêm</button>
                     </div>
                 </form>
+                <%-- BẢNG QUẢN LÝ SIZE — chỉ hiện khi đang ở mode "sửa" --%>
+                <div id="sizeSection" style="display:none; margin-top:24px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                        <span style="font-size:14px; font-weight:700; color:var(--text-dark);">Quản lý size</span>
+                        <button type="button" class="btn-pink" style="padding:6px 14px; font-size:12.5px;"
+                                onclick="toggleThemSize()">＋ Thêm size</button>
+                    </div>
+
+                    <%-- Form thêm size mới --%>
+                    <div id="themSizeForm" style="display:none; background:var(--pink-soft); border-radius:12px; padding:16px; margin-bottom:12px;">
+                        <div style="display:flex; gap:12px; align-items:flex-end;">
+                            <div class="form-group" style="margin:0; flex:1;">
+                                <label>Size</label>
+                                <input type="number" id="inputSizeMoi" min="35" max="50" placeholder="VD: 42">
+                            </div>
+                            <div class="form-group" style="margin:0; flex:1;">
+                                <label>Số lượng</label>
+                                <input type="number" id="inputSoLuongMoi" min="0" placeholder="VD: 5">
+                            </div>
+                            <button type="button" class="btn-pink" style="padding:10px 18px; white-space:nowrap;"
+                                    onclick="themSizeMoi()">Thêm</button>
+                            <button type="button" class="btn-cancel" onclick="toggleThemSize()">Hủy</button>
+                        </div>
+                    </div>
+
+                    <%-- Bảng size hiện có --%>
+                    <div id="sizeBang" style="border:1.5px solid rgba(240,18,122,0.12); border-radius:12px; overflow:hidden;">
+                        <table style="width:100%; border-collapse:collapse;">
+                            <thead>
+                            <tr style="background:#fdf0f7;">
+                                <th style="padding:10px 16px; text-align:left; font-size:11.5px; font-weight:700;
+                                text-transform:uppercase; letter-spacing:0.8px; color:var(--text-light);">Size</th>
+                                <th style="padding:10px 16px; text-align:left; font-size:11.5px; font-weight:700;
+                                text-transform:uppercase; letter-spacing:0.8px; color:var(--text-light);">Tồn kho</th>
+                                <th style="padding:10px 16px; text-align:right; font-size:11.5px; font-weight:700;
+                                text-transform:uppercase; letter-spacing:0.8px; color:var(--text-light);">Thao tác</th>
+                            </tr>
+                            </thead>
+                            <tbody id="sizeTbody">
+                            <%-- render bằng JS --%>
+                            </tbody>
+                        </table>
+                        <div id="sizeEmpty" style="display:none; padding:20px; text-align:center;
+                                    font-size:13px; color:var(--text-light);">
+                            Chưa có size nào. Thêm size bên trên.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -403,7 +451,105 @@
 </div>
 
 <script>
+    const contextPath = '${pageContext.request.contextPath}';
+
     let selectedId = null;
+    let currentSizes = [];
+
+    async function loadSizes(giayId) {
+        try {
+            const res = await fetch(contextPath + '/san-pham?action=getSizes&giayId=' + giayId);
+            currentSizes = await res.json();
+            renderSizeTable();
+        } catch (e) {
+            console.error('Lỗi load size:', e);
+        }
+    }
+
+    function renderSizeTable() {
+        const tbody = document.getElementById('sizeTbody');
+        const empty = document.getElementById('sizeEmpty');
+        tbody.innerHTML = '';
+
+        if (currentSizes.length === 0) {
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+
+        currentSizes.forEach(s => {
+            const tr = document.createElement('tr');
+            tr.style.borderTop = '1px solid rgba(240,18,122,0.06)';
+            tr.innerHTML =
+                '<td style="padding:10px 16px; font-weight:600;">' + s.soSize + '</td>' +
+                '<td style="padding:10px 16px;">' +
+                '<input type="number" value="' + s.soLuong + '" min="0"' +
+                ' style="width:80px; padding:5px 8px; border:1.5px solid rgba(240,18,122,0.2);' +
+                ' border-radius:8px; font-family:inherit; font-size:13px;"' +
+                ' onchange="capNhatSoLuong(' + s.id + ', this.value)">' +
+                '</td>' +
+                '<td style="padding:10px 16px; text-align:right;">' +
+                '<button onclick="xoaSize(' + s.id + ', ' + s.soSize + ')"' +
+                ' style="color:#dc2626; border:none; background:none; cursor:pointer;' +
+                ' font-weight:700; font-size:12.5px; padding:4px 8px;' +
+                ' border-radius:6px; transition:background 0.2s;"' +
+                ' onmouseover="this.style.background=\'#fee2e2\'"' +
+                ' onmouseout="this.style.background=\'none\'">Xóa</button>' +
+                '</td>';
+            tbody.appendChild(tr);
+        });
+    }
+
+    function toggleThemSize() {
+        const f = document.getElementById('themSizeForm');
+        f.style.display = f.style.display === 'none' ? 'block' : 'none';
+        if (f.style.display === 'block') document.getElementById('inputSizeMoi').focus();
+    }
+
+    async function themSizeMoi() {
+        const soSize  = document.getElementById('inputSizeMoi').value;
+        const soLuong = document.getElementById('inputSoLuongMoi').value;
+
+        if (!soSize || !soLuong) { alert('Vui lòng nhập đủ size và số lượng'); return; }
+        if (soSize < 35 || soSize > 50) { alert('Size phải từ 35 đến 50'); return; }
+        if (currentSizes.find(s => s.soSize == soSize)) { alert('Size này đã tồn tại'); return; }
+
+        const res = await fetch(contextPath + '/size-giay', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=them&giayId=' + selectedId + '&soSize=' + soSize + '&soLuong=' + soLuong
+        });
+
+        if (res.ok) {
+            document.getElementById('inputSizeMoi').value = '';
+            document.getElementById('inputSoLuongMoi').value = '';
+            toggleThemSize();
+            await loadSizes(selectedId);
+        }
+    }
+
+    async function capNhatSoLuong(sizeId, soLuong) {
+        await fetch(contextPath + '/size-giay', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=capNhat&sizeId=' + sizeId + '&soLuong=' + soLuong
+        });
+    }
+
+    async function xoaSize(sizeId, soSize) {
+        if (!confirm('Xóa size ' + soSize + '?')) return;
+        const res = await fetch(contextPath + '/size-giay', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=xoa&sizeId=' + sizeId
+        });
+        const result = await res.text();
+        if (result === 'ERROR_FK') {
+            alert('Không thể xóa — size này đã có trong đơn hàng!');
+        } else {
+            await loadSizes(selectedId);
+        }
+    }
 
     function chonRow(row, id, ten, gia, danhMucId, thuongHieu) {
         document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
@@ -422,11 +568,11 @@
         document.getElementById('inputGia').value = gia;
         document.getElementById('inputThuongHieu').value = thuongHieu;
         const dmSelect = document.getElementById('inputDanhMuc');
-        if (dmSelect) dmSelect.value = danhMucId;
+        if (dmSelect) dmSelect.value = String(danhMucId);
     }
 
     function toggleForm(mode) {
-        const formCard = document.getElementById('formCard');
+        const formCard  = document.getElementById('formCard');
         const formTitle = document.getElementById('formTitle');
         const formAction = document.getElementById('formAction');
         const btnSubmit = document.getElementById('btnSubmit');
@@ -449,6 +595,8 @@
             formTitle.textContent = 'Chỉnh sửa sản phẩm #' + selectedId;
             formAction.value = 'sua';
             btnSubmit.textContent = '💾 Lưu';
+            document.getElementById('sizeSection').style.display = 'block';
+            loadSizes(selectedId);
         }
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -456,11 +604,13 @@
 
     function dongForm() {
         document.getElementById('formCard').style.display = 'none';
+        document.getElementById('sizeSection').style.display = 'none';
+        currentSizes = [];
     }
 
     function xoaSanPham(id, ten) {
         if (confirm('Bạn có chắc muốn xóa sản phẩm ' + ten + '?')) {
-            window.location.href = '${pageContext.request.contextPath}/san-pham?action=xoa&id=' + id;
+            window.location.href = contextPath + '/san-pham?action=xoa&id=' + id;
         }
     }
 </script>
