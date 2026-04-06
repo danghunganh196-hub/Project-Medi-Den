@@ -17,6 +17,21 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+<!-- TOAST -->
+<div id="toast" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    display: none;
+    z-index: 9999;
+    font-weight: bold;
+">
+    ✅ Đã thêm vào giỏ hàng!
+</div>
 <body>
 <header>
     <div class="top-bar">
@@ -130,10 +145,10 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <aside class="sidebar">
     <!-- Thêm id và thẻ số lượng vào đây -->
-    <div class="icon-btn" id="cart-icon">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cart-count">0</span> <!-- Số nhảy ở đây -->
-    </div>
+        <div class="icon-btn" id="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>
     <div class="icon-btn"><i class="fas fa-cog"></i></div>
 </aside>
 
@@ -150,7 +165,7 @@
     <div class="cart-footer">
         <div class="total-price">
             <span>TỔNG TIỀN:</span>
-            <span id="cart-total-amount">0đ</span>
+            <span id="cart-total-amount"></span>
         </div>
         <button class="btn-checkout">THANH TOÁN</button>
     </div>
@@ -217,7 +232,6 @@
             </div>
             <h3>${sp.tenGiay}</h3>
             <p class="price"><fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ</p>
-
             <button class="add-cart"
                     onclick="openProductModal(this)"
                     data-id="${sp.id}"
@@ -225,7 +239,8 @@
                     data-price="${sp.gia}"
                     data-img="${sp.hinhAnh}"
                     data-brand="${sp.thuongHieu}"
-                    data-size="${sizeStr}">
+                    data-size="${sp.sizeString}"
+                    data-sizeid="${sp.sizeIdString}">
                 Xem chi tiết
             </button>
         </div>
@@ -251,6 +266,12 @@
                 <p>Chọn kích cỡ (Size):</p>
                 <div class="size-options" id="modalSizeContainer"></div>
 
+                <p>Số lượng:</p>
+                <div class="qty-box">
+                    <button onclick="changeQty(-1)">-</button>
+                    <input id="modalQty" type="number" value="1" min="1">
+                    <button onclick="changeQty(1)">+</button>
+                </div>
                 <div class="modal-actions">
                     <button class="btn-buy-now" onclick="buyNowFromModal()">MUA NGAY</button>
                     <button class="btn-add-to-cart" onclick="addToCart()">THÊM VÀO GIỎ</button>

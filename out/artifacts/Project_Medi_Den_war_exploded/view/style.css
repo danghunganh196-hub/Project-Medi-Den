@@ -530,9 +530,19 @@ footer {
     background: #fff;
     margin-right: 5px;
     cursor: pointer;
+    transition: 0.2s;
 }
-.size-options button:hover { border-color: #e91e63; color: #e91e63; }
 
+/* Hover chỉ là preview */
+.size-options button:hover {
+    border-color: #e91e63;
+    color: #e91e63;
+}
+.size-options button.active:active {
+    border: 2px solid #e91e63;
+    color: #e91e63;
+    background: #ffe4ec;
+}
 /* Nút mua hàng màu đỏ giống ảnh mẫu */
 .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 /* Nút Mua Ngay trong Modal sản phẩm */
