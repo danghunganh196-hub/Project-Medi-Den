@@ -342,7 +342,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Sản phẩm</th>
-                            <th>Danh mục</th>
+                            <th>Thể loại</th>
                             <th>Giá</th>
                             <th>Số lượng</th>
                             <th>Size</th>

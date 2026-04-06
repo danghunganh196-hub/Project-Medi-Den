@@ -2,10 +2,7 @@ package com.example.Medi_Den_Project.controller;
 
 import com.example.Medi_Den_Project.entity.Giay;
 import com.example.Medi_Den_Project.entity.TheLoaiGiay;
-import com.example.Medi_Den_Project.repository.GiayRepository;
-import com.example.Medi_Den_Project.repository.HoaDonRepository;
-import com.example.Medi_Den_Project.repository.KhachHangRepository;
-import com.example.Medi_Den_Project.repository.TheLoaiGiayRepository;
+import com.example.Medi_Den_Project.repository.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -32,7 +29,7 @@ public class QuanLyController extends HttpServlet{
     KhachHangRepository khachHangRepository = new KhachHangRepository();
     GiayRepository giayRepository = new GiayRepository();
     HoaDonRepository hoaDonRepository = new HoaDonRepository();
-
+    SizeGiayRepository sizeGiayRepository = new SizeGiayRepository();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -77,6 +74,7 @@ public class QuanLyController extends HttpServlet{
             System.out.println(">>> listSanPham size: " + list.size());
             req.setAttribute("listSanPham", list);
             req.setAttribute("listTheLoai", theLoaiGiayRepository.getAll());
+            req.setAttribute("listSizeGiay", sizeGiayRepository.getAll());
             req.getRequestDispatcher("/quan-ly/san-pham.jsp").forward(req, resp);
         } catch (Exception e) {
             System.out.println(">>> LỖI: " + e.getMessage());
