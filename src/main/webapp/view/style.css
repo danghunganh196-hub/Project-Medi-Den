@@ -374,12 +374,13 @@ footer {
 }
 
 .brand-item img {
-    height: 35px;
+    height: 40px; /* Độ cao bằng với các logo khác */
     width: auto;
-    /* Biến logo gốc thành màu trắng cho sang trên nền hồng */
+    /* Lệnh quan quan trọng nhất để nhuộm trắng logo */
     filter: brightness(0) invert(1);
     opacity: 0.8;
     transition: 0.3s;
+    object-fit: contain;
 }
 
 .brand-item img:hover {

@@ -384,10 +384,12 @@
                                      alt="Adidas"></div>
         <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/en/3/37/Jumpman_logo.svg"
                                      alt="Jordan"></div>
-        <div class="brand-item"><img
-                src="https://upload.wikimedia.org/wikipedia/commons/8/88/Puma_complete_logo.svg" alt="Puma"></div>
-        <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/New_Balance_logo.svg"
-                                     alt="NB"></div>
+        <div class="brand-item">
+            <img src="https://cdn.worldvectorlogo.com/logos/puma-logo.svg" alt="Puma">
+        </div>
+        <div class="brand-item">
+            <img src="https://logodownload.org/wp-content/uploads/2014/10/new-balance-logo-1.png" alt="New Balance">
+        </div>
     </div>
 
     <hr class="footer-divider">
