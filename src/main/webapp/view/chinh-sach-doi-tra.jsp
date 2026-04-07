@@ -123,30 +123,31 @@
             <h1>Medi Den</h1>
         </div>
         <ul class="nav-links">
-            <!-- Giày Thể Thao -->
             <li class="dropdown">
                 <a href="#">Giày Thể Thao <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="#">Nike Running</a></li>
-                    <li><a href="#">Adidas Running</a></li>
-                    <li><a href="#">Training</a></li>
-                    <li><a href="#">Basketball</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao">Tất cả</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Nike">Nike</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Adidas">Adidas</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Puma">Puma</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=New+Balance">New Balance</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Vans">Vans</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Clarks">Clarks</a></li>
                 </ul>
             </li>
-
-            <!-- Giày Thời Trang -->
             <li class="dropdown">
                 <a href="#">Giày Thời Trang <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="#">Air Force 1</a></li>
-                    <li><a href="#">Jordan</a></li>
-                    <li><a href="#">Stan Smith</a></li>
-                    <li><a href="#">Superstar</a></li>
-                    <li><a href="#">Vans Old Skool</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang">Tất cả</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Nike">Nike</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Adidas">Adidas</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Vans">Vans</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Puma">Puma</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=New+Balance">New Balance</a></li>
                 </ul>
             </li>
-
-            <!-- Giày Theo Hãng -->
             <li class="dropdown">
                 <a href="#">Giày Theo Hãng <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
@@ -160,26 +161,23 @@
                     <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Balenciaga">Balenciaga</a></li>
                 </ul>
             </li>
-
-            <!-- Giày Công Sở -->
             <li class="dropdown">
                 <a href="#">Giày Công Sở <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="#">Giày da nam</a></li>
-                    <li><a href="#">Giày lười</a></li>
-                    <li><a href="#">Giày Oxford</a></li>
-                    <li><a href="#">Giày Loafer</a></li>
+
+                    <li><a href="${pageContext.request.contextPath}/giay/cong-so?brand=Clarks">Clarks</a></li>
                 </ul>
             </li>
-
-            <!-- Giày Cao cấp -->
             <li class="dropdown">
-                <a href="#">Giày Cao cấp <i class="fas fa-chevron-down"></i></a>
+                <a href="#">Giày Cao Cấp <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="#">Giày da nam</a></li>
-                    <li><a href="#">Giày lười</a></li>
-                    <li><a href="#">Giày Oxford</a></li>
-                    <li><a href="#">Giày Loafer</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap">Tất cả</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Balenciaga">Balenciaga</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=New+Balance">New Balance</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Puma">Puma</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Adidas">Adidas</a></li>
+
                 </ul>
             </li>
         </ul>

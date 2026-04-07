@@ -67,32 +67,31 @@
             <h1>Medi Den</h1>
         </div>
         <ul class="nav-links">
-            <!-- Giày Thể Thao -->
             <li class="dropdown">
                 <a href="#">Giày Thể Thao <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <!-- Khi ấn vào sẽ dẫn đến trang giay-the-thao kèm tham số hãng -->
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao">Tất cả</a></li>
                     <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Nike">Nike</a></li>
                     <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Adidas">Adidas</a></li>
                     <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Puma">Puma</a></li>
                     <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=New+Balance">New Balance</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Vans">Vans</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Clarks">Clarks</a></li>
                 </ul>
             </li>
-
-            <!-- Giày Thời Trang -->
             <li class="dropdown">
                 <a href="#">Giày Thời Trang <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-
-                    <!-- Giày Thời Trang -->
-                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Nike">Air Force 1 / Jordan</a></li>
-                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Adidas">Stan Smith / Superstar</a></li>
-                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Vans">Vans Old Skool</a></li>
-
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang">Tất cả</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Nike">Nike</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Adidas">Adidas</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Vans">Vans</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Puma">Puma</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=New+Balance">New Balance</a></li>
                 </ul>
             </li>
-
-            <!-- Giày Theo Hãng -->
             <li class="dropdown">
                 <a href="#">Giày Theo Hãng <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
@@ -106,23 +105,23 @@
                     <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Balenciaga">Balenciaga</a></li>
                 </ul>
             </li>
-
-            <!-- Giày Công Sở -->
             <li class="dropdown">
                 <a href="#">Giày Công Sở <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
 
                     <li><a href="${pageContext.request.contextPath}/giay/cong-so?brand=Clarks">Clarks</a></li>
-
                 </ul>
             </li>
-
-            <!-- Giày Cao cấp -->
             <li class="dropdown">
-                <a href="#">Giày Cao cấp <i class="fas fa-chevron-down"></i></a>
+                <a href="#">Giày Cao Cấp <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-content">
-                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap">Tất cả Giày Cao Cấp</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap">Tất cả</a></li>
                     <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Balenciaga">Balenciaga</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=New+Balance">New Balance</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Puma">Puma</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Adidas">Adidas</a></li>
+
                 </ul>
             </li>
         </ul>
