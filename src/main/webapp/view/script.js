@@ -8,7 +8,52 @@ window.toggleCart = function () {
         console.error("Không tìm thấy thẻ id='mini-cart' trong HTML");
     }
 };
+
 document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("searchInput");
+    const resultBox = document.getElementById("searchResult");
+
+    if (input) {
+        input.addEventListener("keyup", function () {
+            let keyword = this.value.trim();
+
+            if (keyword.length === 0) {
+                resultBox.style.display = "none";
+                return;
+            }
+
+            fetch(window.contextPath + "/search?keyword=" + keyword)
+                .then(res => {
+                    if (!res.ok) throw new Error("Server lỗi: " + res.status);
+                    return res.json();
+                })
+                .then(data => {
+                    resultBox.innerHTML = ""; // Xóa sạch kết quả cũ trước khi hiện mới
+
+                    if (data.length === 0) {
+                        resultBox.innerHTML = "<p style='padding:15px; color:#888; text-align:center;'>Không tìm thấy sản phẩm</p>";
+                    } else {
+                        // Sử dụng map và join để tối ưu hiệu suất và tránh lỗi hiển thị
+                        const html = data.map(sp => `
+                            <div class="search-item" onclick="window.location.href='${window.contextPath}/giay/chi-tiet?id=${sp.id}'">
+                                <img src="${sp.image}" alt="${sp.name}">
+                                <div class="search-item-info">
+                                    <div class="search-item-name">${sp.name}</div>
+                                    <div class="search-item-price">${Number(sp.price).toLocaleString('vi-VN')}đ</div>
+                                </div>
+                            </div>
+                        `).join('');
+                        resultBox.innerHTML = html;
+                    }
+                    resultBox.style.display = "block";
+                })
+                .catch(err => {
+                    console.error("Lỗi search:", err);
+                    resultBox.style.display = "none";
+                });
+        });
+    }
+
     let cart = JSON.parse(localStorage.getItem('medi_cart')) || [];
 
     // ================= TOAST =================
@@ -20,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ================= MODAL =================
-    window.openProductModal = function(button) {
+    window.openProductModal = function (button) {
         const modal = document.getElementById('productModal');
         const name = button.dataset.name;
         const price = button.dataset.price;
@@ -48,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const btn = document.createElement('button');
                 btn.innerText = size;
                 btn.className = "size-item-btn";
-                btn.onclick = function() {
+                btn.onclick = function () {
                     sizeContainer.querySelectorAll('button').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     window.selectedSize = size;
@@ -62,8 +107,10 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "block";
     };
 
-    window.closeModal = function () { document.getElementById('productModal').style.display = "none"; };
-    window.changeQty = function(delta) {
+    window.closeModal = function () {
+        document.getElementById('productModal').style.display = "none";
+    };
+    window.changeQty = function (delta) {
         const input = document.getElementById('modalQty');
         let val = parseInt(input.value) || 1;
         val += delta;
@@ -72,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // ================= ADD TO CART =================
-    window.addToCart = function() {
+    window.addToCart = function () {
         if (!window.selectedSizeId) {
             showToast("❌ Vui lòng chọn size!");
             return;
@@ -92,15 +139,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (idx > -1) {
             cart[idx].qty += qty;
         } else {
-            cart.push({ giayId, sizeId, size, name, price, img, qty });
+            cart.push({giayId, sizeId, size, name, price, img, qty});
         }
         localStorage.setItem('medi_cart', JSON.stringify(cart));
 
         // Send to server
-        const payload = { giayId, sizeId, qty, price };
+        const payload = {giayId, sizeId, qty, price};
         fetch(window.contextPath + '/AddToCartServlet', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         })
             .then(res => res.json())
@@ -123,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // ================= RENDER CART =================
-    window.renderCart = async function() {
+    window.renderCart = async function () {
         const list = document.getElementById('cart-items-list');
         if (!list) return;
 
@@ -154,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p>Size: ${item.size}</p>
                         <p>${qty} x ${item.price.toLocaleString()}đ</p>
                     </div>
-                    <span onclick="removeItem(${item.giayId}, '${item.size}')">&times;</span>
+                    <span onclick="removeItem(${item.giayId}, ${item.sizeId})">&times;</span>
                 </div>
             `;
             });
@@ -169,17 +216,18 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 // ================= REMOVE ITEM =================
-    window.removeItem = async function(giayId, sizeId) {
+    window.removeItem = async function (giayId, sizeId) {
+        console.log("CLICK XÓA:", giayId, sizeId);
         if (!window.isLoggedIn) {
             showToast("⚠ Bạn cần đăng nhập để xóa sản phẩm!");
             return;
         }
 
         try {
-            const payload = { giayId, sizeId };
+            const payload = {giayId, sizeId};
             const res = await fetch(window.contextPath + '/RemoveFromCartServlet', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
             });
 
@@ -187,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let data;
             try {
                 data = JSON.parse(text);
-            } catch(e) {
+            } catch (e) {
                 console.error("Server trả về HTML thay vì JSON:", text);
                 showToast("❌ Lỗi server, không thể xóa giỏ hàng!");
                 return;
@@ -195,7 +243,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (data.status === "success") {
                 showToast("✅ Đã xóa sản phẩm khỏi giỏ hàng!");
-                renderCart(); // hàm render lại giỏ hàng
+
+                let cart = JSON.parse(localStorage.getItem('medi_cart')) || [];
+                cart = cart.filter(item => !(item.giayId == giayId && item.sizeId == sizeId));
+                localStorage.setItem('medi_cart', JSON.stringify(cart));
+
+                renderCart();
             } else if (data.status === "NOT_LOGGED_IN") {
                 showToast("⚠ Bạn cần đăng nhập!");
                 window.location.href = window.contextPath + "/view/dang-nhap.jsp";

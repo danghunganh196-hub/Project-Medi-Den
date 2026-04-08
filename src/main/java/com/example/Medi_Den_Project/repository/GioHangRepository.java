@@ -27,9 +27,12 @@ public class GioHangRepository {
         return cart;
     }
     public GioHang findByKhachHang(Session session, KhachHang kh) {
-        return session.createQuery("FROM GioHang g WHERE g.khachHang = :kh", GioHang.class)
+        return session.createQuery(
+                "SELECT g FROM GioHang g LEFT JOIN FETCH g.chiTietList WHERE g.khachHang = :kh",
+                GioHang.class
+        )
                 .setParameter("kh", kh)
-                .uniqueResult(); // vì 1 khách hàng chỉ có 1 giỏ
+                .uniqueResult();
     }
 
     public void addToCart(Session session, KhachHang kh, Giay giay, SizeGiay size, int soLuong, double donGia) {

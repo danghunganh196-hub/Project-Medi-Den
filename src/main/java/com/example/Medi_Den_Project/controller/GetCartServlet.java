@@ -50,11 +50,11 @@ public class GetCartServlet extends HttpServlet {
                 obj.addProperty("name", ghct.getGiay().getTenGiay());
                 obj.addProperty("price", ghct.getDonGia().doubleValue());
                 obj.addProperty("size", ghct.getSizeGiay().getSoSize());
+                obj.addProperty("sizeId", ghct.getSizeGiay().getId()); // ✅ FIX
                 obj.addProperty("qty", ghct.getSoLuong());
                 obj.addProperty("img", ghct.getGiay().getHinhAnh());
                 cartJson.add(obj);
             }
-
             out.print(gson.toJson(cartJson));
         } catch (Exception e) {
             e.printStackTrace();

@@ -21,6 +21,7 @@ import org.hibernate.Transaction;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 
 @WebServlet(name = "RemoveFromCartServlet", value = "/RemoveFromCartServlet")
 public class RemoveFromCartServlet extends HttpServlet {
@@ -67,8 +68,18 @@ public class RemoveFromCartServlet extends HttpServlet {
                 if (gioHang != null) {
                     GioHangChiTiet ghct = ghctRepo.findByGiayAndSize(session, gioHang, giayId, sizeId);
                     if (ghct != null) {
-                        session.delete(ghct);
+                        session.remove(ghct);
+                        gioHang.getChiTietList().remove(ghct);
+                        BigDecimal total = gioHang.getChiTietList().stream()
+                                .map(i -> i.getDonGia().multiply(BigDecimal.valueOf(i.getSoLuong())))
+                                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+                        gioHang.setTongTien(total);
+
+                        session.merge(gioHang); // 👈 quan trọng
+
                         tx.commit();
+
                         out.print("{\"status\":\"success\"}");
                         return;
                     }
