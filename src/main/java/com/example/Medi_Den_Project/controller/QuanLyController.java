@@ -30,6 +30,7 @@ import com.google.gson.Gson;
         "/danh-muc/update",
         "/danh-muc/delete",
         "/khach-hang",
+        "/khach-hang/toggle",
         "/san-pham",
         "/san-pham/add",
         "/san-pham/update",
@@ -45,6 +46,7 @@ public class QuanLyController extends HttpServlet {
     GiayRepository giayRepository        = new GiayRepository();
     HoaDonRepository      hoaDonRepository      = new HoaDonRepository();
     SizeGiayRepository    sizeGiayRepository    = new SizeGiayRepository();
+    TaiKhoanRepository taiKhoanRepository = new TaiKhoanRepository();
 
     Gson gson = new GsonBuilder()
             .excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT)
@@ -62,6 +64,8 @@ public class QuanLyController extends HttpServlet {
         if (uri.contains("danh-muc/delete")) { dmXoa(req, resp); return; }
 
         if (uri.contains("san-pham/delete"))  { spXoa(req, resp);    return; }
+
+        if (uri.contains("khach-hang/toggle")) { khToggle(req, resp); return; }
 
         if (uri.contains("danh-muc")) {
             dmhienThi(req, resp);
@@ -81,6 +85,22 @@ public class QuanLyController extends HttpServlet {
         } else if (uri.contains("size-giay")) {
             spGetSizes(req, resp);
         }
+    }
+
+    private void khToggle(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+
+            // Bước 1: đảo trangThai KhachHang, nhận trạng thái MỚI
+            boolean trangThaiMoi = khachHangRepository.toggleTrangThai(id);
+
+            // Bước 2: áp trạng thái đó sang tất cả TaiKhoan của khách hàng này
+            taiKhoanRepository.capNhatTrangThaiTheoKhachHang(id, trangThaiMoi);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        resp.sendRedirect(req.getContextPath() + "/khach-hang");
     }
 
     // ─────────────────────────────────────────────────────────────────────────

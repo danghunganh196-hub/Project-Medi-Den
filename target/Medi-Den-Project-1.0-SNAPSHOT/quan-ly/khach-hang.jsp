@@ -345,10 +345,10 @@
                                     </span>
                                 </td>
                                 <td>${kh.email}</td>
-                                <td style="text-align:right; padding-right:24px;">
-                                    <button class="btn-disable"
-                                            onclick="event.stopPropagation(); voHieuHoa('${kh.id}', '${kh.ten}')">
-                                            ${kh.trangThai ? 'Vô hiệu hoá' : 'Kích hoạt'}
+                                <td style="text-align: center; width: 150px;">
+                                    <button class="${kh.trangThai ? 'btn-disable' : 'btn-pink'}"
+                                            onclick="event.stopPropagation(); voHieuHoa('${kh.id}', '${kh.ten}', '${kh.trangThai}')">
+                                            ${kh.trangThai ? 'Vô hiệu hóa' : 'Kích hoạt'}
                                     </button>
                                 </td>
                             </tr>
@@ -363,17 +363,14 @@
 <script>
     let selectedId = null;
 
-    function voHieuHoa(id, ten) {
-        if (confirm('Bạn có chắc muốn vô hiệu hoá khách hàng ' + ten + '?')) {
-            window.location.href = '${pageContext.request.contextPath}/khach-hang?action=voHieu&id=' + id;
+    function voHieuHoa(id, ten, hienTai) {
+        let statusText = hienTai === 'true' ? 'VÔ HIỆU HÓA' : 'KÍCH HOẠT LẠI';
+        if (confirm('Bạn có chắc muốn ' + statusText + ' khách hàng ' + ten + '?')) {
+            // Gọi đến URL đã khai báo trong Controller: /khach-hang/toggle
+            window.location.href = '${pageContext.request.contextPath}/khach-hang/toggle?id=' + id;
         }
     }
 
-    function xoaKhachHang(id, ten) {
-        if (confirm('Bạn có chắc muốn xóa khách hàng ' + ten + '?')) {
-            window.location.href = '${pageContext.request.contextPath}/khach-hang?action=xoa&id=' + id;
-        }
-    }
 </script>
 </body>
 </html>

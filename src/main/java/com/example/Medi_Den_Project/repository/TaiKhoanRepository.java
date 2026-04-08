@@ -3,6 +3,7 @@ package com.example.Medi_Den_Project.repository;
 import com.example.Medi_Den_Project.entity.TaiKhoan;
 import com.example.Medi_Den_Project.utility.HibernateConfig;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -32,11 +33,28 @@ public class TaiKhoanRepository {
         }
     }
 
-    public TaiKhoan login(String username, String password){
+    public TaiKhoan login(String username, String password) {
+        // Thêm điều kiện trangThai = true vào query
         return (TaiKhoan) session.createQuery(
-                "FROM TaiKhoan WHERE username = :u AND password = :p")
+                "FROM TaiKhoan WHERE username = :u AND password = :p AND trangThai = true")
                 .setParameter("u", username)
                 .setParameter("p", password)
                 .uniqueResult();
+    }
+
+    public void capNhatTrangThaiTheoKhachHang(Integer khachHangId, boolean trangThaiMoi) {
+        Transaction tx = null;
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            tx = session.beginTransaction();
+            session.createMutationQuery(
+                    "UPDATE TaiKhoan SET trangThai = :tt WHERE khachHang.id = :khId")
+                    .setParameter("tt", trangThaiMoi)
+                    .setParameter("khId", khachHangId)
+                    .executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
     }
 }
