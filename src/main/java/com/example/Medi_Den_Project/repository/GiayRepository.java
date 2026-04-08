@@ -19,6 +19,7 @@ public class GiayRepository {
 
             return session.createQuery(hql, Giay.class)
                     .setParameter("kw", "%" + keyword + "%")
+                    .setMaxResults(5) // 🔥 Giới hạn tối đa 5 sản phẩm ở đây
                     .getResultList();
 
         } catch (Exception e) {

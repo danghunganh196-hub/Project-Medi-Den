@@ -16,8 +16,8 @@
     }
     /* --- 2. Header & Navigation --- */
     header {
-        position: relative;
-        z-index: 1;
+        position: relative; /* Đảm bảo header có vị trí để nhận z-index */
+        z-index: 9999;      /* Cao hơn phần slidechuyen bên dưới */
         background-color: #e91e63;
         /* Màu hồng chủ đạo */
         color: white;
@@ -59,12 +59,13 @@
         width: 100%;
     }
     .navbar {
+        overflow: visible !important;
+
         display: flex;
         align-items: center;
         justify-content: space-between;
         /* Đẩy Logo - Menu - Search ra 3 phần */
         gap: 20px;
-        overflow: visible;
     }
 
     /* Cụm Logo */
@@ -117,40 +118,120 @@
     .nav-links a:hover {
         border-bottom: 2px solid white;
     }
-
-    /* Ô tìm kiếm */
+     /* Container bao quanh ô input và nút search */
     .search-box {
         position: relative;
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        border-radius: 20px; /* Bo tròn hoàn toàn kiểu viên thuốc */
+        padding: 4px 4px 4px 18px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Đổ bóng nhẹ cho ô search */
+        transition: all 0.3s ease;
+        border: 1px solid #eee;
+        width: fit-content;
     }
 
-    /* Tìm đến đoạn .search-result trong file style.css của bạn và thay thế/bổ sung: */
+    /* Hiệu ứng khi nhấn vào ô search */
+    .search-box:focus-within {
+        box-shadow: 0 4px 20px rgba(233, 30, 99, 0.2);
+        border-color: #ff2d81;
+    }
+
+    /* Ô nhập liệu */
+    .search-box input {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 14px;
+        color: #333;
+        height: 25px;
+        width: 200px;
+        font-weight: 500;
+    }
+
+    .search-box input::placeholder {
+        color: #bbb;
+        font-style: italic;
+    }
+
+    /* Nút tìm kiếm (Kính lúp) */
+    .search-box button {
+        background: #ff2d81; /* Màu hồng thương hiệu */
+        color: white;
+        border: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%; /* Nút tròn */
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .search-box button:hover {
+        background: #d81b60;
+        transform: scale(1.05);
+    }
+
+    /* Khung chứa kết quả tìm kiếm */
     .search-result {
         position: absolute;
-        top: 100%;
+        top: calc(100% + 15px);
         left: 0;
-        width: 300px; /* Hoặc 100% tùy bạn muốn độ rộng */
-        background: white; /* Bắt buộc phải có nền trắng để không bị lộ ảnh bên dưới */
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Tạo độ nổi */
-        z-index: 99999; /* Đảm bảo cao hơn tất cả các thành phần khác */
-        max-height: 400px; /* Giới hạn chiều dài */
-        overflow-y: auto; /* Nếu nhiều kết quả quá thì có thanh cuộn */
-        display: none; /* Mặc định ẩn, chỉ hiện khi có kết quả */
+        width: 320px; /* Tăng chiều rộng để hiển thị thoải mái */
+        background: #ffffff !important;
+        border-radius: 16px; /* Bo góc nhiều hơn cho hiện đại */
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); /* Bóng đổ đổ sâu và sang */
+        z-index: 999999 !important;
+        display: none;
+        overflow: hidden;
+        padding: 10px 0;
+        border: 1px solid rgba(0,0,0,0.05);
     }
 
+    /* Từng dòng sản phẩm */
     .search-item {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 10px;
-        border-bottom: 1px solid #eee;
+        gap: 15px;
+        padding: 12px 20px;
+        border-bottom: 1px solid #f9f9f9;
         cursor: pointer;
-        color: #333; /* Màu chữ đen để dễ đọc trên nền trắng */
     }
 
+    .search-item:last-child { border-bottom: none; }
+
     .search-item:hover {
-        background: #fff0f5; /* Màu hồng nhạt khi hover cho hợp tone */
+        background-color: #fff9fb; /* Hồng cực nhạt khi rê chuột */
+    }
+
+    /* Ảnh giày nhỏ */
+    .search-item img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 10px; /* Bo góc ảnh */
+        background: #f5f5f5;
+    }
+
+    /* Tên và giá */
+    .search-item-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: #222;
+        margin-bottom: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .search-item-price {
+        color: #ff2d81;
+        font-weight: 700;
+        font-size: 13px;
     }
 
     .price {
@@ -265,6 +346,8 @@
     }
 
     .slidechuyen {
+        position: relative;
+        z-index: 1; /* Để nó ở lớp thấp nhất */
         width: 100%;
         height: 450px;
         /* Độ cao của banner */
