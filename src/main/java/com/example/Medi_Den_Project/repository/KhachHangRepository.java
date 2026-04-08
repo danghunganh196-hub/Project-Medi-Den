@@ -53,4 +53,17 @@ public class KhachHangRepository {
             return false;
         }
     }
+
+    public boolean isEmailExists(String email) {
+        try {
+            // Trả về true nếu tìm thấy khách hàng có email này
+            Long count = (Long) session.createQuery("SELECT count(kh) FROM KhachHang kh WHERE kh.email = :e")
+                    .setParameter("e", email)
+                    .uniqueResult();
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

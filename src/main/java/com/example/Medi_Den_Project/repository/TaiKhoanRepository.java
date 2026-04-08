@@ -68,4 +68,16 @@ public class TaiKhoanRepository {
             e.printStackTrace();
         }
     }
+
+    public boolean isUsernameExists(String username) {
+        try {
+            Long count = (Long) session.createQuery("SELECT count(tk) FROM TaiKhoan tk WHERE tk.username = :u")
+                    .setParameter("u", username)
+                    .uniqueResult();
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

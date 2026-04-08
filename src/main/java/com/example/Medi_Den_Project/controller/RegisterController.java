@@ -16,6 +16,10 @@ import java.io.IOException;
         "/register"
 })
 public class RegisterController extends HttpServlet {
+
+    KhachHangRepository khRepo = new KhachHangRepository();
+    TaiKhoanRepository tkRepo = new TaiKhoanRepository();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
@@ -29,13 +33,50 @@ public class RegisterController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         // Lấy dữ liệu từ form
-        String ten = req.getParameter("ten");
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+        String ten = req.getParameter("ten").trim();
+        String username = req.getParameter("username").trim();
+        String password = req.getParameter("password").trim();
         Boolean gioiTinh = Boolean.valueOf(req.getParameter("gioiTinh"));
-        Integer tuoi = req.getParameter("tuoi").isEmpty() ? null : Integer.valueOf(req.getParameter("tuoi"));
-        String diaChi = req.getParameter("diaChi");
-        String email = req.getParameter("email");
+        Integer tuoi = Integer.valueOf(req.getParameter("tuoi"));
+        String diaChi = req.getParameter("diaChi").trim();
+        String email = req.getParameter("email").trim();
+
+        // 1. Kiểm tra các trường không được để trống (sau khi đã trim)
+        if (ten.isEmpty() || username.isEmpty() || password.trim().isEmpty() || diaChi.isEmpty() || email.isEmpty()) {
+            req.setAttribute("message", "Vui lòng không để trống hoặc nhập chỉ toàn khoảng trắng!");
+            req.getRequestDispatcher("/view/dang-ky.jsp").forward(req, resp);
+            return;
+        }
+
+        // 2. Kiểm tra Username không được chứa khoảng trắng ở giữa
+        // \s đại diện cho bất kỳ ký tự khoảng trắng nào (cách, tab, xuống dòng)
+        if (username.contains(" ")) {
+            req.setAttribute("message", "Tên đăng nhập không được chứa khoảng trắng!");
+            req.getRequestDispatcher("/view/dang-ky.jsp").forward(req, resp);
+            return;
+        }
+
+        // 4. Kiểm tra Email (Regex cũ của bạn đã bao gồm việc chặn space)
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        if (!email.matches(emailRegex)) {
+            req.setAttribute("message", "Định dạng Email không hợp lệ!");
+            req.getRequestDispatcher("/view/dang-ky.jsp").forward(req, resp);
+            return;
+        }
+
+        // 1. Kiểm tra Email duy nhất
+        if (khRepo.isEmailExists(email)) {
+            req.setAttribute("message", "Email này đã được sử dụng!<br>Vui lòng dùng email khác.");
+            req.getRequestDispatcher("/view/dang-ky.jsp").forward(req, resp);
+            return;
+        }
+
+        // 2. Kiểm tra Username duy nhất
+        if (tkRepo.isUsernameExists(username)) {
+            req.setAttribute("message", "Tên đăng nhập đã tồn tại!<br>Vui lòng chọn tên khác.");
+            req.getRequestDispatcher("/view/dang-ky.jsp").forward(req, resp);
+            return;
+        }
 
         // 1. Tạo KhachHang
         KhachHang kh = new KhachHang();
@@ -44,8 +85,6 @@ public class RegisterController extends HttpServlet {
         kh.setTuoi(tuoi);
         kh.setDiaChi(diaChi);
         kh.setEmail(email);
-
-        KhachHangRepository khRepo = new KhachHangRepository();
         khRepo.themKhachHang(kh);
 
         // 2. Tạo TaiKhoan
@@ -55,12 +94,10 @@ public class RegisterController extends HttpServlet {
         tk.setVaiTro("USER");
         tk.setTrangThai(true);
         tk.setKhachHang(kh);
-
-        TaiKhoanRepository tkRepo = new TaiKhoanRepository();
         tkRepo.themTaiKhoan(tk);
 
         // Thông báo
-        req.setAttribute("message", "Đăng ký thành công!");
+        req.setAttribute("message", "Đăng ký thành công!<br>Vui lòng chuyển qua trang đăng nhập để tiếp tục!");
 
         req.getRequestDispatcher("/view/dang-ky.jsp").forward(req, resp);
     }

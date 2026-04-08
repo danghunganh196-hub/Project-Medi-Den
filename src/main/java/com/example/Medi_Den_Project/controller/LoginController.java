@@ -40,7 +40,7 @@ public class LoginController extends HttpServlet {
         if (tk != null) {
             // 2. Nếu đăng nhập đúng, kiểm tra tiếp trạng thái hoạt động
             if (Boolean.FALSE.equals(tk.getTrangThai())) {
-                req.setAttribute("message", "Tài khoản của bạn đã bị vô hiệu hóa. Vui lòng liên hệ Admin!");
+                req.setAttribute("message", "Tài khoản của bạn đã bị vô hiệu hóa.<br>Vui lòng liên hệ Admin!");
                 // Quan trọng: Phải forward về đúng trang login đang hiển thị
                 req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
                 return;
@@ -57,6 +57,19 @@ public class LoginController extends HttpServlet {
             // 4. Sai tài khoản hoặc mật khẩu
             req.setAttribute("message", "Sai tên đăng nhập hoặc mật khẩu!");
             req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
+        }
+
+        if (username == null || username.trim().isEmpty()) {
+            req.setAttribute("message", "Dữ liệu không được để trống!");
+            req.getRequestDispatcher("/view/dang-ky.jsp").forward(req, resp);
+            return;
+        }
+
+        // Kiểm tra xem có chứa khoảng trắng bên trong không
+        if (username.contains(" ")) {
+            req.setAttribute("message", "Dữ liệu không được chứa dấu cách!");
+            req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
+            return;
         }
     }
 }
