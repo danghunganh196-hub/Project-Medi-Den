@@ -198,7 +198,7 @@
         </div>
 
         <div class="input-group">
-            <input type="number" name="tuoi" placeholder="Tuổi" required>
+            <input type="number" name="tuoi" placeholder="Tuổi" min="18" max="100" required>
             <i class="fa-solid fa-cake-candles"></i>
         </div>
 
