@@ -140,8 +140,14 @@
 
         .message {
             margin-top: 20px;
-            color: #ffb3b3;
-            font-size: 13px;
+            color: #ffb3b3; /* Màu đỏ nhạt */
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(255, 0, 0, 0.1); /* Thêm nền đỏ mờ */
+            padding: 10px;
+            border-radius: 8px;
+            /* Chỉ hiển thị khi có tin nhắn */
+            display: ${empty message ? 'none' : 'block'};
         }
     </style>
 </head>

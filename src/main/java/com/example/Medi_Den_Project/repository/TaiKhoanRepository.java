@@ -33,10 +33,21 @@ public class TaiKhoanRepository {
         }
     }
 
+    public TaiKhoan findByUsername(String username) {
+        try {
+            return (TaiKhoan) session.createQuery("FROM TaiKhoan WHERE username = :u")
+                    .setParameter("u", username)
+                    .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public TaiKhoan login(String username, String password) {
-        // Thêm điều kiện trangThai = true vào query
+        // Bỏ điều kiện trangThai = true ở đây để Controller có thể kiểm tra riêng
         return (TaiKhoan) session.createQuery(
-                "FROM TaiKhoan WHERE username = :u AND password = :p AND trangThai = true")
+                "FROM TaiKhoan WHERE username = :u AND password = :p")
                 .setParameter("u", username)
                 .setParameter("p", password)
                 .uniqueResult();

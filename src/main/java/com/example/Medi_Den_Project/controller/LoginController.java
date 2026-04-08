@@ -15,7 +15,7 @@ import java.io.IOException;
         "/login", "/logout"
 })
 public class LoginController extends HttpServlet {
-    TaiKhoanRepository repo = new TaiKhoanRepository();
+    TaiKhoanRepository taiKhoanRepository = new TaiKhoanRepository();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,21 +34,29 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        TaiKhoan tk = repo.login(username, password);
+        // 1. Kiểm tra đăng nhập (User + Pass)
+        TaiKhoan tk = taiKhoanRepository.login(username, password);
 
         if (tk != null) {
-            req.getSession().setAttribute("user", tk); // lưu session user
+            // 2. Nếu đăng nhập đúng, kiểm tra tiếp trạng thái hoạt động
+            if (Boolean.FALSE.equals(tk.getTrangThai())) {
+                req.setAttribute("message", "Tài khoản của bạn đã bị vô hiệu hóa. Vui lòng liên hệ Admin!");
+                // Quan trọng: Phải forward về đúng trang login đang hiển thị
+                req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
+                return;
+            }
 
+            // 3. Nếu mọi thứ OK, lưu session và chuyển hướng theo vai trò
+            req.getSession().setAttribute("user", tk);
             if ("ADMIN".equalsIgnoreCase(tk.getVaiTro())) {
                 resp.sendRedirect(req.getContextPath() + "/trang-chu-admin");
             } else {
                 resp.sendRedirect(req.getContextPath() + "/giay/hien-thi");
             }
-            return;
         } else {
-            req.setAttribute("error", "Sai tài khoản hoặc mật khẩu");
+            // 4. Sai tài khoản hoặc mật khẩu
+            req.setAttribute("message", "Sai tên đăng nhập hoặc mật khẩu!");
             req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
         }
-
     }
 }
