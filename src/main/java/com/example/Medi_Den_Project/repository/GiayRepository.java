@@ -5,9 +5,29 @@ import com.example.Medi_Den_Project.utility.HibernateConfig;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GiayRepository {
+    public List<Giay> searchByName(String keyword) {
+        Session session = HibernateConfig.getFACTORY().openSession();
+
+        try {
+            if (keyword == null) keyword = "";
+
+            String hql = "FROM Giay g WHERE lower(g.tenGiay) LIKE lower(:kw)";
+
+            return session.createQuery(hql, Giay.class)
+                    .setParameter("kw", "%" + keyword + "%")
+                    .getResultList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        } finally {
+            session.close();
+        }
+    }
 
     public List<Giay> getAll() {
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
