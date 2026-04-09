@@ -44,8 +44,8 @@
             TaiKhoan user = (TaiKhoan) session.getAttribute("user");
             if (user == null) {
         %>
-        <a class="btn login" href="/view/dang-nhap.jsp">Đăng nhập</a>
-        <a class="btn register" href="/view/dang-ky.jsp">Đăng ký</a>
+        <a class="btn login" href="/login">Đăng nhập</a>
+        <a class="btn register" href="/register">Đăng ký</a>
         <%
         } else {
         %>

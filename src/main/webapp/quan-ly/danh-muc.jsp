@@ -191,6 +191,12 @@
                 </tbody>
             </table>
         </div>
+
+        <c:if test="${not empty errorMessage}">
+            <div style="color: white; background: #dc3545; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px;">
+                ⚠️ ${errorMessage}
+            </div>
+        </c:if>
     </main>
 </div>
 

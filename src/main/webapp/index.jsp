@@ -1,4 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    // Chuyển hướng người dùng đến URL mong muốn
+    response.sendRedirect(request.getContextPath() + "/giay/hien-thi");
+%>
 <!DOCTYPE html>
 <html>
 <head>

@@ -341,10 +341,18 @@ public class QuanLyController extends HttpServlet {
         req.getRequestDispatcher("/quan-ly/danh-muc.jsp").forward(req, resp);
     }
 
-    private void dmThem(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void dmThem(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String ten = req.getParameter("tenTheLoai");
+
+        // Kiểm tra trống hoặc chỉ có khoảng trắng
+        if (ten == null || ten.trim().isEmpty()) {
+            req.setAttribute("errorMessage", "Tên danh mục không được để trống!");
+            dmhienThi(req, resp); // Quay lại trang hiển thị để hiện thông báo lỗi
+            return;
+        }
+
         TheLoaiGiay tlg = new TheLoaiGiay();
-        tlg.setTenTheLoai(ten);
+        tlg.setTenTheLoai(ten.trim());
         theLoaiGiayRepository.themTheLoai(tlg);
         resp.sendRedirect(req.getContextPath() + "/danh-muc");
     }
@@ -361,11 +369,20 @@ public class QuanLyController extends HttpServlet {
 
     private void dmSua(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
-            Integer id     = Integer.parseInt(req.getParameter("id"));
-            String  tenMoi = req.getParameter("tenTheLoai");
+            String idStr = req.getParameter("id");
+            String tenMoi = req.getParameter("tenTheLoai");
+
+            // Kiểm tra trống
+            if (tenMoi == null || tenMoi.trim().isEmpty()) {
+                req.setAttribute("errorMessage", "Tên danh mục cập nhật không được để trống!");
+                dmhienThi(req, resp);
+                return;
+            }
+
+            Integer id = Integer.parseInt(idStr);
             TheLoaiGiay tlg = theLoaiGiayRepository.getById(id);
             if (tlg != null) {
-                tlg.setTenTheLoai(tenMoi);
+                tlg.setTenTheLoai(tenMoi.trim());
                 theLoaiGiayRepository.suaTheLoai(tlg);
             }
         } catch (Exception e) {
