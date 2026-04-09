@@ -56,6 +56,14 @@ public class QuanLyController extends HttpServlet {
             .excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT)
             .create();
 
+    // Hàm kiểm tra tính hợp lệ của dữ liệu đầu vào
+    private String validateSanPham(String ten, String thuongHieu) {
+        if (ten == null || ten.trim().isEmpty()) return "Tên sản phẩm không được để trống!";
+        if (thuongHieu == null || thuongHieu.trim().isEmpty()) return "Thương hiệu không được để trống!";
+
+        return null; // Trả về null nếu mọi thứ đều hợp lệ
+    }
+
     // ─────────────────────────────────────────────────────────────────────────
     // GET
     // ─────────────────────────────────────────────────────────────────────────
@@ -216,6 +224,15 @@ public class QuanLyController extends HttpServlet {
             Double gia        = Double.parseDouble(req.getParameter("gia"));
             int    danhMucId  = Integer.parseInt(req.getParameter("danhMucId"));
 
+            // Thực hiện validate
+            String error = validateSanPham(ten, thuongHieu);
+
+            if (error != null) {
+                req.setAttribute("errorMessage", error);
+                sphienThi(req, resp); // Quay lại trang hiển thị với thông báo lỗi
+                return;
+            }
+
             TheLoaiGiay theLoai = theLoaiGiayRepository.getById(danhMucId);
 
             Giay giay = new Giay();
@@ -231,6 +248,7 @@ public class QuanLyController extends HttpServlet {
             giayRepository.them(giay);
         } catch (Exception e) {
             e.printStackTrace();
+            resp.sendRedirect(req.getContextPath() + "/san-pham?error=true");
         }
         resp.sendRedirect(req.getContextPath() + "/san-pham");
     }
@@ -245,6 +263,15 @@ public class QuanLyController extends HttpServlet {
             String thuongHieu = req.getParameter("thuongHieu");
             Double gia        = Double.parseDouble(req.getParameter("gia"));
             int    danhMucId  = Integer.parseInt(req.getParameter("danhMucId"));
+
+            // Thực hiện validate
+            String error = validateSanPham(ten, thuongHieu);
+
+            if (error != null) {
+                req.setAttribute("errorMessage", error);
+                sphienThi(req, resp); // Quay lại trang hiển thị với thông báo lỗi
+                return;
+            }
 
             Giay giay = giayRepository.getById(id);
             if (giay == null) { resp.sendError(404); return; }

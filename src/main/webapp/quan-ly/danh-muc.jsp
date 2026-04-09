@@ -559,6 +559,12 @@
             <button class="btn-pink" onclick="moFormThem()">＋ Thêm danh mục</button>
         </div>
 
+        <c:if test="${not empty errorMessage}">
+            <div style="color: white; background: #dc3545; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px;">
+                ⚠️ ${errorMessage}
+            </div>
+        </c:if>
+
         <div id="formCard" class="card" style="display:none;">
             <div class="card-header">
                 <span class="card-title" id="formTitle">Thêm danh mục mới</span>
@@ -607,12 +613,6 @@
                 </tbody>
             </table>
         </div>
-
-        <c:if test="${not empty errorMessage}">
-            <div style="color: white; background: #dc3545; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px;">
-                ⚠️ ${errorMessage}
-            </div>
-        </c:if>
     </main>
 </div>
 

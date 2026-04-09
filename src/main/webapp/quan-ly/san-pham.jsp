@@ -375,6 +375,12 @@
             <button class="btn-pink" onclick="toggleForm('them')">＋ Thêm sản phẩm</button>
         </div>
 
+        <c:if test="${not empty errorMessage}">
+            <div style="background-color: #fee2e2; color: #dc2626; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-weight: 600;">
+                ⚠️ ${errorMessage}
+            </div>
+        </c:if>
+
         <%-- ══════════════════════════════════════════════════
              FORM THÊM / SỬA
              THAY ĐỔI SO VỚI BẢN CŨ:
