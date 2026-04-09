@@ -1,6 +1,7 @@
 package com.example.Medi_Den_Project.controller;
 
 import com.example.Medi_Den_Project.entity.Giay;
+import com.example.Medi_Den_Project.entity.KhachHang;
 import com.example.Medi_Den_Project.entity.TheLoaiGiay;
 import com.example.Medi_Den_Project.repository.*;
 import com.google.gson.GsonBuilder;
@@ -31,8 +32,10 @@ import com.google.gson.Gson;
         "/danh-muc/update",
         "/danh-muc/delete",
         "/khach-hang",
+        "/khach-hang/search",
         "/khach-hang/toggle",
         "/san-pham",
+        "/san-pham/search",
         "/san-pham/add",
         "/san-pham/update",
         "/san-pham/delete",
@@ -70,6 +73,10 @@ public class QuanLyController extends HttpServlet {
 
         if (uri.contains("danh-muc/search")) { dmTim(req, resp); return; }
 
+        if (uri.contains("khach-hang/search")) { khTim(req, resp); return; }
+
+        if (uri.contains("san-pham/search")) { spTim(req, resp); return; }
+
         if (uri.contains("danh-muc")) {
             dmhienThi(req, resp);
         } else if (uri.contains("khach-hang")) {
@@ -90,15 +97,48 @@ public class QuanLyController extends HttpServlet {
         }
     }
 
+    private void spTim(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String keyword = req.getParameter("searchKeywordSp");
+        List<Giay> list;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            list = giayRepository.searchByNameAdmin(keyword.trim());
+            req.setAttribute("searchKeywordSp", keyword);
+        } else {
+            list = giayRepository.getAll();
+        }
+
+        req.setAttribute("listSanPham", list);
+        req.setAttribute("listDanhMuc", theLoaiGiayRepository.getAll()); // Vẫn cần list danh mục cho modal thêm/sửa
+        req.getRequestDispatcher("/quan-ly/san-pham.jsp").forward(req, resp);
+    }
+
+    private void khTim(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String keyword = req.getParameter("searchKeywordKh");
+        List<KhachHang> list;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            // Nếu có nhập từ khóa -> Tìm kiếm
+            list = khachHangRepository.searchByTen(keyword.trim());
+            req.setAttribute("searchKeywordKh", keyword); // Gửi lại để hiển thị trên ô input
+        } else {
+            // Nếu không -> Lấy tất cả
+            list = khachHangRepository.getAll();
+        }
+
+        req.setAttribute("listKhachHang", list);
+        req.getRequestDispatcher("/quan-ly/khach-hang.jsp").forward(req, resp);
+    }
+
     private void dmTim(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String keyword = req.getParameter("searchKeyword");
+        String keyword = req.getParameter("searchKeywordDm");
         List<TheLoaiGiay> list;
 
         // Kiểm tra nếu người dùng có nhập từ khóa
         if (keyword != null && !keyword.trim().isEmpty()) {
             list = theLoaiGiayRepository.searchByTen(keyword.trim());
             // Gửi lại keyword để ô input không bị trống sau khi load trang
-            req.setAttribute("searchKeyword", keyword);
+            req.setAttribute("searchKeywordDm", keyword);
         } else {
             list = theLoaiGiayRepository.getAll();
         }

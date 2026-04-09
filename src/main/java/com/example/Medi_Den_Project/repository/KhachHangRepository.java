@@ -66,4 +66,16 @@ public class KhachHangRepository {
             return false;
         }
     }
+
+    public List<KhachHang> searchByTen(String keyword) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            // Tìm kiếm khách hàng có tên chứa từ khóa (không phân biệt hoa thường)
+            return session.createQuery("SELECT kh FROM KhachHang kh WHERE kh.ten LIKE :k", KhachHang.class)
+                    .setParameter("k", "%" + keyword + "%")
+                    .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

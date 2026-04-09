@@ -202,6 +202,84 @@
             font-size: 11px; font-weight: 700; padding: 2px 7px;
             border-radius: 6px; margin: 1px;
         }
+
+        /* ── PROFILE DROPDOWN ── */
+        .profile-wrapper {
+            position: relative;
+        }
+        .profile-dropdown {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(240,18,122,0.18), 0 2px 8px rgba(0,0,0,0.08);
+            border: 1.5px solid rgba(240,18,122,0.12);
+            min-width: 220px;
+            padding: 16px;
+            display: none;
+            z-index: 999;
+            animation: dropIn 0.2s ease;
+        }
+        .profile-dropdown.open { display: block; }
+        @keyframes dropIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .profile-dropdown-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 14px;
+            border-bottom: 1.5px solid rgba(240,18,122,0.10);
+            margin-bottom: 12px;
+        }
+        .profile-avatar-lg {
+            width: 44px; height: 44px;
+            background: var(--pink);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 18px; color: white;
+            flex-shrink: 0;
+        }
+        .profile-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .profile-role {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+        .profile-greeting {
+            font-size: 13px;
+            color: var(--text-mid);
+            margin-bottom: 14px;
+            padding: 8px 10px;
+            background: var(--pink-soft);
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        .btn-logout {
+            width: 100%;
+            padding: 10px 14px;
+            background: white;
+            border: 1.5px solid rgba(240,18,122,0.25);
+            border-radius: 10px;
+            color: var(--pink);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-logout:hover {
+            background: var(--pink);
+            color: white;
+            border-color: var(--pink);
+        }
     </style>
 </head>
 <body>
@@ -213,13 +291,33 @@
     </div>
     <span class="topbar-title">Quản lý sản phẩm</span>
     <div class="topbar-right">
-        <div class="topbar-search">
-            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-            </svg>
-            <input type="text" placeholder="Tìm kiếm...">
+        <form action="${pageContext.request.contextPath}/san-pham/search" method="get">
+            <div class="topbar-search" style="display: flex; align-items: center;">
+                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </button>
+                <input type="text" name="searchKeywordSp" value="${searchKeywordSp}" placeholder="Tìm kiếm sản phẩm...">
+            </div>
+        </form>
+
+        <div class="profile-wrapper">
+            <div class="topbar-avatar" id="avatarBtn" onclick="toggleDropdown()">A</div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="profile-dropdown-header">
+                    <div class="profile-avatar-lg">A</div>
+                    <div>
+                        <div class="profile-name">Admin</div>
+                        <div class="profile-role">Quản trị viên</div>
+                    </div>
+                </div>
+                <div class="profile-greeting">👋 Xin chào, Admin!</div>
+                <button class="btn-logout" onclick="window.location.href='${pageContext.request.contextPath}/logout'">
+                    🚪 Đăng xuất
+                </button>
+            </div>
         </div>
-        <div class="topbar-avatar">A</div>
     </div>
 </header>
 
@@ -659,6 +757,15 @@
             window.location.href = contextPath + '/san-pham/delete?id=' + id;
         }
     }
+
+    function toggleDropdown() {
+        document.getElementById('profileDropdown').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+        if (!document.querySelector('.profile-wrapper').contains(e.target)) {
+            document.getElementById('profileDropdown').classList.remove('open');
+        }
+    });
 </script>
 </body>
 </html>

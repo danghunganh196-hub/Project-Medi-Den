@@ -480,7 +480,7 @@
                         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
                     </svg>
                 </button>
-                <input type="text" name="searchKeyword" value="${searchKeyword}" placeholder="Tìm kiếm danh mục...">
+                <input type="text" name="searchKeywordDm" value="${searchKeywordDm}" placeholder="Tìm kiếm danh mục...">
             </div>
         </form>
 

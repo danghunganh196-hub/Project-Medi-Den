@@ -143,4 +143,18 @@ public class GiayRepository {
             return query.list();
         }
     }
+
+    public List<Giay> searchByNameAdmin(String keyword) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            if (keyword == null) keyword = "";
+            // lower để tìm kiếm không phân biệt hoa thường
+            String hql = "FROM Giay g WHERE lower(g.tenGiay) LIKE lower(:kw)";
+            return session.createQuery(hql, Giay.class)
+                    .setParameter("kw", "%" + keyword + "%")
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }
