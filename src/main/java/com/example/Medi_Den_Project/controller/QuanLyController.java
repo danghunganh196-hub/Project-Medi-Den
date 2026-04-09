@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 )
 @WebServlet(name = "quanLyController", value = {
         "/danh-muc",
+        "/danh-muc/search",
         "/danh-muc/add",
         "/danh-muc/update",
         "/danh-muc/delete",
@@ -67,6 +68,8 @@ public class QuanLyController extends HttpServlet {
 
         if (uri.contains("khach-hang/toggle")) { khToggle(req, resp); return; }
 
+        if (uri.contains("danh-muc/search")) { dmTim(req, resp); return; }
+
         if (uri.contains("danh-muc")) {
             dmhienThi(req, resp);
         } else if (uri.contains("khach-hang")) {
@@ -85,6 +88,23 @@ public class QuanLyController extends HttpServlet {
         } else if (uri.contains("size-giay")) {
             spGetSizes(req, resp);
         }
+    }
+
+    private void dmTim(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String keyword = req.getParameter("searchKeyword");
+        List<TheLoaiGiay> list;
+
+        // Kiểm tra nếu người dùng có nhập từ khóa
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            list = theLoaiGiayRepository.searchByTen(keyword.trim());
+            // Gửi lại keyword để ô input không bị trống sau khi load trang
+            req.setAttribute("searchKeyword", keyword);
+        } else {
+            list = theLoaiGiayRepository.getAll();
+        }
+
+        req.setAttribute("listTheLoai", list);
+        req.getRequestDispatcher("/quan-ly/danh-muc.jsp").forward(req, resp);
     }
 
     private void khToggle(HttpServletRequest req, HttpServletResponse resp) throws IOException {

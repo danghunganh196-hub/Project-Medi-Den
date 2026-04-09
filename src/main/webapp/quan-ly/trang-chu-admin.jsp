@@ -488,12 +488,6 @@
   </div>
   <span class="topbar-title">Trang chủ Quản lý</span>
   <div class="topbar-right">
-    <div class="topbar-search">
-      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
-      <input type="text" placeholder="Tìm kiếm...">
-    </div>
     <div class="profile-wrapper">
       <div class="topbar-avatar" id="avatarBtn" onclick="toggleDropdown()">A</div>
       <div class="profile-dropdown" id="profileDropdown">

@@ -53,4 +53,16 @@ public class TheLoaiGiayRepository {
             session.getTransaction().rollback();
         }
     }
+
+    public List<TheLoaiGiay> searchByTen(String keyword) {
+        try {
+            // Tìm kiếm các thể loại có tên chứa keyword (không phân biệt hoa thường với %...%)
+            return session.createQuery("SELECT tl FROM TheLoaiGiay tl WHERE tl.tenTheLoai LIKE :k", TheLoaiGiay.class)
+                    .setParameter("k", "%" + keyword + "%")
+                    .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
