@@ -545,11 +545,11 @@
 
     <div class="sidebar-section">
       <div class="sidebar-section-label">Hệ thống</div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/thong-ke'">
         <div class="nav-icon">📊</div>
         Thống kê & Báo cáo
       </div>
-      <div class="nav-item">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/cai-dat'">
         <div class="nav-icon">⚙️</div>
         Cài đặt
       </div>
@@ -560,30 +560,6 @@
   <main class="main">
     <div class="page-header">
       <h1>Xin chào, Admin</h1>
-    </div>
-
-    <!-- STAT CARDS -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">💰</div>
-        <div class="stat-value">-</div>
-        <div class="stat-label">Doanh thu tháng</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🛍️</div>
-        <div class="stat-value">-</div>
-        <div class="stat-label">Đơn hàng mới</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">👥</div>
-        <div class="stat-value">-</div>
-        <div class="stat-label">Khách hàng</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">👟</div>
-        <div class="stat-value">-</div>
-        <div class="stat-label">Sản phẩm</div>
-      </div>
     </div>
 
     <!-- TABLE: Recent Orders (full width) -->

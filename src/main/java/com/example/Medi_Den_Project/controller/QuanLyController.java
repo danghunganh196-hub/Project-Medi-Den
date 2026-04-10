@@ -41,7 +41,9 @@ import com.google.gson.Gson;
         "/san-pham/delete",
         "/don-hang",
         "/trang-chu-admin",
-        "/size-giay"
+        "/size-giay",
+        "/thong-ke",
+        "/cai-dat"
 })
 public class QuanLyController extends HttpServlet {
 
@@ -102,7 +104,35 @@ public class QuanLyController extends HttpServlet {
             trangChuAdmin(req, resp);
         } else if (uri.contains("size-giay")) {
             spGetSizes(req, resp);
+        }else if (uri.contains("cai-dat")) {
+            hienthiCaiDat(req, resp);
+        } else if (uri.contains("thong-ke")) {
+            thongKe(req, resp);
         }
+    }
+
+    private void thongKe(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        // Lấy dữ liệu thống kê cơ bản
+        long tongKhachHang = khachHangRepository.getAll().size();
+        long tongSanPham   = giayRepository.getAll().size();
+        long tongDonHang   = hoaDonRepository.getAll().size();
+
+        // Doanh thu (demo - sau này sẽ query thật từ HoaDon)
+        double doanhThuThang = 248500000; // 248.5 triệu (bạn có thể thay bằng query sau)
+
+        req.setAttribute("tongKhachHang", tongKhachHang);
+        req.setAttribute("tongSanPham", tongSanPham);
+        req.setAttribute("tongDonHang", tongDonHang);
+        req.setAttribute("doanhThuThang", doanhThuThang);
+
+        req.getRequestDispatcher("/quan-ly/thong-ke.jsp").forward(req, resp);
+    }
+
+    private void hienthiCaiDat(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("listTaiKhoan",taiKhoanRepository.getAll());
+        req.getRequestDispatcher("/quan-ly/cai-dat.jsp").forward(req, resp);
     }
 
     private void spTim(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
