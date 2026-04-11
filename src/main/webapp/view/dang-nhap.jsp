@@ -47,6 +47,14 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .forgot-link {
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .forgot-link:hover { color: #ff4d79; }
+
         .login-box h2 {
             font-size: 14px;
             font-weight: 300;
@@ -169,6 +177,10 @@
         </div>
 
         <button type="submit" class="btn-login">Đăng nhập</button>
+
+        <div style="text-align:right; margin-top:12px;">
+            <a href="/forgot-password" class="forgot-link">Quên mật khẩu?</a>
+        </div>
     </form>
 
     <div class="extra">

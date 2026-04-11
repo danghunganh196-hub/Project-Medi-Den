@@ -80,4 +80,16 @@ public class TaiKhoanRepository {
             return false;
         }
     }
+    public boolean resetPassword(String username, String newPassword) {
+        String hql = "UPDATE TaiKhoan t SET t.password = :pw WHERE t.username = :un";
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            Transaction tx = session.beginTransaction();
+            int rows = session.createMutationQuery(hql)
+                    .setParameter("pw", newPassword)
+                    .setParameter("un", username)
+                    .executeUpdate();
+            tx.commit();
+            return rows > 0;
+        }
+    }
 }
