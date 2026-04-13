@@ -1,104 +1,117 @@
 package com.example.Medi_Den_Project.controller;
 
-import com.example.Medi_Den_Project.entity.Giay;
-import com.example.Medi_Den_Project.entity.HoaDon;
-import com.example.Medi_Den_Project.entity.HoaDonChiTiet;
-import com.example.Medi_Den_Project.entity.KhachHang;
-import com.example.Medi_Den_Project.repository.GiayRepository;
-import com.example.Medi_Den_Project.repository.HoaDonRepository;
+import com.example.Medi_Den_Project.entity.*;
 import com.example.Medi_Den_Project.utility.HibernateConfig;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import jakarta.servlet.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet("/checkout")
 public class CheckoutServlet extends HttpServlet {
-    //    private HoaDonRepository hdRepo = new HoaDonRepository();
-//    private GiayRepository giayRepo = new GiayRepository();
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    }
+    private final Gson gson = new Gson();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        Gson gson = new Gson();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        try (Session session = HibernateConfig.getFACTORY().openSession()) {
-            BufferedReader reader = request.getReader();
-            JsonObject data = gson.fromJson(reader, JsonObject.class);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-            if (data == null) {
-                out.print("{\"status\":\"error\",\"message\":\"Data null\"}");
-                return;
+        TaiKhoan user = (TaiKhoan) request.getSession().getAttribute("user");
+        if (user == null) {
+            response.getWriter().write("{\"status\":\"NOT_LOGGED_IN\"}");
+            return;
+        }
+
+        Session session = HibernateConfig.getFACTORY().openSession();
+        Transaction tx = session.beginTransaction();
+
+        try {
+            JsonObject data = gson.fromJson(request.getReader(), JsonObject.class);
+
+            String diaChi = data.get("diaChi").getAsString();
+            String payment = data.get("payment").getAsString();
+            JsonArray items = data.getAsJsonArray("items");
+
+            KhachHang kh = session.get(KhachHang.class, user.getKhachHang().getId());
+
+            if (kh == null) {
+                throw new RuntimeException("Không tìm thấy khách hàng!");
             }
 
-            HoaDonRepository hdRepo = new HoaDonRepository();
-            GiayRepository giayRepo = new GiayRepository();
+            // ===== HÓA ĐƠN =====
+            HoaDon hoaDon = new HoaDon();
+            hoaDon.setKhachHang(kh);
+            hoaDon.setDiaChi(diaChi);
+            hoaDon.setPhuongThucTT(payment);
+            hoaDon.setNgayDat(LocalDate.now());
+            hoaDon.setTrangThai("Chờ xác nhận");
+            hoaDon.setTongTien(0.0);
 
-            // 1. KHÁCH HÀNG
-            KhachHang kh = new KhachHang();
-            kh.setTen(data.get("tenKhachHang").getAsString());
-            kh.setEmail(data.get("email").getAsString());
-            kh.setDiaChi(data.get("diaChi").getAsString());
-            kh.setGioiTinh(true);
-            kh.setTuoi(20);
+            session.save(hoaDon);
 
-            // 2. HÓA ĐƠN
-            HoaDon hd = new HoaDon();
-            hd.setNgayDat(LocalDate.now());
-            hd.setTongTien(data.get("tongTien").getAsDouble());
-            hd.setDiaChi(data.get("diaChi").getAsString());
-            hd.setTrangThai("Chờ xác nhận");
+            double total = 0;
 
-            // Lấy phương thức thanh toán từ JSON gửi lên
-            String pttt = data.has("phuongThucTT") ? data.get("phuongThucTT").getAsString() : "COD";
-            hd.setPhuongThucTT(pttt);
-
-            // 3. CHI TIẾT HÓA ĐƠN
-            JsonArray items = data.getAsJsonArray("chiTiet");
-            List<HoaDonChiTiet> listCT = new ArrayList<>();
-
+            // ===== CHI TIẾT =====
             for (JsonElement e : items) {
-                JsonObject item = e.getAsJsonObject();
-                String tenSP = item.get("tenSanPham").getAsString();
-                Giay sp = giayRepo.findByName(session, tenSP);
 
-                if (sp == null) {
-                    out.print("{\"status\":\"error\",\"message\":\"Không tìm thấy SP: " + tenSP + "\"}");
-                    return;
-                }
+                JsonObject obj = e.getAsJsonObject();
+
+                int giayId = obj.get("giayId").getAsInt();
+                int sizeId = obj.get("sizeId").getAsInt();
+                int qty = obj.get("qty").getAsInt();
+                double price = obj.get("price").getAsDouble();
+
+                Giay giay = session.get(Giay.class, giayId);
+                SizeGiay size = session.get(SizeGiay.class, sizeId);
+
+                if (giay == null) throw new RuntimeException("Không tìm thấy giày");
+                if (size == null) throw new RuntimeException("Không tìm thấy size");
 
                 HoaDonChiTiet ct = new HoaDonChiTiet();
-                ct.setGiay(sp);
-                ct.setSoLuong(item.get("soLuong").getAsInt());
-                ct.setDonGia(item.get("donGia").getAsDouble());
-                ct.setThanhTien(ct.getSoLuong() * ct.getDonGia());
-                listCT.add(ct);
+                ct.setHoaDon(hoaDon);
+                ct.setGiay(giay);
+                ct.setSizeGiay(size);
+                ct.setSoLuong(qty);
+                ct.setDonGia(price);
+
+                session.save(ct);
+
+                total += price * qty;
             }
 
-            // GỌI REPOSITORY LƯU TOÀN BỘ (Sử dụng Transaction)
-            hdRepo.saveFullOrder(session, kh, hd, listCT);
+            hoaDon.setTongTien(total);
+            session.update(hoaDon);
 
-            out.print("{\"status\":\"success\"}");
+            tx.commit();
+
+            // ===== RESPONSE =====
+            JsonObject res = new JsonObject();
+            res.addProperty("status", "success");
+            res.addProperty("name", kh.getTen() != null ? kh.getTen() : "Không rõ");
+            res.addProperty("email", kh.getEmail() != null ? kh.getEmail() : "Chưa có email");
+
+            response.getWriter().write(gson.toJson(res));
 
         } catch (Exception e) {
+            tx.rollback();
             e.printStackTrace();
-            out.print("{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}");
+
+            response.getWriter().write(
+                    "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}"
+            );
+        } finally {
+            session.close();
         }
     }
 }

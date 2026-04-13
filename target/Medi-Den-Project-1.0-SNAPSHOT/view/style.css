@@ -253,7 +253,7 @@
         position: fixed;
         left: 20px;            /* Cách lề trái màn hình 20px */
         top: 150px;            /* Cách lề trên màn hình 150px (để không đè vào Header) */
-        z-index: 100;          /* Đảm bảo nó luôn nằm trên các lớp khác */
+        z-index: 10000;          /* Đảm bảo nó luôn nằm trên các lớp khác */
     }
 
     .icon-btn {
@@ -816,7 +816,7 @@
         height: 100vh;
         background: white;
         box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-        z-index: 1000;
+        z-index: 999999;
         transition: 0.4s;
         padding: 20px;
         display: flex;

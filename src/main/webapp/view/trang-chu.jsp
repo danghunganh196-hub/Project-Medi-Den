@@ -173,7 +173,7 @@
             <span>TỔNG TIỀN:</span>
             <span id="cart-total-amount"></span>
         </div>
-        <button class="btn-checkout">THANH TOÁN</button>
+        <button class="btn-checkout" onclick="openCheckout()">THANH TOÁN</button>\
     </div>
 </div>
 <div class="content">
@@ -372,7 +372,7 @@
                     <p>Cảm ơn bạn đã tin tưởng <strong>Medi Den</strong>.</p>
                     <div class="order-info-summary">
                         <p><strong>Người nhận:</strong> <span id="res-name"></span></p>
-                        <p><strong>Số điện thoại:</strong> <span id="res-phone"></span></p>
+                        <p><strong>Email :</strong> <span id="res-email"></span></p>
                         <p><strong>Địa chỉ:</strong> <span id="res-address"></span></p>
                         <p><strong>Thanh toán:</strong> <span id="res-payment"></span></p>
                     </div>

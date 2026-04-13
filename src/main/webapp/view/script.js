@@ -330,30 +330,27 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     window.buyNowFromModal = function () {
-        if (!window.isLoggedIn) {
-            showToast("⚠ Bạn cần đăng nhập trước!");
-            setTimeout(() => {
-                window.location.href = "/login";
-            }, 1500);
-            return;
-        }
-
         if (!window.selectedSizeId) {
             showToast("❌ Vui lòng chọn size!");
             return;
         }
 
+        window.buyNowItem = {
+            giayId: Number(window.selectedGiayId),
+            sizeId: Number(window.selectedSizeId),
+            qty: Number(document.getElementById('modalQty').value),
+            price: parseInt(document.getElementById('modalPrice').innerText.replace(/\D/g, ''))
+        };
+
         closeModal();
 
-        document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
-        document.getElementById('step-1').classList.add('active');
         document.getElementById('checkout-modal').style.display = 'block';
+        document.getElementById('step-1').classList.add('active');
 
-        // Khởi tạo Hà Nội cố định và load quận/huyện
         initTinhSelect();
     };
 
-    // ================= VALIDATE BƯỚC 1 =================
+    window.buyNowItem = null;
     // ================= VALIDATE BƯỚC 1 =================
     window.validateStep1 = function () {
         let valid = true;
@@ -403,19 +400,116 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('step-2').classList.add('active');
         }
     };
+    window.openCheckout = function () {
 
-    window.completeOrder = function () {
-        const payment = document.querySelector('input[name="payment"]:checked');
-        const paymentLabel = payment?.value === 'COD' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng';
+        if (!window.isLoggedIn) {
+            alert("Bạn cần đăng nhập!");
+            window.location.href = "/login";
+            return;
+        }
 
-        document.getElementById('res-address').innerText = window.fullAddress || document.getElementById('address').value;
-        document.getElementById('res-payment').innerText = paymentLabel;
+        const cart = JSON.parse(localStorage.getItem('medi_cart')) || [];
 
-        document.getElementById('step-2').classList.remove('active');
-        document.getElementById('step-3').classList.add('active');
+        if (cart.length === 0) {
+            alert("Giỏ hàng trống!");
+            return;
+        }
+
+        // đóng giỏ hàng
+        document.getElementById('mini-cart').classList.remove('active');
+
+        // mở checkout
+        document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step-1').classList.add('active');
+        document.getElementById('checkout-modal').style.display = 'block';
+
+        initTinhSelect();
     };
 
-    // ================= ĐÓNG CHECKOUT =================
+    window.completeOrder = async function () {
+
+        const payment = document.querySelector('input[name="payment"]:checked');
+        const paymentValue = payment?.value;
+
+        if (!paymentValue) {
+            alert("Vui lòng chọn phương thức thanh toán!");
+            return;
+        }
+
+        const cart = window.buyNowItem
+            ? [window.buyNowItem]
+            : (JSON.parse(localStorage.getItem('medi_cart')) || []);
+
+        if (cart.length === 0) {
+            alert("Không có sản phẩm!");
+            return;
+        }
+
+        const payload = {
+            diaChi: window.fullAddress || "",
+            payment: paymentValue,
+            items: cart.map(item => ({
+                giayId: Number(item.giayId),
+                sizeId: Number(item.sizeId),
+                qty: Number(item.qty),
+                price: Number(item.price)
+            }))
+        };
+
+        try {
+            const res = await fetch(window.contextPath + "/checkout", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+
+            if (data.status === "success") {
+
+                // clear cart nếu không phải mua ngay
+                if (!window.buyNowItem) {
+                    localStorage.removeItem('medi_cart');
+
+                    await fetch(window.contextPath + "/ClearCartServlet", {
+                        method: "POST"
+                    });
+                }
+
+                // reset buyNow
+                window.buyNowItem = null;
+
+                // UI
+                document.getElementById('cart-items-list').innerHTML = "";
+                document.getElementById('cart-count').innerText = 0;
+                document.getElementById('cart-total-amount').innerText = "0đ";
+
+                // INFO
+                document.getElementById('res-address').innerText = window.fullAddress;
+                document.getElementById('res-name').innerText = data.name;
+                document.getElementById('res-email').innerText = data.email;
+
+                document.getElementById('res-payment').innerText =
+                    paymentValue === "COD"
+                        ? "Thanh toán khi nhận hàng"
+                        : "Chuyển khoản";
+
+                // chuyển bước
+                document.getElementById('step-2').classList.remove('active');
+                document.getElementById('step-3').classList.add('active');
+
+            } else if (data.status === "NOT_LOGGED_IN") {
+                alert("Bạn cần đăng nhập!");
+                window.location.href = "/login";
+            } else {
+                alert("Lỗi: " + data.message);
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Lỗi server!");
+        }
+    };
     window.closeCheckout = function () {
         document.getElementById('checkout-modal').style.display = 'none';
     };
