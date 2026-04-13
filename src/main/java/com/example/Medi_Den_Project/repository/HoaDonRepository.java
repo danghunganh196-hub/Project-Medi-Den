@@ -70,4 +70,39 @@ public class HoaDonRepository {
             throw new RuntimeException("Lỗi lưu đơn: " + e.getMessage());
         }
     }
+
+    public void updateTrangThai(Integer id, String trangThaiMoi) {
+        Transaction transaction = null;
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            transaction = session.beginTransaction();
+
+            // Lấy đối tượng HoaDon từ DB
+            HoaDon hd = session.get(HoaDon.class, id);
+            if (hd != null) {
+                // Cập nhật trạng thái
+                hd.setTrangThai(trangThaiMoi);
+                session.merge(hd); // Lưu thay đổi
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public List<HoaDonChiTiet> getChiTietByHoaDonId(Integer hoaDonId) {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            // Sử dụng JOIN FETCH để lấy luôn thông tin sản phẩm (giay)
+            String hql = "SELECT ct FROM HoaDonChiTiet ct " +
+                    "JOIN FETCH ct.giay " +
+                    "WHERE ct.hoaDon.id = :hdId";
+            return session.createQuery(hql, HoaDonChiTiet.class)
+                    .setParameter("hdId", hoaDonId)
+                    .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

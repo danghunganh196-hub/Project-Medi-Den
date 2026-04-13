@@ -1,8 +1,6 @@
 package com.example.Medi_Den_Project.controller;
 
-import com.example.Medi_Den_Project.entity.Giay;
-import com.example.Medi_Den_Project.entity.KhachHang;
-import com.example.Medi_Den_Project.entity.TheLoaiGiay;
+import com.example.Medi_Den_Project.entity.*;
 import com.example.Medi_Den_Project.repository.*;
 import com.google.gson.GsonBuilder;
 import jakarta.servlet.ServletException;
@@ -17,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.Medi_Den_Project.entity.SizeGiay;
 import com.google.gson.Gson;
 
 @MultipartConfig(
@@ -40,6 +37,8 @@ import com.google.gson.Gson;
         "/san-pham/update",
         "/san-pham/delete",
         "/don-hang",
+        "/don-hang/chi-tiet",
+        "/don-hang/xac-nhan",
         "/trang-chu-admin",
         "/size-giay",
         "/thong-ke",
@@ -86,6 +85,15 @@ public class QuanLyController extends HttpServlet {
         if (uri.contains("khach-hang/search")) { khTim(req, resp); return; }
 
         if (uri.contains("san-pham/search")) { spTim(req, resp); return; }
+
+        if (uri.contains("don-hang/chi-tiet")) {
+            hdChiTiet(req, resp);
+            return;
+        }
+        if (uri.contains("don-hang/xac-nhan")) {
+            hdXacNhan(req, resp);
+            return;
+        }
 
         if (uri.contains("danh-muc")) {
             dmhienThi(req, resp);
@@ -526,5 +534,34 @@ public class QuanLyController extends HttpServlet {
     private void trangChuAdmin(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.getRequestDispatcher("/quan-ly/trang-chu-admin.jsp").forward(req, resp);
+    }
+
+    private void hdChiTiet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        try {
+            Integer id = Integer.parseInt(req.getParameter("id"));
+
+            // 1. Lấy thông tin hóa đơn
+            req.setAttribute("hoaDon", hoaDonRepository.getById(id));
+
+            // 2. Lấy danh sách sản phẩm (Chi tiết hóa đơn)
+            // Lưu ý: Bạn cần đảm bảo trong HoaDonRepository đã có hàm getChiTietByHoaDonId
+            req.setAttribute("dsChiTiet", hoaDonRepository.getChiTietByHoaDonId(id));
+
+            req.getRequestDispatcher("/quan-ly/chi-tiet-don-hang.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendRedirect(req.getContextPath() + "/don-hang");
+        }
+    }
+
+    private void hdXacNhan(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            Integer id = Integer.parseInt(req.getParameter("id"));
+            hoaDonRepository.updateTrangThai(id, "Đã xác nhận");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        resp.sendRedirect(req.getContextPath() + "/don-hang");
     }
 }

@@ -31,8 +31,8 @@ public class HoaDonChiTiet {
     @JoinColumn(name = "hoa_don_id", nullable = false)
     private HoaDon hoaDon;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "giay_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "giay_id")
     private Giay giay;
 
     @ManyToOne(fetch = FetchType.LAZY)
