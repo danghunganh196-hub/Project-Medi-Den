@@ -154,13 +154,159 @@
                 <img src="${sp.hinhAnh}" alt="${sp.tenGiay}" onerror="this.src='https://via.placeholder.com/300x220?text=Medi+Den'">
                 <h3>${sp.tenGiay}</h3>
                 <p class="price"><fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ</p>
-                <button class="add-cart" style="width:100%; padding:10px; background:#333; color:#fff; border:none; border-radius:5px; cursor:pointer"
-                        onclick="openModal('${sp.tenGiay}', '${sp.gia}', '${sp.hinhAnh}', '${sp.thuongHieu}')">
+                <button class="add-cart"
+                        style="width:100%; padding:10px; background:#333; color:#fff; border:none; border-radius:5px; cursor:pointer"
+                        onclick="openProductModal(this)"
+                        data-id="${sp.id}"
+                        data-name="${sp.tenGiay}"
+                        data-price="${sp.gia}"
+                        data-img="${sp.hinhAnh}"
+                        data-brand="${sp.thuongHieu}"
+                        data-size="${sp.sizeString}"
+                        data-sizeid="${sp.sizeIdString}">
                     Xem chi tiết
                 </button>
             </div>
         </c:forEach>
     </main>
+</div>
+<!-- TOAST -->
+<div id="toast" style="position:fixed;top:20px;right:20px;background:#4CAF50;color:white;padding:12px 20px;border-radius:6px;display:none;z-index:9999;font-weight:bold;"></div>
+
+<!-- SIDEBAR CART -->
+<aside class="sidebar">
+    <div class="icon-btn" id="cart-icon" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count">0</span>
+    </div>
+</aside>
+
+<!-- MINI CART -->
+<div id="mini-cart" class="mini-cart">
+    <div class="cart-header">
+        <h3>GIỎ HÀNG</h3>
+        <span class="close-mini-cart" onclick="toggleCart()">&times;</span>
+    </div>
+    <div id="cart-items-list"></div>
+    <div class="cart-footer">
+        <div class="total-price">
+            <span>TỔNG TIỀN:</span>
+            <span id="cart-total-amount"></span>
+        </div>
+        <button class="btn-checkout">THANH TOÁN</button>
+    </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-body">
+            <div class="modal-left">
+                <img id="modalImg" src="" alt="Sản phẩm">
+            </div>
+            <div class="modal-right">
+                <h2 id="modalName">Tên sản phẩm</h2>
+                <p class="brand-info">Thương hiệu: <span id="modalBrand"></span></p>
+                <div class="modal-price-container">
+                    <span id="modalPrice" class="price-main"></span>
+                </div>
+                <p id="modalDesc"></p>
+                <p>Chọn kích cỡ (Size):</p>
+                <div class="size-options" id="modalSizeContainer"></div>
+                <p>Số lượng:</p>
+                <div class="qty-box">
+                    <button onclick="changeQty(-1)">-</button>
+                    <input id="modalQty" type="number" value="1" min="1">
+                    <button onclick="changeQty(1)">+</button>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-buy-now" onclick="buyNowFromModal()">MUA NGAY</button>
+                    <button class="btn-add-to-cart" onclick="addToCart()">Thêm vào giỏ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div id="checkout-modal" class="modal">
+    <div class="modal-content checkout-container">
+        <span class="close-btn" onclick="closeCheckout()">&times;</span>
+        <div class="checkout-layout">
+            <div class="checkout-main">
+                <div id="step-1" class="checkout-step active">
+                    <h2 class="pink-title">Thông tin giao hàng</h2>
+                    <div class="row-flex-3">
+                        <div class="input-group">
+                            <select id="sel-tinh" class="pink-input pink-select" onchange="loadQuan()">
+                                <option value="">Chọn tỉnh / thành</option>
+                            </select>
+                            <small class="error-msg" id="tinh-error"></small>
+                        </div>
+                        <div class="input-group">
+                            <select id="sel-quan" class="pink-input pink-select" onchange="loadPhuong()" disabled>
+                                <option value="">Chọn quận / huyện</option>
+                            </select>
+                            <small class="error-msg" id="quan-error"></small>
+                        </div>
+                        <div class="input-group">
+                            <select id="sel-phuong" class="pink-input pink-select" disabled>
+                                <option value="">Chọn phường / xã</option>
+                            </select>
+                            <small class="error-msg" id="phuong-error"></small>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="address" placeholder="Số nhà, tên đường..." class="pink-input">
+                        <small class="error-msg" id="address-error"></small>
+                    </div>
+                    <button type="button" class="btn-pink-large" onclick="validateStep1()">TIẾP TỤC ĐẾN PHƯƠNG THỨC THANH TOÁN</button>
+                </div>
+                <div id="step-2" class="checkout-step">
+                    <h3 class="pink-title">Phương thức vận chuyển</h3>
+                    <div class="shipping-box" style="margin:10px 0; padding:10px; border:1px solid #eee; border-radius:5px;">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                            <input type="radio" name="shipping" value="35000" checked>
+                            <span style="color:#333; font-size:15px;">Giao hàng tận nơi - 35,000đ</span>
+                        </label>
+                    </div>
+                    <h3 class="pink-title">Phương thức thanh toán</h3>
+                    <div class="payment-methods">
+                        <label class="payment-item">
+                            <input type="radio" name="payment" value="COD" checked onclick="toggleBankInfo(false)">
+                            <span>Thanh toán khi giao hàng (COD)</span>
+                        </label>
+
+                        <label class="payment-item">
+                            <input type="radio" name="payment" value="Bank" onclick="toggleBankInfo(true)">
+                            <span>Chuyển khoản qua ngân hàng</span>
+                        </label>
+
+                        <div id="bank-info" class="bank-details-box" style="display: none; margin-top: 10px; padding: 10px; border: 1px dashed #ff69b4; background: #fffafb;">
+                            <p style="color: #d81b60; font-weight: bold;">Thông tin chuyển khoản:</p>
+                            <p>Ngân hàng: <strong>Techcombank</strong></p>
+                            <p>STK: <strong>19061706200888</strong></p>
+                            <p>Chủ TK: <strong>DANG HUNG ANH</strong></p>
+                            <p class="note" style="font-size: 0.9em; font-style: italic;">*Nội dung: [Họ tên + SĐT đặt hàng]</p>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-pink-large" onclick="completeOrder()">HOÀN TẤT ĐƠN HÀNG</button>
+                </div>
+                <div id="step-3" class="checkout-step text-center">
+                    <div class="success-icon">♥</div>
+                    <h2 class="pink-title">Đặt hàng thành công!</h2>
+                    <p>Cảm ơn bạn đã tin tưởng <strong>Medi Den</strong>.</p>
+                    <div class="order-info-summary">
+                        <p><strong>Địa chỉ:</strong> <span id="res-address"></span></p>
+                        <p><strong>Thanh toán:</strong> <span id="res-payment"></span></p>
+                    </div>
+                    <button class="btn-pink-large" onclick="location.reload()">TIẾP TỤC MUA SẮM</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <footer>
     <div class="footer-brands">
@@ -254,6 +400,10 @@
         productList.innerHTML = '';
         products.forEach(p => productList.appendChild(p));
     }
+</script>
+<script>
+    window.isLoggedIn = <%= session.getAttribute("user") != null %>;
+    window.contextPath = "${pageContext.request.contextPath}";
 </script>
 <script src="${pageContext.request.contextPath}/view/script.js"></script>
 </body>

@@ -329,12 +329,11 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(() => console.warn("Không load được phường/xã"));
     };
 
-    // ================= BUY NOW (MUA NGAY) =================
     window.buyNowFromModal = function () {
         if (!window.isLoggedIn) {
             showToast("⚠ Bạn cần đăng nhập trước!");
             setTimeout(() => {
-                window.location.href = window.contextPath + "/login";
+                window.location.href = "/login";
             }, 1500);
             return;
         }
@@ -405,13 +404,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    // ================= HOÀN TẤT ĐƠN HÀNG =================
     window.completeOrder = function () {
         const payment = document.querySelector('input[name="payment"]:checked');
         const paymentLabel = payment?.value === 'COD' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng';
 
-        document.getElementById('res-name').innerText    = document.getElementById('fullname').value;
-        document.getElementById('res-phone').innerText   = document.getElementById('phone').value;
         document.getElementById('res-address').innerText = window.fullAddress || document.getElementById('address').value;
         document.getElementById('res-payment').innerText = paymentLabel;
 

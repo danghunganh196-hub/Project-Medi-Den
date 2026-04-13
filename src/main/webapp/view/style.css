@@ -11,9 +11,7 @@
         color: #333;
         line-height: 1.6;
     }
-    #bank-info {
-        display: none;
-    }
+
     /* --- 2. Header & Navigation --- */
     header {
         position: relative; /* Đảm bảo header có vị trí để nhận z-index */
@@ -958,7 +956,7 @@
         padding: 15px;
         border-left: 4px solid #ff69b4;
         margin-top: 10px;
-        display: none;
+
     }
 
     .success-icon {
@@ -1041,3 +1039,5 @@
         border-color: #e91e8c !important;
         box-shadow: 0 0 0 2px rgba(233, 30, 140, 0.15);
     }
+    .payment-item span { color: #333 !important; font-size: 15px; }
+    .payment-item { display: flex; align-items: center; gap: 8px; margin: 8px 0; cursor: pointer; }
