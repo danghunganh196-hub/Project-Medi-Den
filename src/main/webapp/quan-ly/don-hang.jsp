@@ -436,13 +436,8 @@
                                     </td>
 
                                     <td style="text-align:right; padding-right:24px;">
-                                        <button class="btn-edit"
-                                                onclick="xemChiTiet('${hd.id}')">
-                                            Xem
-                                        </button>
-                                        <button class="btn-delete"
-                                                onclick="xoaHoaDon('${hd.id}')">
-                                            Xóa
+                                        <button class="btn-edit" onclick="xemChiTiet('${hd.id}')">
+                                            Chi tiết
                                         </button>
                                     </td>
                                 </tr>
@@ -491,15 +486,9 @@
 
     /* ── XEM CHI TIẾT ── */
     function xemChiTiet(id) {
-        window.location.href = contextPath + '/hoa-don-chi-tiet?id=' + id;
+        window.location.href = contextPath + '/don-hang/chi-tiet?id=' + id;
     }
 
-    /* ── XÓA ── */
-    function xoaHoaDon(id) {
-        if (confirm('Bạn có chắc muốn xóa hóa đơn #' + id + '?\nThao tác này không thể hoàn tác!')) {
-            window.location.href = contextPath + '/hoa-don/delete?id=' + id;
-        }
-    }
 
     /* ── PROFILE DROPDOWN ── */
     function toggleDropdown() {
