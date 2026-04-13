@@ -148,14 +148,21 @@
         </select>
     </div>
 
-    <main class="adidas-style-grid" id="productList">
+    <main class="container">
         <c:forEach var="sp" items="${listGiay}">
-            <div class="product-card" data-price="${sp.gia}">
-                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}" onerror="this.src='https://via.placeholder.com/300x220?text=Medi+Den'">
+            <!-- Đảm bảo sizeString không rỗng -->
+            <c:set var="sizeStr" value="${sp.sizeString}" />
+            <c:if test="${empty sizeStr}">
+                <c:set var="sizeStr" value="" />
+            </c:if>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="${sp.hinhAnh}" alt="${sp.tenGiay}">
+                </div>
                 <h3>${sp.tenGiay}</h3>
                 <p class="price"><fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ</p>
                 <button class="add-cart"
-                        style="width:100%; padding:10px; background:#333; color:#fff; border:none; border-radius:5px; cursor:pointer"
                         onclick="openProductModal(this)"
                         data-id="${sp.id}"
                         data-name="${sp.tenGiay}"
@@ -187,13 +194,17 @@
         <h3>GIỎ HÀNG</h3>
         <span class="close-mini-cart" onclick="toggleCart()">&times;</span>
     </div>
-    <div id="cart-items-list"></div>
+
+    <div id="cart-items-list">
+        <!-- Sản phẩm sẽ tự động hiện ở đây qua JavaScript -->
+    </div>
+
     <div class="cart-footer">
         <div class="total-price">
             <span>TỔNG TIỀN:</span>
             <span id="cart-total-amount"></span>
         </div>
-        <button class="btn-checkout">THANH TOÁN</button>
+        <button class="btn-checkout" onclick="openCheckout()">THANH TOÁN</button>
     </div>
 </div>
 
@@ -222,19 +233,25 @@
                 </div>
                 <div class="modal-actions">
                     <button class="btn-buy-now" onclick="buyNowFromModal()">MUA NGAY</button>
-                    <button class="btn-add-to-cart" onclick="addToCart()">Thêm vào giỏ</button>
+                    <button class="btn-add-to-cart"
+                            onclick="addToCart()">
+                        Thêm vào giỏ
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- CHECKOUT MODAL -->
+<!-- PHẦN THANH TOÁN 3 BƯỚC (Dán vào đây) -->
 <div id="checkout-modal" class="modal">
     <div class="modal-content checkout-container">
         <span class="close-btn" onclick="closeCheckout()">&times;</span>
+
         <div class="checkout-layout">
+            <!-- Cột trái: Các bước nhập liệu -->
             <div class="checkout-main">
+                <!-- Bước 1: Thông tin -->
                 <div id="step-1" class="checkout-step active">
                     <h2 class="pink-title">Thông tin giao hàng</h2>
                     <div class="row-flex-3">
@@ -245,32 +262,39 @@
                             <small class="error-msg" id="tinh-error"></small>
                         </div>
                         <div class="input-group">
-                            <select id="sel-quan" class="pink-input pink-select" onchange="loadPhuong()" disabled>
+                            <select id="sel-quan" class="pink-input pink-select" onchange="loadPhuong()" disabled >
                                 <option value="">Chọn quận / huyện</option>
                             </select>
                             <small class="error-msg" id="quan-error"></small>
                         </div>
                         <div class="input-group">
-                            <select id="sel-phuong" class="pink-input pink-select" disabled>
+                            <select id="sel-phuong" class="pink-input pink-select" disabled >
                                 <option value="">Chọn phường / xã</option>
                             </select>
                             <small class="error-msg" id="phuong-error"></small>
                         </div>
                     </div>
+
                     <div class="input-group">
-                        <input type="text" id="address" placeholder="Số nhà, tên đường..." class="pink-input">
+                        <input type="text" id="address" placeholder="Số nhà, tên đường..." class="pink-input" required>
                         <small class="error-msg" id="address-error"></small>
                     </div>
-                    <button type="button" class="btn-pink-large" onclick="validateStep1()">TIẾP TỤC ĐẾN PHƯƠNG THỨC THANH TOÁN</button>
+
+                    <button type="button" class="btn-pink-large" onclick="validateStep1()">TIẾP TỤC ĐẾN PHƯƠNG
+                        THỨC THANH TOÁN</button>
+                    </form>
                 </div>
+
+                <!-- Bước 2: Thanh toán -->
                 <div id="step-2" class="checkout-step">
                     <h3 class="pink-title">Phương thức vận chuyển</h3>
-                    <div class="shipping-box" style="margin:10px 0; padding:10px; border:1px solid #eee; border-radius:5px;">
-                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                    <div class="shipping-box">
+                        <label>
                             <input type="radio" name="shipping" value="35000" checked>
-                            <span style="color:#333; font-size:15px;">Giao hàng tận nơi - 35,000đ</span>
+                            <span>Giao hàng tận nơi - 35,000đ</span>
                         </label>
                     </div>
+
                     <h3 class="pink-title">Phương thức thanh toán</h3>
                     <div class="payment-methods">
                         <label class="payment-item">
@@ -294,11 +318,15 @@
 
                     <button type="button" class="btn-pink-large" onclick="completeOrder()">HOÀN TẤT ĐƠN HÀNG</button>
                 </div>
+
+                <!-- Bước 3: Hoàn tất -->
                 <div id="step-3" class="checkout-step text-center">
                     <div class="success-icon">♥</div>
                     <h2 class="pink-title">Đặt hàng thành công!</h2>
                     <p>Cảm ơn bạn đã tin tưởng <strong>Medi Den</strong>.</p>
                     <div class="order-info-summary">
+                        <p><strong>Người nhận:</strong> <span id="res-name"></span></p>
+                        <p><strong>Email :</strong> <span id="res-email"></span></p>
                         <p><strong>Địa chỉ:</strong> <span id="res-address"></span></p>
                         <p><strong>Thanh toán:</strong> <span id="res-payment"></span></p>
                     </div>

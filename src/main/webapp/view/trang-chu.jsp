@@ -173,7 +173,7 @@
             <span>TỔNG TIỀN:</span>
             <span id="cart-total-amount"></span>
         </div>
-        <button class="btn-checkout" onclick="openCheckout()">THANH TOÁN</button>\
+        <button class="btn-checkout" onclick="openCheckout()">THANH TOÁN</button>
     </div>
 </div>
 <div class="content">
@@ -284,7 +284,7 @@
                             onclick="addToCart()">
                         Thêm vào giỏ
                     </button>
-            </div>
+                </div>
             </div>
         </div>
     </div>
