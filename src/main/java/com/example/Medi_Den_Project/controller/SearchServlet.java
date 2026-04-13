@@ -37,9 +37,12 @@ public class SearchServlet extends HttpServlet {
                 map.put("name", g.getTenGiay());
                 map.put("price", g.getGia());
                 map.put("image", g.getHinhAnh());
+                map.put("brand", g.getThuongHieu());
+                map.put("sizeString", g.getSizeString());
+                map.put("sizeIdString", g.getSizeIdString());
+
                 result.add(map);
             }
-
             response.getWriter().write(gson.toJson(result));
 
         } catch (Exception e) {

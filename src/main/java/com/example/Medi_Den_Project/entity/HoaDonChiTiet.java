@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.example.Medi_Den_Project.entity.SizeGiay;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

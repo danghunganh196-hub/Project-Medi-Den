@@ -1,6 +1,5 @@
 package com.example.Medi_Den_Project.entity;
 
-import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.*;
 

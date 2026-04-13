@@ -33,7 +33,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         resultBox.innerHTML = "<p style='padding:15px; color:#888; text-align:center;'>Không tìm thấy sản phẩm</p>";
                     } else {
                         const html = data.map(sp => `
-                            <div class="search-item" onclick="window.location.href='${window.contextPath}/giay/chi-tiet?id=${sp.id}'">
+                            <div class="search-item"
+                                 onclick="openProductModal(this)"
+                                 data-id="${sp.id}"
+                                 data-name="${sp.name}"
+                                 data-price="${sp.price}"
+                                 data-img="${sp.image}"
+                                 data-brand="${sp.brand}"
+                                 data-size="${sp.sizeString}"
+                                 data-sizeid="${sp.sizeIdString}"
+                            >
                                 <img src="${sp.image}" alt="${sp.name}">
                                 <div class="search-item-info">
                                     <div class="search-item-name">${sp.name}</div>

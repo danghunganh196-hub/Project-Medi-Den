@@ -15,9 +15,6 @@ import org.hibernate.Session;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet(name = "AddToCartServlet", value = "/AddToCartServlet")
 public class AddToCartServlet extends HttpServlet {
