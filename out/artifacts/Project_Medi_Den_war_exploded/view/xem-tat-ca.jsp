@@ -155,7 +155,6 @@
                 <c:set var="sizeStr" value="" />
             </c:if>
 
-            <!-- ✅ THÊM data-price Ở ĐÂY -->
             <div class="product-card"
                  data-price="${sp.gia}"
                  data-name="${sp.tenGiay}"

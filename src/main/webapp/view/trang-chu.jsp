@@ -155,7 +155,6 @@
             <i class="fas fa-shopping-cart"></i>
             <span id="cart-count">0</span>
         </div>
-    <div class="icon-btn"><i class="fas fa-cog"></i></div>
 </aside>
 
 <div id="mini-cart" class="mini-cart">
