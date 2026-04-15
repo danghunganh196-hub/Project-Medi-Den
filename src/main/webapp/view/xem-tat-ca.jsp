@@ -148,20 +148,28 @@
         </select>
     </div>
 
-    <main class="container">
+    <main id="productList" class="container">
         <c:forEach var="sp" items="${listGiay}">
-            <!-- Đảm bảo sizeString không rỗng -->
             <c:set var="sizeStr" value="${sp.sizeString}" />
             <c:if test="${empty sizeStr}">
                 <c:set var="sizeStr" value="" />
             </c:if>
 
-            <div class="product-card">
+            <div class="product-card"
+                 data-price="${sp.gia}"
+                 data-name="${sp.tenGiay}"
+                 data-brand="${sp.thuongHieu}">
+
                 <div class="product-img">
                     <img src="${sp.hinhAnh}" alt="${sp.tenGiay}">
                 </div>
+
                 <h3>${sp.tenGiay}</h3>
-                <p class="price"><fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ</p>
+
+                <p class="price">
+                    <fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ
+                </p>
+
                 <button class="add-cart"
                         onclick="openProductModal(this)"
                         data-id="${sp.id}"

@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Medi-Den-Project:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/Medi_Den_Project_war_exploded</output-path>
+  <artifact type="exploded-war" name="Project-Medi-Den:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Project_Medi_Den_war_exploded</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="Medi-Den-Project" />
+          <element id="module-output" name="Project-Medi-Den" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.hibernate.orm:hibernate-core:6.4.4.Final" />
@@ -31,7 +31,7 @@
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.10.1" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="Medi-Den-Project/web/Web" />
+      <element id="javaee-facet-resources" facet="Project-Medi-Den/web/Web" />
     </root>
   </artifact>
 </component>
