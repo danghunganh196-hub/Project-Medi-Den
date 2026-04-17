@@ -200,16 +200,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 count += qty;
 
                 list.innerHTML += `
-                <div class="cart-item">
-                    <img src="${item.img}" width="50">
-                    <div>
-                        <h4>${item.name}</h4>
-                        <p>Size: ${item.size}</p>
-                        <p>${qty} x ${item.price.toLocaleString()}đ</p>
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="item-info">
+                            <h4>${item.name}</h4>
+                            <p>Size: ${item.size}</p>
+                            <p>
+                                <span class="item-qty">${qty}</span>
+                                <span class="item-price">${item.price.toLocaleString()}đ</span>
+                            </p>
+                        </div>
+                        <span class="remove-item" onclick="removeItem(${item.giayId}, ${item.sizeId})">&times;</span>
                     </div>
-                    <span onclick="removeItem(${item.giayId}, ${item.sizeId})">&times;</span>
-                </div>
-            `;
+                `;
             });
 
             document.getElementById('cart-count').innerText = count;

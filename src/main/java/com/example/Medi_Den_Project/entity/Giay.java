@@ -29,9 +29,6 @@ public class Giay {
     @Column(name = "hinh_anh")
     private String hinhAnh;
 
-    @Column(name = "mo_ta")
-    private String moTa;
-
     @ManyToOne
     @JoinColumn(name = "the_loai_id")
     private TheLoaiGiay theLoaiGiay;

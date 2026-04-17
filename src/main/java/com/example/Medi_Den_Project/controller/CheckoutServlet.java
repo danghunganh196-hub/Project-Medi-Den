@@ -78,6 +78,14 @@ public class CheckoutServlet extends HttpServlet {
                 if (giay == null) throw new RuntimeException("Không tìm thấy giày");
                 if (size == null) throw new RuntimeException("Không tìm thấy size");
 
+                // THÊM ĐOẠN NÀY Ở ĐÂY
+                int tonKho = size.getSoLuong();
+                if (tonKho < qty) {
+                    throw new RuntimeException("Sản phẩm không đủ số lượng trong kho");
+                }
+                size.setSoLuong(tonKho - qty);
+                session.update(size);
+
                 HoaDonChiTiet ct = new HoaDonChiTiet();
                 ct.setHoaDon(hoaDon);
                 ct.setGiay(giay);
@@ -86,7 +94,6 @@ public class CheckoutServlet extends HttpServlet {
                 ct.setDonGia(price);
 
                 session.save(ct);
-
                 total += price * qty;
             }
 

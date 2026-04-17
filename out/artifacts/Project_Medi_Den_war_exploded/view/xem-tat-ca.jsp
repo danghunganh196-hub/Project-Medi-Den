@@ -126,8 +126,11 @@
             </li>
         </ul>
         <div class="search-box">
-            <input type="text" name="search" placeholder="Tìm kiếm...">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm...">
             <button><i class="fas fa-search"></i></button>
+
+            <!-- dropdown kết quả -->
+            <div id="searchResult" class="search-result"></div>
         </div>
     </nav>
 

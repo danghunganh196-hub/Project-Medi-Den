@@ -154,7 +154,7 @@
         <div class="icon-btn" id="cart-icon" onclick="toggleCart()">
             <i class="fas fa-shopping-cart"></i>
             <span id="cart-count">0</span>
-        </div>
+        </div>      
 </aside>
 
 <div id="mini-cart" class="mini-cart">
