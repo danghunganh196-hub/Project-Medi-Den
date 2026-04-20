@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const brand = button.dataset.brand;
         const sizeData = button.dataset.size;
         const sizeIdData = button.dataset.sizeid;
+        const sizeStockData = button.dataset.sizestock || '';
         const giayId = button.dataset.id;
 
         window.selectedGiayId = giayId;
@@ -93,10 +94,20 @@ document.addEventListener("DOMContentLoaded", function () {
         sizeContainer.innerHTML = "";
         window.selectedSize = null;
         window.selectedSizeId = null;
+        window.sizeStockMap = {};
+        window.currentStock = 0;
+        const stockHint = document.getElementById('stockHint');
+        if (stockHint) stockHint.innerText = '';
 
         if (sizeData && sizeIdData) {
             const sizes = sizeData.split(',');
             const sizeIds = sizeIdData.split(',');
+            if (sizeStockData) {
+                const stocks = sizeStockData.split(',');
+                sizeIds.forEach((id, i) => {
+                    window.sizeStockMap[id] = parseInt(stocks[i]) || 0;
+                });
+            }
             sizes.forEach((size, index) => {
                 const btn = document.createElement('button');
                 btn.innerText = size;
@@ -106,6 +117,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     this.classList.add('active');
                     window.selectedSize = size;
                     window.selectedSizeId = sizeIds[index];
+                    window.currentStock = window.sizeStockMap[sizeIds[index]] || 0;
+                    const hint = document.getElementById('stockHint');
+                    if (hint) {
+                        if (window.currentStock === 0) {
+                            hint.innerText = '⚠ Size này đã hết hàng!';
+                            hint.style.color = 'red';
+                        } else {
+                            hint.innerText = `Còn ${window.currentStock} đôi`;
+                            hint.style.color = 'green';
+                        }
+                    }
+                    document.getElementById('modalQty').value = 1;
+                    document.getElementById('qtyError').innerText = '';
                 };
                 sizeContainer.appendChild(btn);
             });
@@ -121,10 +145,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.changeQty = function (delta) {
         const input = document.getElementById('modalQty');
+        const errorEl = document.getElementById('qtyError');
         let val = parseInt(input.value) || 1;
         val += delta;
         if (val < 1) val = 1;
+        const max = window.currentStock || 999;
+        if (val > max) {
+            val = max;
+            if (errorEl) errorEl.innerText = `⚠ Chỉ còn ${max} đôi trong kho!`;
+        } else {
+            if (errorEl) errorEl.innerText = '';
+        }
         input.value = val;
+    };
+
+    window.validateQtyInput = function (input) {
+        const errorEl = document.getElementById('qtyError');
+        input.value = input.value.replace(/[^0-9]/g, '');
+        let val = parseInt(input.value);
+        if (isNaN(val) || val < 1) {
+            if (errorEl) errorEl.innerText = '⚠ Số lượng phải ít nhất là 1!';
+            return;
+        }
+        const max = window.currentStock || 999;
+        if (val > max) {
+            input.value = max;
+            if (errorEl) errorEl.innerText = `⚠ Chỉ còn ${max} đôi trong kho!`;
+        } else {
+            if (errorEl) errorEl.innerText = '';
+        }
     };
 
     // ================= ADD TO CART =================
@@ -141,7 +190,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const priceText = document.getElementById('modalPrice').innerText;
         const price = parseInt(priceText.replace(/\D/g, '')) || 0;
         const img = document.getElementById('modalImg').src;
-        const qty = parseInt(document.getElementById('modalQty').value) || 1;
+
+
+        const qty = parseInt(document.getElementById('modalQty').value) || 0;
+        if (qty < 1) {
+            showToast("❌ Số lượng phải ít nhất là 1!");
+            return;
+        }
+        if (window.currentStock > 0 && qty > window.currentStock) {
+            showToast(`❌ Chỉ còn ${window.currentStock} đôi trong kho!`);
+            return;
+        }
 
         const idx = cart.findIndex(item => item.giayId == giayId && item.sizeId == sizeId);
         if (idx > -1) {
@@ -174,6 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error(err);
                 showToast("❌ Có lỗi xảy ra khi thêm giỏ hàng!");
             });
+
     };
 
     // ================= RENDER CART =================
@@ -338,7 +398,15 @@ document.addEventListener("DOMContentLoaded", function () {
             showToast("❌ Vui lòng chọn size!");
             return;
         }
-
+        const qty = parseInt(document.getElementById('modalQty').value) || 0;
+        if (qty < 1) {
+            showToast("❌ Số lượng phải ít nhất là 1!");
+            return;
+        }
+        if (window.currentStock > 0 && qty > window.currentStock) {
+            showToast(`❌ Chỉ còn ${window.currentStock} đôi trong kho!`);
+            return;
+        }
         window.buyNowItem = {
             giayId: Number(window.selectedGiayId),
             sizeId: Number(window.selectedSizeId),

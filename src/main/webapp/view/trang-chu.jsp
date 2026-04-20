@@ -246,6 +246,7 @@
                     data-brand="${sp.thuongHieu}"
                     data-size="${sp.sizeString}"
                     data-sizeid="${sp.sizeIdString}"
+                    data-sizestock="${sp.sizeStockString}"
                     data-desc="${sp.moTa}">
                 Xem chi tiết
             </button>
@@ -272,13 +273,14 @@
                 <p>Chọn kích cỡ (Size):</p>
                 <div class="size-options" id="modalSizeContainer"></div>
 
-                <p>Số lượng:</p>
+                <p>Số lượng: <small id="stockHint" style="font-size:0.85rem; margin-left:8px;"></small></p>
                 <div class="qty-box">
                     <button onclick="changeQty(-1)">-</button>
-                    <input id="modalQty" type="number" value="1" min="1"
-                           oninput="if(this.value < 1 || this.value === '') this.value = 1;">
+                    <input id="modalQty" type="number" value="1" min="1" step="1"
+                           oninput="validateQtyInput(this)">
                     <button onclick="changeQty(1)">+</button>
                 </div>
+                <small id="qtyError" style="color:red; font-size:0.85rem;"></small>
                 <div class="modal-actions">
                     <button class="btn-buy-now" onclick="buyNowFromModal()">MUA NGAY</button>
                     <button class="btn-add-to-cart"

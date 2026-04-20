@@ -182,6 +182,7 @@
                         data-brand="${sp.thuongHieu}"
                         data-size="${sp.sizeString}"
                         data-sizeid="${sp.sizeIdString}"
+                        data-sizestock="${sp.sizeStockString}"
                         data-desc="${sp.moTa}">
                     Xem chi tiết
                 </button>
