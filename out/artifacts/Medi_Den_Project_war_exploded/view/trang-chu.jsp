@@ -1,0 +1,498 @@
+<%@ page import="com.example.Medi_Den_Project.entity.TaiKhoan" %><%--
+  Created by IntelliJ IDEA.
+  User: ADMIN
+  Date: 3/19/2026
+  Time: 10:26 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<html>
+<head>
+    <title>Medi Den</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- ✅ SWIPER CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <!-- ❗ SWIPER JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</head>
+<!-- TOAST -->
+<div id="toast" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    display: none;
+    z-index: 9999;
+    font-weight: bold;
+">
+    ✅ Đã thêm vào giỏ hàng!
+</div>
+<body>
+<header>
+    <div class="top-bar">
+        <%
+            TaiKhoan user = (TaiKhoan) session.getAttribute("user");
+            if (user == null) {
+        %>
+        <a class="btn login" href="/login">Đăng nhập</a>
+        <a class="btn register" href="/register">Đăng ký</a>
+        <%
+        } else {
+        %>
+        <span>Xin chào, <b><%= user.getUsername() %></b></span>
+        <a class="btn logout" href="${pageContext.request.contextPath}/logout">Đăng xuất</a> <%
+        }
+    %>
+    </div>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://cdn.discordapp.com/attachments/1453366979313537145/1491339709308338246/logo-agile.jpg?ex=69d755d6&is=69d60456&hm=6d035c5ef4284c65e6c34591c11bbc7d4274146a1c2b433e8d030441b8ef3e5e&" style="border-radius: 20px;" width="20%"
+                 alt="Logo">
+            <h1>Medi Den</h1>
+        </div>
+        <ul class="nav-links">
+            <li class="dropdown">
+                <a href="#">Giày Thể Thao <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao">Tất cả</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Nike">Nike</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Adidas">Adidas</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Puma">Puma</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=New+Balance">New Balance</a></li>:
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Vans">Vans</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/the-thao?brand=Clarks">Clarks</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Giày Thời Trang <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang">Tất cả</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Nike">Nike</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Adidas">Adidas</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Vans">Vans</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=Puma">Puma</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/thoi-trang?brand=New+Balance">New Balance</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Giày Theo Hãng <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+                    <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Nike">Nike</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Adidas">Adidas</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Puma">Puma</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=New+Balance">New Balance</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Vans">Vans</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Clarks">Clarks</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Balenciaga">Balenciaga</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Giày Công Sở <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+
+                    <li><a href="${pageContext.request.contextPath}/giay/cong-so?brand=Clarks">Clarks</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Giày Cao Cấp <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-content">
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap">Tất cả</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Balenciaga">Balenciaga</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=New+Balance">New Balance</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Puma">Puma</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Converse">Converse</a></li>
+                    <li><a href="${pageContext.request.contextPath}/giay/cao-cap?brand=Adidas">Adidas</a></li>
+
+                </ul>
+            </li>
+        </ul>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm...">
+            <button><i class="fas fa-search"></i></button>
+
+            <!-- dropdown kết quả -->
+            <div id="searchResult" class="search-result"></div>
+        </div>
+    </nav>
+
+</header>
+<div class="slidechuyen">
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1552346154-21d32810aba3"
+                                           alt="Banner 1"></div>
+            <div class="swiper-slide"><img
+                    src="https://www.elleman.vn/app/uploads/2018/08/13/gi%C3%A0y-sneakers-2-elle-man-8.jpg"
+                    alt="Banner 2"></div>
+            <div class="swiper-slide"><img
+                    src="https://png.pngtree.com/thumb_back/fh260/background/20220929/pngtree-shoes-promotion-banner-background-image_1466238.jpg"
+                    alt="Banner 3"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<aside class="sidebar">
+    <!-- Thêm id và thẻ số lượng vào đây -->
+        <div class="icon-btn" id="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>      
+</aside>
+
+<div id="mini-cart" class="mini-cart">
+    <div class="cart-header">
+        <h3>GIỎ HÀNG</h3>
+        <span class="close-mini-cart" onclick="toggleCart()">&times;</span>
+    </div>
+
+    <div id="cart-items-list">
+        <!-- Sản phẩm sẽ tự động hiện ở đây qua JavaScript -->
+    </div>
+
+    <div class="cart-footer">
+        <div class="total-price">
+            <span>TỔNG TIỀN:</span>
+            <span id="cart-total-amount"></span>
+        </div>
+        <button class="btn-checkout" onclick="openCheckout()">THANH TOÁN</button>
+    </div>
+</div>
+<div class="content">
+    <div class="services-container">
+        <!-- Mục 1 -->
+        <div class="service-item">
+            <div class="service-icon">
+                <i class="fas fa-truck"></i>
+            </div>
+            <div class="service-text">
+                <h3>Vận chuyển nội thành Hà Nội</h3>
+                <p>Giao hàng siêu tốc - Nhận ngay trong ngày</p>
+            </div>
+        </div>
+
+        <!-- Mục 2 -->
+        <div class="service-item">
+            <div class="service-icon">
+                <i class="fas fa-gift"></i>
+            </div>
+            <div class="service-text">
+                <h3>Ưu đãi hấp dẫn</h3>
+                <p>Nhiều ưu đãi khuyến mãi hot</p>
+            </div>
+        </div>
+
+        <!-- Mục 3 -->
+        <div class="service-item">
+            <div class="service-icon">
+                <i class="fas fa-award"></i>
+            </div>
+            <div class="service-text">
+                <h3>Bảo đảm chất lượng</h3>
+                <p>Sản phẩm đã được kiểm định</p>
+            </div>
+        </div>
+
+        <!-- Mục 4 -->
+        <div class="service-item">
+            <div class="service-icon">
+                <i class="fas fa-headset"></i>
+            </div>
+            <div class="service-text">
+                <h3>Hotline: 08 2222 1992</h3>
+                <p>Vui lòng gọi hotline để hỗ trợ</p>
+            </div>
+        </div>
+    </div>
+</div>
+<h1 class="title">GIÀY CHÍNH HÃNG NIKE</h1>
+<main class="container">
+    <c:forEach var="sp" items="${listGiay}">
+        <!-- Đảm bảo sizeString không rỗng -->
+        <c:set var="sizeStr" value="${sp.sizeString}" />
+        <c:if test="${empty sizeStr}">
+            <c:set var="sizeStr" value="" />
+        </c:if>
+
+        <div class="product-card">
+            <div class="product-img">
+                <img src="${sp.hinhAnh}" alt="${sp.tenGiay}">
+            </div>
+            <h3>${sp.tenGiay}</h3>
+            <p class="price"><fmt:formatNumber value="${sp.gia}" pattern="#,###"/> VNĐ</p>
+            <button class="add-cart"
+                    onclick="openProductModal(this)"
+                    data-id="${sp.id}"
+                    data-name="${sp.tenGiay}"
+                    data-price="${sp.gia}"
+                    data-img="${sp.hinhAnh}"
+                    data-brand="${sp.thuongHieu}"
+                    data-size="${sp.sizeString}"
+                    data-sizeid="${sp.sizeIdString}"
+                    data-sizestock="${sp.sizeStockString}"
+                    data-desc="${sp.moTa}">
+                Xem chi tiết
+            </button>
+        </div>
+    </c:forEach>
+</main>
+
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-body">
+            <div class="modal-left">
+                <img id="modalImg" src="" alt="Sản phẩm">
+            </div>
+            <div class="modal-right">
+                <h2 id="modalName">Tên sản phẩm</h2>
+                <p class="brand-info">Thương hiệu: <span id="modalBrand"></span></p>
+                <div class="modal-price-container">
+                    <span id="modalPrice" class="price-main"></span>
+                </div>
+
+                <p id="modalDesc"></p>
+
+                <p>Chọn kích cỡ (Size):</p>
+                <div class="size-options" id="modalSizeContainer"></div>
+
+                <p>Số lượng: <small id="stockHint" style="font-size:0.85rem; margin-left:8px;"></small></p>
+                <div class="qty-box">
+                    <button onclick="changeQty(-1)">-</button>
+                    <input id="modalQty" type="number" value="1" min="1" step="1"
+                           oninput="validateQtyInput(this)">
+                    <button onclick="changeQty(1)">+</button>
+                </div>
+                <small id="qtyError" style="color:red; font-size:0.85rem;"></small>
+                <div class="modal-actions">
+                    <button class="btn-buy-now" onclick="buyNowFromModal()">MUA NGAY</button>
+                    <button class="btn-add-to-cart"
+                            onclick="addToCart()">
+                        Thêm vào giỏ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PHẦN THANH TOÁN 3 BƯỚC (Dán vào đây) -->
+<div id="checkout-modal" class="modal">
+    <div class="modal-content checkout-container">
+        <span class="close-btn" onclick="closeCheckout()">&times;</span>
+
+        <div class="checkout-layout">
+            <!-- Cột trái: Các bước nhập liệu -->
+            <div class="checkout-main">
+                <!-- Bước 1: Thông tin -->
+                <div id="step-1" class="checkout-step active">
+                    <h2 class="pink-title">Thông tin giao hàng</h2>
+                    <div class="row-flex-3">
+                        <div class="input-group">
+                            <select id="sel-tinh" class="pink-input pink-select" onchange="loadQuan()">
+                                <option value="">Chọn tỉnh / thành</option>
+                            </select>
+                            <small class="error-msg" id="tinh-error"></small>
+                        </div>
+                        <div class="input-group">
+                            <select id="sel-quan" class="pink-input pink-select" onchange="loadPhuong()" disabled >
+                                <option value="">Chọn quận / huyện</option>
+                            </select>
+                            <small class="error-msg" id="quan-error"></small>
+                        </div>
+                        <div class="input-group">
+                            <select id="sel-phuong" class="pink-input pink-select" disabled >
+                                <option value="">Chọn phường / xã</option>
+                            </select>
+                            <small class="error-msg" id="phuong-error"></small>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" id="address" placeholder="Số nhà, tên đường..." class="pink-input" required>
+                        <small class="error-msg" id="address-error"></small>
+                    </div>
+
+                        <button type="button" class="btn-pink-large" onclick="validateStep1()">TIẾP TỤC ĐẾN PHƯƠNG
+                            THỨC THANH TOÁN</button>
+                    </form>
+                </div>
+
+                <!-- Bước 2: Thanh toán -->
+                <div id="step-2" class="checkout-step">
+                    <h3 class="pink-title">Phương thức vận chuyển</h3>
+                    <div class="shipping-box">
+                        <label>
+                            <input type="radio" name="shipping" value="35000" checked>
+                            <span>Giao hàng tận nơi - 35,000đ</span>
+                        </label>
+                    </div>
+
+                    <h3 class="pink-title">Phương thức thanh toán</h3>
+                    <div class="payment-methods">
+                        <label class="payment-item">
+                            <input type="radio" name="payment" value="COD" checked onclick="toggleBankInfo(false)">
+                            <span>Thanh toán khi giao hàng (COD)</span>
+                        </label>
+
+                        <label class="payment-item">
+                            <input type="radio" name="payment" value="Bank" onclick="toggleBankInfo(true)">
+                            <span>Chuyển khoản qua ngân hàng</span>
+                        </label>
+
+                        <div id="bank-info" class="bank-details-box" style="display: none; margin-top: 10px; padding: 10px; border: 1px dashed #ff69b4; background: #fffafb;">
+                            <p style="color: #d81b60; font-weight: bold;">Thông tin chuyển khoản:</p>
+                            <p>Ngân hàng: <strong>Techcombank</strong></p>
+                            <p>STK: <strong>19061706200888</strong></p>
+                            <p>Chủ TK: <strong>DANG HUNG ANH</strong></p>
+                            <p class="note" style="font-size: 0.9em; font-style: italic;">*Nội dung: [Họ tên + SĐT đặt hàng]</p>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-pink-large" onclick="completeOrder()">HOÀN TẤT ĐƠN HÀNG</button>
+                </div>
+
+                <!-- Bước 3: Hoàn tất -->
+                <div id="step-3" class="checkout-step text-center">
+                    <div class="success-icon">♥</div>
+                    <h2 class="pink-title">Đặt hàng thành công!</h2>
+                    <p>Cảm ơn bạn đã tin tưởng <strong>Medi Den</strong>.</p>
+                    <div class="order-info-summary">
+                        <p><strong>Người nhận:</strong> <span id="res-name"></span></p>
+                        <p><strong>Email :</strong> <span id="res-email"></span></p>
+                        <p><strong>Địa chỉ:</strong> <span id="res-address"></span></p>
+                        <p><strong>Thanh toán:</strong> <span id="res-payment"></span></p>
+                    </div>
+                    <button class="btn-pink-large" onclick="location.reload()">TIẾP TỤC MUA SẮM</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-brands">
+        <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg"
+                                     alt="Nike"></div>
+        <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg"
+                                     alt="Adidas"></div>
+        <div class="brand-item"><img src="https://upload.wikimedia.org/wikipedia/en/3/37/Jumpman_logo.svg"
+                                     alt="Jordan"></div>
+        <div class="brand-item">
+            <img src="https://cdn.worldvectorlogo.com/logos/puma-logo.svg" alt="Puma">
+        </div>
+        <div class="brand-item">
+            <img src="https://logodownload.org/wp-content/uploads/2014/10/new-balance-logo-1.png" alt="New Balance">
+        </div>
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-container">
+        <!-- Cột 1: Liên hệ -->
+        <div class="footer-col">
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>Địa chỉ: 118 Đ.Phương Canh,Nam Từ Liêm, Hà Nội.</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-phone-alt"></i>
+                <p>Hotline: 08 2222 1992</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <p>Email: MediDen8888@gmail.com</p>
+            </div>
+        </div>
+
+        <!-- Cột 2: Chính sách -->
+        <div class="footer-col">
+            <h4>CHÍNH SÁCH</h4>
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/giay/hien-thi">Trang chủ</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/gioi-thieu.jsp">Giới thiệu</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-bao-mat.jsp">Chính sách bảo mật</a></li>
+
+            </ul>
+        </div>
+
+        <!-- Cột 3: Hỗ trợ -->
+        <div class="footer-col">
+            <h4>HỖ TRỢ KHÁCH HÀNG</h4>
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/view/dieu-khoan-dich-vu.jsp">Điều khoản dịch vụ</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-giao-nhan.jsp">Chính sách giao nhận</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-doi-tra.jsp">Chính sách đổi trả</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/chinh-sach-thanh-toan.jsp">Chính sách thanh toán</a></li>
+            </ul>
+        </div>
+
+        <!-- Cột 4: Đăng ký -->
+        <div class="footer-col">
+            <h4>ĐĂNG KÝ NHẬN TIN</h4>
+            <div class="subscribe-form">
+                <input type="email" placeholder="Nhập địa chỉ email">
+                <button>Đăng ký</button>
+            </div>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/dang.hung.anh.887452"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/accounts/login/?next=%2Fnoobbon3793%2F&source=omni_redirect"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@nercatto-w6n"><i class="fa-brands fa-youtube"></i>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+    window.onload = function () {
+        new Swiper('.swiper', {
+            loop: true,
+
+            // 🔥 HIỆU ỨNG FADE
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false
+            },
+
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    };
+</script>
+<script>
+    window.isLoggedIn = <%= session.getAttribute("user") != null %>;
+    window.contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/view/script.js"></script>
+</body>
+</html>
