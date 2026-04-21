@@ -105,4 +105,26 @@ public class HoaDonRepository {
             return null;
         }
     }
+
+    // Tổng doanh thu từ tất cả hóa đơn
+    public double getTongDoanhThu() {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            Double result = session.createQuery(
+                    "SELECT SUM(h.tongTien) FROM HoaDon h", Double.class)
+                    .uniqueResult();
+            return result != null ? result : 0.0;
+        }
+    }
+
+    // Top khách hàng theo tổng tiền đã mua
+// Trả về List<Object[]> với [0]=tên, [1]=email, [2]=tổng tiền, [3]=số đơn
+    public List<Object[]> getTopKhachHang() {
+        try (Session session = HibernateConfig.getFACTORY().openSession()) {
+            String hql = "SELECT kh.ten, kh.email, SUM(h.tongTien), COUNT(h.id) " +
+                    "FROM HoaDon h JOIN h.khachHang kh " +
+                    "GROUP BY kh.id, kh.ten, kh.email " +
+                    "ORDER BY SUM(h.tongTien) DESC";
+            return session.createQuery(hql, Object[].class).list();
+        }
+    }
 }

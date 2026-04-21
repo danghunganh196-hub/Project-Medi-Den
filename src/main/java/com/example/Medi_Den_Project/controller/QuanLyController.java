@@ -122,18 +122,16 @@ public class QuanLyController extends HttpServlet {
     private void thongKe(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Lấy dữ liệu thống kê cơ bản
         long tongKhachHang = khachHangRepository.getAll().size();
         long tongSanPham   = giayRepository.getAll().size();
         long tongDonHang   = hoaDonRepository.getAll().size();
+        double tongDoanhThu = hoaDonRepository.getTongDoanhThu(); // ← thật từ DB
 
-        // Doanh thu (demo - sau này sẽ query thật từ HoaDon)
-        double doanhThuThang = 248500000; // 248.5 triệu (bạn có thể thay bằng query sau)
-
-        req.setAttribute("tongKhachHang", tongKhachHang);
-        req.setAttribute("tongSanPham", tongSanPham);
-        req.setAttribute("tongDonHang", tongDonHang);
-        req.setAttribute("doanhThuThang", doanhThuThang);
+        req.setAttribute("tongKhachHang",  tongKhachHang);
+        req.setAttribute("tongSanPham",    tongSanPham);
+        req.setAttribute("tongDonHang",    tongDonHang);
+        req.setAttribute("tongDoanhThu",   tongDoanhThu);
+        req.setAttribute("topKhachHang",   hoaDonRepository.getTopKhachHang());
 
         req.getRequestDispatcher("/quan-ly/thong-ke.jsp").forward(req, resp);
     }
