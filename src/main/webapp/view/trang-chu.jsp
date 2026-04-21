@@ -21,6 +21,71 @@
 
     <!-- ❗ SWIPER JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+        /* ---------- Brand section wrapper ---------- */
+        .brand-section {
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .brand-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            border-bottom: 3px solid #e91e63;
+            padding-bottom: 12px;
+        }
+        .brand-section-header h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #222;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .brand-section-header a {
+            color: #e91e63;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .brand-section-header a:hover { text-decoration: underline; }
+
+        /* ---------- Horizontal scroll row ---------- */
+        .product-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        @media (max-width: 1100px) { .product-row { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px)  { .product-row { grid-template-columns: repeat(2, 1fr); } }
+
+        /* ---------- Skeleton loader ---------- */
+        .skeleton-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .skeleton-img  { width: 100%; height: 200px; background: #f0f0f0; border-radius: 10px; animation: pulse 1.4s ease-in-out infinite; }
+        .skeleton-line { height: 16px; background: #f0f0f0; border-radius: 8px; animation: pulse 1.4s ease-in-out infinite; }
+        .skeleton-line.short { width: 55%; }
+        .skeleton-line.btn   { height: 36px; margin-top: 8px; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.45} }
+
+        /* ---------- Divider giữa các section ---------- */
+        .section-divider {
+            height: 6px;
+            background: linear-gradient(90deg, #e91e63 0%, #ff80ab 50%, #e91e63 100%);
+            margin: 10px 0;
+            opacity: .15;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <!-- TOAST -->
 <div id="toast" style="
@@ -226,8 +291,12 @@
         </div>
     </div>
 </div>
-<h1 class="title">GIÀY CHÍNH HÃNG NIKE</h1>
-<main class="container">
+<div class="brand-section">
+    <div class="brand-section-header">
+        <h2>👟 Giày Chính Hãng Nike</h2>
+        <a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Nike">Xem tất cả Nike →</a>
+    </div>
+    <div class="product-row">
     <c:forEach var="sp" items="${listGiay}">
         <!-- Đảm bảo sizeString không rỗng -->
         <c:set var="sizeStr" value="${sp.sizeString}" />
@@ -256,7 +325,128 @@
             </button>
         </div>
     </c:forEach>
-</main>
+    </div>
+</div>
+<div class="section-divider"></div>
+
+<!-- ========== ADIDAS ========== -->
+<div class="brand-section">
+    <div class="brand-section-header">
+        <h2>🔥 Adidas Nổi Bật</h2>
+        <a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Adidas">Xem tất cả Adidas →</a>
+    </div>
+    <div class="product-row" id="row-adidas">
+        <!-- skeleton -->
+        <c:forEach begin="1" end="4">
+            <div class="skeleton-card">
+                <div class="skeleton-img"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line btn"></div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ========== PUMA ========== -->
+<div class="brand-section">
+    <div class="brand-section-header">
+        <h2>⚡ Puma Collection</h2>
+        <a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=Puma">Xem tất cả Puma →</a>
+    </div>
+    <div class="product-row" id="row-puma">
+        <c:forEach begin="1" end="4">
+            <div class="skeleton-card">
+                <div class="skeleton-img"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line btn"></div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ========== NEW BALANCE ========== -->
+<div class="brand-section">
+    <div class="brand-section-header">
+        <h2>🏃 New Balance Trending</h2>
+        <a href="${pageContext.request.contextPath}/giay/xem-tat-ca?brand=New+Balance">Xem tất cả New Balance →</a>
+    </div>
+    <div class="product-row" id="row-nb">
+        <c:forEach begin="1" end="4">
+            <div class="skeleton-card">
+                <div class="skeleton-img"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line btn"></div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ========== CONVERSE + VANS ========== -->
+<div class="brand-section">
+    <div class="brand-section-header">
+        <h2>🎨 Converse &amp; Vans — Lifestyle</h2>
+        <a href="${pageContext.request.contextPath}/giay/thoi-trang">Xem giày thời trang →</a>
+    </div>
+    <div class="product-row" id="row-cv">
+        <c:forEach begin="1" end="4">
+            <div class="skeleton-card">
+                <div class="skeleton-img"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line btn"></div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ========== CAO CẤP / BALENCIAGA ========== -->
+<div class="brand-section">
+    <div class="brand-section-header">
+        <h2>💎 Giày Cao Cấp — Balenciaga &amp; Premium</h2>
+        <a href="${pageContext.request.contextPath}/giay/cao-cap">Xem tất cả →</a>
+    </div>
+    <div class="product-row" id="row-premium">
+        <c:forEach begin="1" end="4">
+            <div class="skeleton-card">
+                <div class="skeleton-img"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line btn"></div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ========== CLARKS CÔNG SỞ ========== -->
+<div class="brand-section">
+    <div class="brand-section-header">
+        <h2>👞 Clarks — Giày Công Sở Chính Hãng</h2>
+        <a href="${pageContext.request.contextPath}/giay/cong-so?brand=Clarks">Xem tất cả Clarks →</a>
+    </div>
+    <div class="product-row" id="row-clarks">
+        <c:forEach begin="1" end="4">
+            <div class="skeleton-card">
+                <div class="skeleton-img"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line btn"></div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
 
 <div id="productModal" class="modal">
     <div class="modal-content">
@@ -500,6 +690,150 @@
     window.isLoggedIn = <%= session.getAttribute("user") != null %>;
     window.contextPath = "${pageContext.request.contextPath}";
 </script>
+<script>
+    (function () {
+        /* -------------------------------------------------------
+           Lấy sản phẩm từ API theo brand rồi render vào rowId
+           Lấy tối đa `limit` sản phẩm đầu tiên
+        ------------------------------------------------------- */
+        function loadBrandRow(brand, rowId, limit) {
+            limit = limit || 4;
+            const url = window.contextPath + '/giay/xem-tat-ca?brand=' + encodeURIComponent(brand);
+
+            fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function (res) { return res.text(); })
+                .then(function (html) {
+                    /* Parse HTML trả về, lấy các button.add-cart để lấy data-* */
+                    const parser = new DOMParser();
+                    const doc    = parser.parseFromString(html, 'text/html');
+                    const buttons = Array.from(doc.querySelectorAll('button.add-cart')).slice(0, limit);
+                    const imgs    = Array.from(doc.querySelectorAll('.product-img img, .product-card img')).slice(0, limit);
+                    const names   = Array.from(doc.querySelectorAll('.product-card h3')).slice(0, limit);
+                    const prices  = Array.from(doc.querySelectorAll('.product-card .price')).slice(0, limit);
+
+                    if (buttons.length === 0) {
+                        document.getElementById(rowId).innerHTML =
+                            '<p style="color:#888;grid-column:1/-1;text-align:center;">Không có sản phẩm.</p>';
+                        return;
+                    }
+
+                    let html2 = '';
+                    buttons.forEach(function (btn, i) {
+                        const name  = btn.dataset.name  || (names[i]  ? names[i].innerText  : '');
+                        const price = btn.dataset.price  || '';
+                        const img   = btn.dataset.img   || (imgs[i]   ? imgs[i].src         : '');
+                        const priceFormatted = prices[i] ? prices[i].innerText : Number(price).toLocaleString('vi-VN') + ' VNĐ';
+
+                        const dataAttrs = [
+                            'data-id="'        + (btn.dataset.id        || '') + '"',
+                            'data-name="'      + escAttr(name)               + '"',
+                            'data-price="'     + (btn.dataset.price     || '') + '"',
+                            'data-img="'       + escAttr(img)                + '"',
+                            'data-brand="'     + escAttr(btn.dataset.brand  || '') + '"',
+                            'data-size="'      + escAttr(btn.dataset.size   || '') + '"',
+                            'data-sizeid="'    + escAttr(btn.dataset.sizeid || '') + '"',
+                            'data-sizestock="' + escAttr(btn.dataset.sizestock || '') + '"',
+                            'data-desc="'      + escAttr(btn.dataset.desc   || '') + '"',
+                        ].join(' ');
+
+                        html2 += '<div class="product-card">' +
+                            '<div class="product-img"><img src="' + escAttr(img) + '" alt="' + escAttr(name) + '" loading="lazy"></div>' +
+                            '<h3>' + escHtml(name) + '</h3>' +
+                            '<p class="price">' + escHtml(priceFormatted) + '</p>' +
+                            '<button class="add-cart" onclick="openProductModal(this)" ' + dataAttrs + '>Xem chi tiết</button>' +
+                            '</div>';
+                    });
+
+                    document.getElementById(rowId).innerHTML = html2;
+                })
+                .catch(function (err) {
+                    console.warn('Load brand row lỗi:', brand, err);
+                    document.getElementById(rowId).innerHTML =
+                        '<p style="color:#ccc;grid-column:1/-1;text-align:center;">Không tải được sản phẩm.</p>';
+                });
+        }
+
+        /* Converse + Vans lấy cả 2 brand rồi trộn */
+        function loadMixedRow(brands, rowId, limit) {
+            limit = limit || 4;
+            const promises = brands.map(function (brand) {
+                const url = window.contextPath + '/giay/xem-tat-ca?brand=' + encodeURIComponent(brand);
+                return fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(function (res) { return res.text(); })
+                    .then(function (html) {
+                        const doc = new DOMParser().parseFromString(html, 'text/html');
+                        return Array.from(doc.querySelectorAll('button.add-cart')).slice(0, Math.ceil(limit / brands.length));
+                    })
+                    .catch(function () { return []; });
+            });
+
+            Promise.all(promises).then(function (results) {
+                /* Xen kẽ: brand0[0], brand1[0], brand0[1], brand1[1], ... */
+                const merged = [];
+                const max = Math.max.apply(null, results.map(function (r) { return r.length; }));
+                for (let i = 0; i < max && merged.length < limit; i++) {
+                    results.forEach(function (arr) { if (arr[i]) merged.push(arr[i]); });
+                }
+
+                if (merged.length === 0) {
+                    document.getElementById(rowId).innerHTML =
+                        '<p style="color:#888;grid-column:1/-1;text-align:center;">Không có sản phẩm.</p>';
+                    return;
+                }
+
+                let html2 = '';
+                merged.slice(0, limit).forEach(function (btn) {
+                    const name  = btn.dataset.name  || '';
+                    const price = btn.dataset.price  || '';
+                    const img   = btn.dataset.img   || '';
+                    const priceFormatted = Number(price).toLocaleString('vi-VN') + ' VNĐ';
+
+                    const dataAttrs = [
+                        'data-id="'        + (btn.dataset.id        || '') + '"',
+                        'data-name="'      + escAttr(name)               + '"',
+                        'data-price="'     + (btn.dataset.price     || '') + '"',
+                        'data-img="'       + escAttr(img)                + '"',
+                        'data-brand="'     + escAttr(btn.dataset.brand  || '') + '"',
+                        'data-size="'      + escAttr(btn.dataset.size   || '') + '"',
+                        'data-sizeid="'    + escAttr(btn.dataset.sizeid || '') + '"',
+                        'data-sizestock="' + escAttr(btn.dataset.sizestock || '') + '"',
+                        'data-desc="'      + escAttr(btn.dataset.desc   || '') + '"',
+                    ].join(' ');
+
+                    html2 += '<div class="product-card">' +
+                        '<div class="product-img"><img src="' + escAttr(img) + '" alt="' + escAttr(name) + '" loading="lazy"></div>' +
+                        '<h3>' + escHtml(name) + '</h3>' +
+                        '<p class="price">' + priceFormatted + '</p>' +
+                        '<button class="add-cart" onclick="openProductModal(this)" ' + dataAttrs + '>Xem chi tiết</button>' +
+                        '</div>';
+                });
+
+                document.getElementById(rowId).innerHTML = html2;
+            });
+        }
+
+        /* Helpers thoát ký tự */
+        function escAttr(str) {
+            return String(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+        function escHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        /* -------- Gọi load cho từng section -------- */
+        document.addEventListener('DOMContentLoaded', function () {
+            loadBrandRow('Adidas',      'row-adidas',   4);
+            loadBrandRow('Puma',        'row-puma',     4);
+            loadBrandRow('New Balance', 'row-nb',       4);
+            loadMixedRow(['Converse', 'Vans'], 'row-cv', 4);
+            loadBrandRow('Balenciaga',  'row-premium',  4);
+            loadBrandRow('Clarks',      'row-clarks',   4);
+        });
+    })();
+</script>
 <script src="${pageContext.request.contextPath}/view/script.js"></script>
+
 </body>
 </html>
