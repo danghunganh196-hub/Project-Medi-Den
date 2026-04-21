@@ -50,7 +50,11 @@
         } else {
         %>
         <span>Xin chào, <b><%= user.getUsername() %></b></span>
-        <a class="btn logout" href="${pageContext.request.contextPath}/logout">Đăng xuất</a> <%
+        <a class="btn" href="${pageContext.request.contextPath}/don-hang-cua-toi"
+           style="background:#e91e8c; color:white; padding:6px 14px; border-radius:6px; margin-right:8px;">
+            📦 Đơn hàng của tôi
+        </a>
+        <a class="btn logout" href="${pageContext.request.contextPath}/logout">Đăng xuất</a><%
         }
     %>
     </div>
@@ -379,7 +383,10 @@
                         <p><strong>Địa chỉ:</strong> <span id="res-address"></span></p>
                         <p><strong>Thanh toán:</strong> <span id="res-payment"></span></p>
                     </div>
-                    <button class="btn-pink-large" onclick="location.reload()">TIẾP TỤC MUA SẮM</button>
+                    <button class="btn-pink-large"
+                            onclick="window.location.href = window.contextPath + '/tinh-trang?id=' + window._lastOrderId">
+                        TIẾP TỤC MUA SẮM
+                    </button>
                 </div>
             </div>
         </div>

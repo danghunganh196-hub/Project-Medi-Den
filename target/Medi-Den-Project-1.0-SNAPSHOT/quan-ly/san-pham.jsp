@@ -358,11 +358,11 @@
 
         <div class="sidebar-section">
             <div class="sidebar-section-label">Hệ thống</div>
-            <div class="nav-item">
+            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/thong-ke'">
                 <div class="nav-icon">📊</div>
                 Thống kê & Báo cáo
             </div>
-            <div class="nav-item">
+            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/cai-dat'">
                 <div class="nav-icon">⚙️</div>
                 Cài đặt
             </div>
@@ -433,6 +433,11 @@
                                       style="font-weight:400; color:var(--text-light); font-size:12px;"></span>
                             </label>
                             <input type="file" name="hinhAnh" id="inputHinhAnh" accept="image/*">
+                        </div>
+                        <div class="form-group full">
+                            <label>Mô tả sản phẩm</label>
+                            <textarea name="moTa" id="inputMoTa" rows="4"
+                                      placeholder="Nhập mô tả sản phẩm..."></textarea>
                         </div>
                     </div>
 
@@ -520,7 +525,7 @@
                             <c:set var="tongSL" value="${tongSL + sg.soLuong}"/>
                         </c:forEach>
 
-                        <tr onclick="chonRow(this, '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}', '${sp.hinhAnh}')">
+                        <tr onclick="chonRow(this, '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}', '${sp.hinhAnh}', '${sp.moTa}')">
                             <td style="color:var(--text-light); font-size:13px;">#${sp.id}</td>
                             <td>
                                 <div style="display:flex; align-items:center; gap:12px;">
@@ -556,7 +561,7 @@
                                 <button class="btn-edit"
                                         style="margin-right:6px; padding:5px 12px; font-size:12.5px; border-radius:8px;"
                                         onclick="event.stopPropagation();
-                                                chonRow(this.closest('tr'), '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}', '${sp.hinhAnh}');
+                                                chonRow(this.closest('tr'), '${sp.id}', '${sp.tenGiay}', '${sp.gia}', '${sp.theLoaiGiay.id}', '${sp.thuongHieu}', '${sp.hinhAnh}','${sp.moTa}');
                                                 toggleForm('sua')">
                                     Sửa
                                 </button>
@@ -675,7 +680,7 @@
 
     // ─── CHỌN HÀNG ────────────────────────────────────────────────────────────
     // Thêm tham số hinhAnh so với bản cũ
-    function chonRow(row, id, ten, gia, danhMucId, thuongHieu, hinhAnh) {
+    function chonRow(row, id, ten, gia, danhMucId, thuongHieu, hinhAnh, moTa) {
         document.querySelectorAll('tbody tr').forEach(r => r.style.background = '');
 
         if (selectedId === id) {
@@ -691,6 +696,7 @@
         document.getElementById('inputTen').value        = ten;
         document.getElementById('inputGia').value        = gia;
         document.getElementById('inputThuongHieu').value = thuongHieu;
+        document.getElementById('inputMoTa').value = moTa || '';
 
         const dmSelect = document.getElementById('inputDanhMuc');
         if (dmSelect) dmSelect.value = String(danhMucId);
@@ -730,6 +736,7 @@
             document.getElementById('inputGia').value        = '';
             document.getElementById('inputThuongHieu').value = '';
             document.getElementById('inputHinhAnh').value    = '';
+            document.getElementById('inputMoTa').value       = '';
             document.getElementById('anhHienTai').textContent = '';
             document.getElementById('sizeSection').style.display = 'none';
             document.getElementById('inputTen').focus();

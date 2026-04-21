@@ -10,14 +10,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* ===== ORDER STATUS PAGE ===== */
         .order-status-page {
             max-width: 860px;
             margin: 48px auto 80px;
             padding: 0 20px;
             font-family: 'Segoe UI', sans-serif;
         }
-
         .order-status-page h1 {
             text-align: center;
             color: #e91e8c;
@@ -25,15 +23,12 @@
             margin-bottom: 6px;
             letter-spacing: 1px;
         }
-
         .order-id-label {
             text-align: center;
             color: #888;
             font-size: 0.95rem;
             margin-bottom: 40px;
         }
-
-        /* ===== TIMELINE ===== */
         .timeline-wrapper {
             background: #fff;
             border: 1px solid #f0c0d8;
@@ -42,7 +37,6 @@
             margin-bottom: 32px;
             box-shadow: 0 4px 20px rgba(233,30,140,0.07);
         }
-
         .timeline-wrapper h2 {
             color: #e91e8c;
             font-size: 1.1rem;
@@ -50,14 +44,12 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .timeline {
             display: flex;
             justify-content: space-between;
             position: relative;
             padding-bottom: 10px;
         }
-
         .timeline::before {
             content: '';
             position: absolute;
@@ -68,8 +60,6 @@
             background: #f0c0d8;
             z-index: 0;
         }
-
-        /* Fill the progress bar up to current step */
         .timeline .progress-line {
             position: absolute;
             top: 22px;
@@ -79,7 +69,6 @@
             z-index: 1;
             transition: width 0.6s ease;
         }
-
         .timeline-step {
             display: flex;
             flex-direction: column;
@@ -88,7 +77,6 @@
             z-index: 2;
             width: 25%;
         }
-
         .step-icon {
             width: 46px;
             height: 46px;
@@ -103,7 +91,6 @@
             margin-bottom: 10px;
             transition: all 0.3s ease;
         }
-
         .timeline-step.active .step-icon,
         .timeline-step.done .step-icon {
             background: linear-gradient(135deg, #e91e8c, #ff69b4);
@@ -111,32 +98,26 @@
             color: white;
             box-shadow: 0 4px 14px rgba(233,30,140,0.35);
         }
-
         .step-label {
             font-size: 0.78rem;
             color: #bbb;
             text-align: center;
             font-weight: 500;
         }
-
         .timeline-step.active .step-label,
         .timeline-step.done .step-label {
             color: #e91e8c;
             font-weight: 700;
         }
-
         .step-time {
             font-size: 0.7rem;
             color: #ccc;
             margin-top: 4px;
         }
-
         .timeline-step.done .step-time,
         .timeline-step.active .step-time {
             color: #e991b8;
         }
-
-        /* ===== ORDER ITEMS ===== */
         .order-items-card {
             background: #fff;
             border: 1px solid #f0c0d8;
@@ -145,7 +126,6 @@
             margin-bottom: 32px;
             box-shadow: 0 4px 20px rgba(233,30,140,0.07);
         }
-
         .order-items-card h2 {
             color: #e91e8c;
             font-size: 1.1rem;
@@ -153,7 +133,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .order-item-row {
             display: flex;
             align-items: center;
@@ -161,11 +140,7 @@
             padding: 14px 0;
             border-bottom: 1px solid #fce8f3;
         }
-
-        .order-item-row:last-child {
-            border-bottom: none;
-        }
-
+        .order-item-row:last-child { border-bottom: none; }
         .order-item-img {
             width: 70px;
             height: 70px;
@@ -174,31 +149,20 @@
             border: 1px solid #f0c0d8;
             flex-shrink: 0;
         }
-
-        .order-item-info {
-            flex: 1;
-        }
-
+        .order-item-info { flex: 1; }
         .order-item-info .item-name {
             font-weight: 700;
             color: #333;
             font-size: 0.95rem;
             margin-bottom: 4px;
         }
-
-        .order-item-info .item-meta {
-            font-size: 0.82rem;
-            color: #888;
-        }
-
+        .order-item-info .item-meta { font-size: 0.82rem; color: #888; }
         .order-item-price {
             font-weight: 700;
             color: #e91e8c;
             font-size: 1rem;
             white-space: nowrap;
         }
-
-        /* ===== TOTAL ===== */
         .order-total-row {
             display: flex;
             justify-content: space-between;
@@ -207,20 +171,8 @@
             padding-top: 16px;
             border-top: 2px solid #f0c0d8;
         }
-
-        .order-total-row .total-label {
-            font-weight: 700;
-            font-size: 1rem;
-            color: #555;
-        }
-
-        .order-total-row .total-amount {
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: #e91e8c;
-        }
-
-        /* ===== INFO CARD ===== */
+        .order-total-row .total-label { font-weight: 700; font-size: 1rem; color: #555; }
+        .order-total-row .total-amount { font-weight: 800; font-size: 1.3rem; color: #e91e8c; }
         .order-info-card {
             background: #fff;
             border: 1px solid #f0c0d8;
@@ -232,7 +184,6 @@
             grid-template-columns: 1fr 1fr;
             gap: 12px 30px;
         }
-
         .order-info-card h2 {
             grid-column: 1 / -1;
             color: #e91e8c;
@@ -241,27 +192,9 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        .info-row {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .info-row .info-label {
-            font-size: 0.75rem;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .info-row .info-value {
-            font-size: 0.93rem;
-            color: #333;
-            font-weight: 600;
-        }
-
-        /* ===== BACK BUTTON ===== */
+        .info-row { display: flex; flex-direction: column; gap: 3px; }
+        .info-row .info-label { font-size: 0.75rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-row .info-value { font-size: 0.93rem; color: #333; font-weight: 600; }
         .btn-back-home {
             display: block;
             width: 100%;
@@ -278,12 +211,7 @@
             text-decoration: none;
             transition: opacity 0.2s;
         }
-
-        .btn-back-home:hover {
-            opacity: 0.88;
-        }
-
-        /* ===== STATUS BADGE ===== */
+        .btn-back-home:hover { opacity: 0.88; }
         .status-badge {
             display: inline-block;
             padding: 4px 14px;
@@ -293,16 +221,12 @@
             margin-left: 10px;
             vertical-align: middle;
         }
-
         .status-badge.pending   { background: #fff3e0; color: #e65100; }
         .status-badge.processing{ background: #e3f2fd; color: #1565c0; }
         .status-badge.shipping  { background: #f3e5f5; color: #7b1fa2; }
         .status-badge.done      { background: #e8f5e9; color: #2e7d32; }
-
         @media (max-width: 600px) {
-            .timeline-wrapper, .order-items-card, .order-info-card {
-                padding: 22px 16px;
-            }
+            .timeline-wrapper, .order-items-card, .order-info-card { padding: 22px 16px; }
             .timeline::before { left: 5%; right: 5%; }
             .step-label { font-size: 0.68rem; }
             .order-info-card { grid-template-columns: 1fr; }
@@ -342,7 +266,6 @@
     <h1>📦 Trạng Thái Đơn Hàng</h1>
     <p class="order-id-label">
         Mã đơn hàng: <strong>#${donHang.id}</strong>
-        <%-- Badge trạng thái --%>
         <c:choose>
             <c:when test="${donHang.trangThai == 'CHO_XU_LY'}">
                 <span class="status-badge pending">Chờ xử lý</span>
@@ -363,55 +286,43 @@
     <div class="timeline-wrapper">
         <h2><i class="fas fa-route" style="margin-right:8px;"></i>Hành trình đơn hàng</h2>
 
-        <%--
-            Logic step:
-            0 = CHO_XU_LY  → step 1 active
-            1 = DANG_XU_LY → step 2 active
-            2 = DANG_GIAO  → step 3 active
-            3 = HOAN_THANH → step 4 active
-        --%>
         <c:set var="step" value="0"/>
         <c:choose>
-            <c:when test="${donHang.trangThai == 'CHO_XU_LY'}">   <c:set var="step" value="1"/></c:when>
-            <c:when test="${donHang.trangThai == 'DANG_XU_LY'}">  <c:set var="step" value="2"/></c:when>
-            <c:when test="${donHang.trangThai == 'DANG_GIAO'}">   <c:set var="step" value="3"/></c:when>
-            <c:when test="${donHang.trangThai == 'HOAN_THANH'}">  <c:set var="step" value="4"/></c:when>
+            <c:when test="${donHang.trangThai == 'CHO_XU_LY'}">  <c:set var="step" value="1"/></c:when>
+            <c:when test="${donHang.trangThai == 'DANG_XU_LY'}"> <c:set var="step" value="2"/></c:when>
+            <c:when test="${donHang.trangThai == 'DANG_GIAO'}">  <c:set var="step" value="3"/></c:when>
+            <c:when test="${donHang.trangThai == 'HOAN_THANH'}"> <c:set var="step" value="4"/></c:when>
         </c:choose>
 
         <div class="timeline">
-            <%-- Progress line width driven by step --%>
             <div class="progress-line" id="progressLine"></div>
 
+            <%-- Step 1: Đã đặt hàng --%>
             <div class="timeline-step ${step >= 1 ? 'done' : ''}">
                 <div class="step-icon"><i class="fas fa-check-circle"></i></div>
                 <div class="step-label">Đã đặt hàng</div>
-                <div class="step-time">
-                    <fmt:formatDate value="${donHang.ngayDat}" pattern="dd/MM/yyyy HH:mm"/>
-                </div>
+                <div class="step-time">${ngayDatStr}</div>
             </div>
 
+            <%-- Step 2: Đang xử lý (entity chưa có ngayXuLy nên để trống) --%>
             <div class="timeline-step ${step == 2 ? 'active' : (step > 2 ? 'done' : '')}">
                 <div class="step-icon"><i class="fas fa-cog"></i></div>
                 <div class="step-label">Đang xử lý</div>
-                <div class="step-time">
-                    <c:if test="${step >= 2}"><fmt:formatDate value="${donHang.ngayXuLy}" pattern="dd/MM/yyyy HH:mm"/></c:if>
-                </div>
+                <div class="step-time"></div>
             </div>
 
+            <%-- Step 3: Đang giao hàng --%>
             <div class="timeline-step ${step == 3 ? 'active' : (step > 3 ? 'done' : '')}">
                 <div class="step-icon"><i class="fas fa-truck"></i></div>
                 <div class="step-label">Đang giao hàng</div>
-                <div class="step-time">
-                    <c:if test="${step >= 3}"><fmt:formatDate value="${donHang.ngayGiao}" pattern="dd/MM/yyyy HH:mm"/></c:if>
-                </div>
+                <div class="step-time"></div>
             </div>
 
+            <%-- Step 4: Hoàn tất --%>
             <div class="timeline-step ${step == 4 ? 'active done' : ''}">
                 <div class="step-icon"><i class="fas fa-box-open"></i></div>
                 <div class="step-label">Hoàn tất</div>
-                <div class="step-time">
-                    <c:if test="${step >= 4}"><fmt:formatDate value="${donHang.ngayHoanThanh}" pattern="dd/MM/yyyy HH:mm"/></c:if>
-                </div>
+                <div class="step-time"></div>
             </div>
         </div>
     </div>
@@ -426,7 +337,7 @@
                 <div class="order-item-info">
                     <div class="item-name">${chiTiet.giay.tenGiay}</div>
                     <div class="item-meta">
-                        Size: <strong>${chiTiet.size}</strong> &nbsp;|&nbsp;
+                        Size: <strong>${chiTiet.sizeGiay.soSize}</strong> &nbsp;|&nbsp;
                         Số lượng: <strong>${chiTiet.soLuong}</strong> &nbsp;|&nbsp;
                         Thương hiệu: ${chiTiet.giay.thuongHieu}
                     </div>
@@ -459,29 +370,29 @@
 
         <div class="info-row">
             <span class="info-label">Người nhận</span>
-            <span class="info-value">${donHang.tenNguoiNhan}</span>
+            <span class="info-value">${donHang.khachHang.ten}</span>
         </div>
         <div class="info-row">
             <span class="info-label">Email</span>
-            <span class="info-value">${donHang.email}</span>
+            <span class="info-value">${donHang.khachHang.email}</span>
         </div>
         <div class="info-row">
             <span class="info-label">Địa chỉ giao hàng</span>
-            <span class="info-value">${donHang.diaChiGiaoHang}</span>
+            <span class="info-value">${donHang.diaChi}</span>
         </div>
         <div class="info-row">
             <span class="info-label">Phương thức thanh toán</span>
             <span class="info-value">
                 <c:choose>
-                    <c:when test="${donHang.phuongThucThanhToan == 'COD'}">Thanh toán khi nhận hàng (COD)</c:when>
-                    <c:when test="${donHang.phuongThucThanhToan == 'Bank'}">Chuyển khoản ngân hàng</c:when>
-                    <c:otherwise>${donHang.phuongThucThanhToan}</c:otherwise>
+                    <c:when test="${donHang.phuongThucTT == 'COD'}">Thanh toán khi nhận hàng (COD)</c:when>
+                    <c:when test="${donHang.phuongThucTT == 'Bank'}">Chuyển khoản ngân hàng</c:when>
+                    <c:otherwise>${donHang.phuongThucTT}</c:otherwise>
                 </c:choose>
             </span>
         </div>
         <div class="info-row">
             <span class="info-label">Ngày đặt hàng</span>
-            <span class="info-value"><fmt:formatDate value="${donHang.ngayDat}" pattern="dd/MM/yyyy HH:mm"/></span>
+            <span class="info-value">${ngayDatStr}</span>
         </div>
         <div class="info-row">
             <span class="info-label">Phí vận chuyển</span>
@@ -543,7 +454,6 @@
 </footer>
 
 <script>
-    // Tự động tính chiều rộng progress line theo step hiện tại
     window.addEventListener('DOMContentLoaded', function () {
         var step = ${step};
         var widthMap = { 1: '0%', 2: '33%', 3: '66%', 4: '100%' };

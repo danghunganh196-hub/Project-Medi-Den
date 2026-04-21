@@ -8,6 +8,111 @@ window.toggleCart = function () {
     }
 };
 
+// ================= MODAL SẢN PHẨM =================
+window.openProductModal = function (button) {
+    const modal = document.getElementById('productModal');
+    const name = button.dataset.name;
+    const price = button.dataset.price;
+    const img = button.dataset.img;
+    const brand = button.dataset.brand;
+    const sizeData = button.dataset.size;
+    const sizeIdData = button.dataset.sizeid;
+    const sizeStockData = button.dataset.sizestock || '';
+    const giayId = button.dataset.id;
+
+    window.selectedGiayId = giayId;
+    document.getElementById('modalName').innerText = name;
+    document.getElementById('modalPrice').innerText = Number(price).toLocaleString('vi-VN') + " VNĐ";
+    document.getElementById('modalImg').src = img;
+    document.getElementById('modalBrand').innerText = brand;
+    document.getElementById('modalDesc').innerText = button.dataset.desc || '';
+
+    const sizeContainer = document.getElementById('modalSizeContainer');
+    sizeContainer.innerHTML = "";
+    window.selectedSize = null;
+    window.selectedSizeId = null;
+    window.sizeStockMap = {};
+    window.currentStock = 0;
+    const stockHint = document.getElementById('stockHint');
+    if (stockHint) stockHint.innerText = '';
+
+    if (sizeData && sizeIdData) {
+        const sizes = sizeData.split(',');
+        const sizeIds = sizeIdData.split(',');
+        if (sizeStockData) {
+            const stocks = sizeStockData.split(',');
+            sizeIds.forEach((id, i) => {
+                window.sizeStockMap[id] = parseInt(stocks[i]) || 0;
+            });
+        }
+        sizes.forEach((size, index) => {
+            const btn = document.createElement('button');
+            btn.innerText = size;
+            btn.className = "size-item-btn";
+            btn.onclick = function () {
+                sizeContainer.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                window.selectedSize = size;
+                window.selectedSizeId = sizeIds[index];
+                window.currentStock = window.sizeStockMap[sizeIds[index]] || 0;
+                const hint = document.getElementById('stockHint');
+                if (hint) {
+                    if (window.currentStock === 0) {
+                        hint.innerText = '⚠ Size này đã hết hàng!';
+                        hint.style.color = 'red';
+                    } else {
+                        hint.innerText = `Còn ${window.currentStock} đôi`;
+                        hint.style.color = 'green';
+                    }
+                }
+                document.getElementById('modalQty').value = 1;
+                document.getElementById('qtyError').innerText = '';
+            };
+            sizeContainer.appendChild(btn);
+        });
+    }
+
+    document.getElementById('modalQty').value = 1;
+    modal.style.display = "block";
+};
+
+window.closeModal = function () {
+    document.getElementById('productModal').style.display = "none";
+};
+
+window.changeQty = function (delta) {
+    const input = document.getElementById('modalQty');
+    const errorEl = document.getElementById('qtyError');
+    let val = parseInt(input.value) || 1;
+    val += delta;
+    if (val < 1) val = 1;
+    const max = window.currentStock || 999;
+    if (val > max) {
+        val = max;
+        if (errorEl) errorEl.innerText = `⚠ Chỉ còn ${max} đôi trong kho!`;
+    } else {
+        if (errorEl) errorEl.innerText = '';
+    }
+    input.value = val;
+};
+
+window.validateQtyInput = function (input) {
+    const errorEl = document.getElementById('qtyError');
+    input.value = input.value.replace(/[^0-9]/g, '');
+    let val = parseInt(input.value);
+    if (isNaN(val) || val < 1) {
+        if (errorEl) errorEl.innerText = '⚠ Số lượng phải ít nhất là 1!';
+        return;
+    }
+    const max = window.currentStock || 999;
+    if (val > max) {
+        input.value = max;
+        if (errorEl) errorEl.innerText = `⚠ Chỉ còn ${max} đôi trong kho!`;
+    } else {
+        if (errorEl) errorEl.innerText = '';
+    }
+};
+
 document.addEventListener("DOMContentLoaded", function () {
     const input = document.getElementById("searchInput");
     const resultBox = document.getElementById("searchResult");
@@ -15,12 +120,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (input) {
         input.addEventListener("keyup", function () {
             let keyword = this.value.trim();
-
             if (keyword.length === 0) {
                 resultBox.style.display = "none";
                 return;
             }
-
             fetch(window.contextPath + "/search?keyword=" + keyword)
                 .then(res => {
                     if (!res.ok) throw new Error("Server lỗi: " + res.status);
@@ -28,7 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .then(data => {
                     resultBox.innerHTML = "";
-
                     if (data.length === 0) {
                         resultBox.innerHTML = "<p style='padding:15px; color:#888; text-align:center;'>Không tìm thấy sản phẩm</p>";
                     } else {
@@ -71,111 +173,6 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => toast.style.display = "none", 2000);
     }
 
-    // ================= MODAL SẢN PHẨM =================
-    window.openProductModal = function (button) {
-        const modal = document.getElementById('productModal');
-        const name = button.dataset.name;
-        const price = button.dataset.price;
-        const img = button.dataset.img;
-        const brand = button.dataset.brand;
-        const sizeData = button.dataset.size;
-        const sizeIdData = button.dataset.sizeid;
-        const sizeStockData = button.dataset.sizestock || '';
-        const giayId = button.dataset.id;
-
-        window.selectedGiayId = giayId;
-        document.getElementById('modalName').innerText = name;
-        document.getElementById('modalPrice').innerText = Number(price).toLocaleString('vi-VN') + " VNĐ";
-        document.getElementById('modalImg').src = img;
-        document.getElementById('modalBrand').innerText = brand;
-        document.getElementById('modalDesc').innerText = button.dataset.desc || '';
-
-        const sizeContainer = document.getElementById('modalSizeContainer');
-        sizeContainer.innerHTML = "";
-        window.selectedSize = null;
-        window.selectedSizeId = null;
-        window.sizeStockMap = {};
-        window.currentStock = 0;
-        const stockHint = document.getElementById('stockHint');
-        if (stockHint) stockHint.innerText = '';
-
-        if (sizeData && sizeIdData) {
-            const sizes = sizeData.split(',');
-            const sizeIds = sizeIdData.split(',');
-            if (sizeStockData) {
-                const stocks = sizeStockData.split(',');
-                sizeIds.forEach((id, i) => {
-                    window.sizeStockMap[id] = parseInt(stocks[i]) || 0;
-                });
-            }
-            sizes.forEach((size, index) => {
-                const btn = document.createElement('button');
-                btn.innerText = size;
-                btn.className = "size-item-btn";
-                btn.onclick = function () {
-                    sizeContainer.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    window.selectedSize = size;
-                    window.selectedSizeId = sizeIds[index];
-                    window.currentStock = window.sizeStockMap[sizeIds[index]] || 0;
-                    const hint = document.getElementById('stockHint');
-                    if (hint) {
-                        if (window.currentStock === 0) {
-                            hint.innerText = '⚠ Size này đã hết hàng!';
-                            hint.style.color = 'red';
-                        } else {
-                            hint.innerText = `Còn ${window.currentStock} đôi`;
-                            hint.style.color = 'green';
-                        }
-                    }
-                    document.getElementById('modalQty').value = 1;
-                    document.getElementById('qtyError').innerText = '';
-                };
-                sizeContainer.appendChild(btn);
-            });
-        }
-
-        document.getElementById('modalQty').value = 1;
-        modal.style.display = "block";
-    };
-
-    window.closeModal = function () {
-        document.getElementById('productModal').style.display = "none";
-    };
-
-    window.changeQty = function (delta) {
-        const input = document.getElementById('modalQty');
-        const errorEl = document.getElementById('qtyError');
-        let val = parseInt(input.value) || 1;
-        val += delta;
-        if (val < 1) val = 1;
-        const max = window.currentStock || 999;
-        if (val > max) {
-            val = max;
-            if (errorEl) errorEl.innerText = `⚠ Chỉ còn ${max} đôi trong kho!`;
-        } else {
-            if (errorEl) errorEl.innerText = '';
-        }
-        input.value = val;
-    };
-
-    window.validateQtyInput = function (input) {
-        const errorEl = document.getElementById('qtyError');
-        input.value = input.value.replace(/[^0-9]/g, '');
-        let val = parseInt(input.value);
-        if (isNaN(val) || val < 1) {
-            if (errorEl) errorEl.innerText = '⚠ Số lượng phải ít nhất là 1!';
-            return;
-        }
-        const max = window.currentStock || 999;
-        if (val > max) {
-            input.value = max;
-            if (errorEl) errorEl.innerText = `⚠ Chỉ còn ${max} đôi trong kho!`;
-        } else {
-            if (errorEl) errorEl.innerText = '';
-        }
-    };
-
     // ================= ADD TO CART =================
     window.addToCart = function () {
         if (!window.selectedSizeId) {
@@ -190,7 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const priceText = document.getElementById('modalPrice').innerText;
         const price = parseInt(priceText.replace(/\D/g, '')) || 0;
         const img = document.getElementById('modalImg').src;
-
 
         const qty = parseInt(document.getElementById('modalQty').value) || 0;
         if (qty < 1) {
@@ -233,7 +229,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error(err);
                 showToast("❌ Có lỗi xảy ra khi thêm giỏ hàng!");
             });
-
     };
 
     // ================= RENDER CART =================
@@ -338,10 +333,8 @@ document.addEventListener("DOMContentLoaded", function () {
     function initTinhSelect() {
         const sel = document.getElementById('sel-tinh');
         if (!sel) return;
-        // Cố định Hà Nội, không cho đổi
         sel.innerHTML = '<option value="1">Thành phố Hà Nội</option>';
         sel.disabled = true;
-        // Tự động load quận/huyện Hà Nội
         loadQuanHaNoi();
     }
 
@@ -393,6 +386,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(() => console.warn("Không load được phường/xã"));
     };
 
+    // ================= MUA NGAY =================
     window.buyNowFromModal = function () {
         if (!window.selectedSizeId) {
             showToast("❌ Vui lòng chọn size!");
@@ -415,31 +409,27 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         closeModal();
-
         document.getElementById('checkout-modal').style.display = 'block';
         document.getElementById('step-1').classList.add('active');
-
         initTinhSelect();
     };
 
     window.buyNowItem = null;
+
     // ================= VALIDATE BƯỚC 1 =================
     window.validateStep1 = function () {
         let valid = true;
 
-        // Reset tất cả lỗi cũ
         ['tinh-error', 'quan-error', 'phuong-error', 'address-error'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.innerText = '';
         });
 
-        // Reset border lỗi cũ
         ['sel-tinh', 'sel-quan', 'sel-phuong', 'address'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.classList.remove('error');
         });
 
-        // Validate Quận/Huyện
         const quan = document.getElementById('sel-quan');
         if (!quan.value) {
             document.getElementById('quan-error').innerText = '⚠ Vui lòng chọn quận / huyện';
@@ -447,7 +437,6 @@ document.addEventListener("DOMContentLoaded", function () {
             valid = false;
         }
 
-        // Validate Phường/Xã
         const phuong = document.getElementById('sel-phuong');
         if (!phuong.value) {
             document.getElementById('phuong-error').innerText = '⚠ Vui lòng chọn phường / xã';
@@ -455,7 +444,6 @@ document.addEventListener("DOMContentLoaded", function () {
             valid = false;
         }
 
-        // Validate Địa chỉ
         const address = document.getElementById('address');
         if (!address.value.trim()) {
             document.getElementById('address-error').innerText = '⚠ Vui lòng nhập số nhà, tên đường';
@@ -472,8 +460,9 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('step-2').classList.add('active');
         }
     };
-    window.openCheckout = function () {
 
+    // ================= MỞ CHECKOUT TỪ GIỎ HÀNG =================
+    window.openCheckout = function () {
         if (!window.isLoggedIn) {
             alert("Bạn cần đăng nhập!");
             window.location.href = "/login";
@@ -481,25 +470,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const cart = JSON.parse(localStorage.getItem('medi_cart')) || [];
-
         if (cart.length === 0) {
             alert("Giỏ hàng trống!");
             return;
         }
 
-        // đóng giỏ hàng
         document.getElementById('mini-cart').classList.remove('active');
-
-        // mở checkout
         document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
         document.getElementById('step-1').classList.add('active');
         document.getElementById('checkout-modal').style.display = 'block';
-
         initTinhSelect();
     };
 
+    // ================= HOÀN TẤT ĐƠN HÀNG =================
     window.completeOrder = async function () {
-
         const payment = document.querySelector('input[name="payment"]:checked');
         const paymentValue = payment?.value;
 
@@ -538,37 +522,18 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await res.json();
 
             if (data.status === "success") {
-
-                // clear cart nếu không phải mua ngay
                 if (!window.buyNowItem) {
                     localStorage.removeItem('medi_cart');
-
                     await fetch(window.contextPath + "/ClearCartServlet", {
                         method: "POST"
                     });
                 }
-
-                // reset buyNow
                 window.buyNowItem = null;
-
-                // UI
                 document.getElementById('cart-items-list').innerHTML = "";
                 document.getElementById('cart-count').innerText = 0;
                 document.getElementById('cart-total-amount').innerText = "0đ";
 
-                // INFO
-                document.getElementById('res-address').innerText = window.fullAddress;
-                document.getElementById('res-name').innerText = data.name;
-                document.getElementById('res-email').innerText = data.email;
-
-                document.getElementById('res-payment').innerText =
-                    paymentValue === "COD"
-                        ? "Thanh toán khi nhận hàng"
-                        : "Chuyển khoản";
-
-                // chuyển bước
-                document.getElementById('step-2').classList.remove('active');
-                document.getElementById('step-3').classList.add('active');
+                window.location.href = window.contextPath + '/tinh-trang?id=' + data.orderId;
 
             } else if (data.status === "NOT_LOGGED_IN") {
                 alert("Bạn cần đăng nhập!");
@@ -582,6 +547,8 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Lỗi server!");
         }
     };
+
+    // ================= ĐÓNG CHECKOUT =================
     window.closeCheckout = function () {
         document.getElementById('checkout-modal').style.display = 'none';
     };
@@ -591,4 +558,4 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('bank-info').style.display = show ? 'block' : 'none';
     };
 
-});
+}); // end DOMContentLoaded
