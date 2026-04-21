@@ -56,4 +56,11 @@ public class Giay {
                 .map(s -> String.valueOf(s.getId()))
                 .collect(Collectors.joining(","));
     }
+    @Transient
+    public String getSizeStockString() {
+        if (listSize == null || listSize.isEmpty()) return "";
+        return listSize.stream()
+                .map(s -> String.valueOf(s.getSoLuong()))
+                .collect(Collectors.joining(","));
+    }
 }

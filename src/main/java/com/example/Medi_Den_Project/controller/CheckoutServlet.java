@@ -55,7 +55,7 @@ public class CheckoutServlet extends HttpServlet {
             hoaDon.setDiaChi(diaChi);
             hoaDon.setPhuongThucTT(payment);
             hoaDon.setNgayDat(LocalDate.now());
-            hoaDon.setTrangThai("Chờ xác nhận");
+            hoaDon.setTrangThai("CHO_XU_LY");
             hoaDon.setTongTien(0.0);
 
             session.save(hoaDon);
@@ -105,8 +105,10 @@ public class CheckoutServlet extends HttpServlet {
             // ===== RESPONSE =====
             JsonObject res = new JsonObject();
             res.addProperty("status", "success");
+            res.addProperty("orderId", hoaDon.getId());
             res.addProperty("name", kh.getTen() != null ? kh.getTen() : "Không rõ");
             res.addProperty("email", kh.getEmail() != null ? kh.getEmail() : "Chưa có email");
+            res.addProperty("orderId", hoaDon.getId());
 
             response.getWriter().write(gson.toJson(res));
 

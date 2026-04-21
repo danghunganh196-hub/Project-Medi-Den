@@ -450,7 +450,7 @@
   <nav class="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-section-label">Chính</div>
-      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/'">
+      <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/trang-chu-admin'">
         <div class="nav-icon">🏠</div>
         Trang chủ
       </div>
@@ -628,7 +628,6 @@
                   Tổng số tài khoản: <strong>${listTaiKhoan.size()}</strong>
                 </div>
               </div>
-              <button class="btn-primary" onclick="openAddModal()">+ Thêm nhân viên</button>
             </div>
 
             <table>
@@ -638,7 +637,6 @@
                 <th>Username</th>
                 <th>Vai trò</th>
                 <th>Trạng thái</th>
-                <th>Hành động</th>
               </tr>
               </thead>
               <tbody>
@@ -667,14 +665,6 @@
                                 ${tk.trangThai ? 'Hoạt động' : 'Khóa'}
                             </span>
                   </td>
-                  <td>
-                    <button class="btn-edit" onclick="editUser(${tk.id})">Sửa</button>
-                    <button class="btn-danger"
-                            onclick="deleteUser(${tk.id})"
-                      ${tk.vaiTro eq 'Quản trị viên' ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''}>
-                      Xóa
-                    </button>
-                  </td>
                 </tr>
               </c:forEach>
 
@@ -695,41 +685,6 @@
   </main>
 </div>
 
-<!-- MODAL: Thêm nhân viên -->
-<div class="modal-backdrop" id="addModal">
-  <div class="modal">
-    <div class="modal-title">➕ Thêm nhân viên mới</div>
-    <div class="form-group">
-      <label class="form-label">Họ và tên</label>
-      <input type="text" class="form-input" placeholder="Nhập họ và tên">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Email đăng nhập</label>
-      <input type="email" class="form-input" placeholder="email@mediden.vn">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Mật khẩu</label>
-        <input type="password" class="form-input" placeholder="Nhập mật khẩu">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Vai trò</label>
-        <select class="form-select">
-          <option>Nhân viên bán hàng</option>
-          <option>Nhân viên kho</option>
-          <option>Quản trị viên</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-ghost" onclick="closeAddModal()">Hủy</button>
-      <button class="btn-primary" onclick="closeAddModal(); saveToast()">✅ Thêm nhân viên</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast">✅ Đã lưu thay đổi thành công!</div>
 
 <script>
   // Dropdown

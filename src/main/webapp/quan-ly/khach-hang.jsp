@@ -358,11 +358,11 @@
 
         <div class="sidebar-section">
             <div class="sidebar-section-label">Hệ thống</div>
-            <div class="nav-item">
+            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/thong-ke'">
                 <div class="nav-icon">📊</div>
                 Thống kê & Báo cáo
             </div>
-            <div class="nav-item">
+            <div class="nav-item" onclick="window.location.href='${pageContext.request.contextPath}/cai-dat'">
                 <div class="nav-icon">⚙️</div>
                 Cài đặt
             </div>

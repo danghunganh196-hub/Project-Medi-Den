@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,4 +39,6 @@ public class HoaDon {
     @ManyToOne
     @JoinColumn(name = "khach_hang_id",referencedColumnName = "id")
     private KhachHang khachHang;
+    @OneToMany(mappedBy = "hoaDon", fetch = FetchType.EAGER)
+    private List<HoaDonChiTiet> chiTietDonHangs;
 }

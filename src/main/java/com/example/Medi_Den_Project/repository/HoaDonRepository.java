@@ -19,7 +19,8 @@ public class HoaDonRepository {
 
     public List<HoaDon> getAll() {
         try (Session session = HibernateConfig.getFACTORY().openSession()) {
-            return session.createQuery("FROM HoaDon", HoaDon.class).list();
+            // Thêm "ORDER BY h.ngayDat DESC" để sắp xếp theo ngày đặt mới nhất
+            return session.createQuery("FROM HoaDon h ORDER BY h.ngayDat DESC", HoaDon.class).list();
         }
     }
 
