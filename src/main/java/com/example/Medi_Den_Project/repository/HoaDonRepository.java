@@ -124,7 +124,9 @@ public class HoaDonRepository {
                     "FROM HoaDon h JOIN h.khachHang kh " +
                     "GROUP BY kh.id, kh.ten, kh.email " +
                     "ORDER BY SUM(h.tongTien) DESC";
-            return session.createQuery(hql, Object[].class).list();
+            return session.createQuery(hql, Object[].class)
+                    .setMaxResults(10)  // ← THÊM DÒNG NÀY
+                    .list();
         }
     }
 }
