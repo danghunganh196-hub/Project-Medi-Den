@@ -42,6 +42,7 @@ import com.google.gson.Gson;
         "/trang-chu-admin",
         "/size-giay",
         "/thong-ke",
+        "/don-hang/hoan-thanh",
         "/cai-dat"
 })
 public class QuanLyController extends HttpServlet {
@@ -73,6 +74,11 @@ public class QuanLyController extends HttpServlet {
             throws ServletException, IOException {
 
         String uri = req.getRequestURI();
+
+        if (uri.contains("don-hang/hoan-thanh")) {
+            hdHoanThanh(req, resp);
+            return;
+        }
 
         if (uri.contains("danh-muc/delete")) { dmXoa(req, resp); return; }
 
@@ -556,7 +562,17 @@ public class QuanLyController extends HttpServlet {
     private void hdXacNhan(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             Integer id = Integer.parseInt(req.getParameter("id"));
-            hoaDonRepository.updateTrangThai(id, "Đã xác nhận");
+            hoaDonRepository.updateTrangThai(id, "Đang giao"); // ✅ đổi từ "Đã xác nhận"
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        resp.sendRedirect(req.getContextPath() + "/don-hang");
+    }
+
+    private void hdHoanThanh(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            Integer id = Integer.parseInt(req.getParameter("id"));
+            hoaDonRepository.updateTrangThai(id, "Hoàn thành"); // ✅ thêm mới
         } catch (Exception e) {
             e.printStackTrace();
         }

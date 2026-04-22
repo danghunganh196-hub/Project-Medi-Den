@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(value = {
-        "/login", "/logout","/forgot-password"
+        "/login", "/logout", "/forgot-password"
 })
 public class LoginController extends HttpServlet {
     TaiKhoanRepository taiKhoanRepository = new TaiKhoanRepository();
@@ -19,13 +19,22 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
+
         if (uri.contains("login")) {
+            // Nếu có param ?checkout=true, lưu vào session để redirect sau khi login
+            String checkout = req.getParameter("checkout");
+            if ("true".equals(checkout)) {
+                req.getSession().setAttribute("redirectAfterLogin",
+                        req.getContextPath() + "/giay/hien-thi?openCheckout=true");
+            }
             req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
         }
+
         if (uri.contains("logout")) {
-            req.getSession().invalidate(); // Xoá session user
-            resp.sendRedirect(req.getContextPath() + "/login"); // quay về trang login
+            req.getSession().invalidate();
+            resp.sendRedirect(req.getContextPath() + "/login");
         }
+
         if (uri.contains("forgot-password")) {
             req.getRequestDispatcher("/view/forgot-password.jsp").forward(req, resp);
         }
@@ -35,7 +44,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
 
-        // ✅ Thêm POST forgot-password
+        // ✅ POST forgot-password
         if (uri.contains("forgot-password")) {
             String username    = req.getParameter("username");
             String newPassword = req.getParameter("newPassword");
@@ -58,7 +67,7 @@ public class LoginController extends HttpServlet {
             return;
         }
 
-        // ===== LOGIN như cũ =====
+        // ===== LOGIN =====
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
@@ -70,11 +79,20 @@ public class LoginController extends HttpServlet {
                 req.getRequestDispatcher("/view/dang-nhap.jsp").forward(req, resp);
                 return;
             }
+
             req.getSession().setAttribute("user", tk);
+
             if ("ADMIN".equalsIgnoreCase(tk.getVaiTro())) {
                 resp.sendRedirect(req.getContextPath() + "/trang-chu-admin");
             } else {
-                resp.sendRedirect(req.getContextPath() + "/giay/hien-thi");
+                // Kiểm tra có pending checkout không
+                String redirectAfterLogin = (String) req.getSession().getAttribute("redirectAfterLogin");
+                if (redirectAfterLogin != null) {
+                    req.getSession().removeAttribute("redirectAfterLogin");
+                    resp.sendRedirect(redirectAfterLogin);
+                } else {
+                    resp.sendRedirect(req.getContextPath() + "/giay/hien-thi");
+                }
             }
         } else {
             req.setAttribute("message", "Sai tên đăng nhập hoặc mật khẩu!");

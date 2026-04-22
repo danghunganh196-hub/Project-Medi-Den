@@ -55,7 +55,7 @@ public class CheckoutServlet extends HttpServlet {
             hoaDon.setDiaChi(diaChi);
             hoaDon.setPhuongThucTT(payment);
             hoaDon.setNgayDat(LocalDate.now());
-            hoaDon.setTrangThai("CHO_XU_LY");
+            hoaDon.setTrangThai("Chờ xác nhận");
             hoaDon.setTongTien(0.0);
 
             session.save(hoaDon);

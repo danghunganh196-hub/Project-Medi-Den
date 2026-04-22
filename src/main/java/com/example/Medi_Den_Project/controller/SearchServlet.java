@@ -40,6 +40,8 @@ public class SearchServlet extends HttpServlet {
                 map.put("brand", g.getThuongHieu());
                 map.put("sizeString", g.getSizeString());
                 map.put("sizeIdString", g.getSizeIdString());
+                map.put("desc", g.getMoTa());
+                map.put("sizeStockString", g.getSizeStockString());
 
                 result.add(map);
             }
